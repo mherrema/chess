@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>Present.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">ModelTest (Feb 21, 2014 1:47:24 PM)</a> &gt; <a href="../../index.html" class="el_group">chess</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.html" class="el_package">gvprojects.chess.presenter</a> &gt; <span class="el_source">Present.java</span></div><h1>Present.java</h1><pre class="source lang-java linenums">package gvprojects.chess.presenter;
+
+import gvprojects.chess.model.Model;
+import gvprojects.chess.model.Move;
+import gvprojects.chess.view.View;
+import java.util.Scanner;
+
+/*********************************************************************
+ * This class presents a chess game, calling appropriate methods when necessary
+ * 
+ * @author Mitch Herrema
+ * @version March 21, 2013
+ *********************************************************************/
+
+public class Present {
+
+	/** input */
+	private String moveString;
+
+	/** model */
+	private Model m;
+
+	/** view */
+	private View v;
+
+	/** scanner for input */
+	private Scanner in;
+
+	/******************************************************************
+	 * Presenter Constructor
+	 * 
+	 * @return none
+	 ******************************************************************/
+<span class="nc" id="L34">	public Present() {</span>
+<span class="nc" id="L35">		moveString = &quot;&quot;;</span>
+<span class="nc" id="L36">		m = new Model();</span>
+<span class="nc" id="L37">		v = new View();</span>
+<span class="nc" id="L38">		in = new Scanner(System.in);</span>
+<span class="nc" id="L39">	}</span>
+
+	/******************************************************************
+	 * Updates the gameboard
+	 * 
+	 * @return none
+	 ******************************************************************/
+	public void update() {
+<span class="nc" id="L47">		v.printBoard(m.getBoard());</span>
+		// if they put themselves in check
+<span class="nc bnc" id="L49" title="All 2 branches missed.">		if (m.isPutSelfInCheck()) {</span>
+<span class="nc" id="L50">			v.putSelfInCheck();</span>
+<span class="nc" id="L51">			m.setPutSelfInCheck(false);</span>
+		}
+		// if they put the other player in check
+<span class="nc bnc" id="L54" title="All 2 branches missed.">		if (m.isOtherPlayerCheck()) {</span>
+<span class="nc" id="L55">			v.inCheck();</span>
+<span class="nc" id="L56">			m.setOtherPlayerCheck(false);</span>
+		}
+<span class="nc" id="L58">		v.prompt(m.currentPlayer());</span>
+<span class="nc" id="L59">		moveString = in.nextLine();</span>
+
+		// while the input is invalid
+<span class="nc bnc" id="L62" title="All 2 branches missed.">		while (!isValidInput(moveString)) {</span>
+<span class="nc" id="L63">			v.invalidInput();</span>
+<span class="nc" id="L64">			v.prompt(m.currentPlayer());</span>
+<span class="nc" id="L65">			moveString = in.nextLine();</span>
+		}
+
+<span class="nc" id="L68">		int fromRow = Math</span>
+<span class="nc" id="L69">				.abs(Integer.parseInt(moveString.substring(1, 2)) - m.getBoard().length);</span>
+<span class="nc" id="L70">		int fromCol = moveString.substring(0, 1).toUpperCase().charAt(0) - 'A';</span>
+<span class="nc" id="L71">		int toRow = Math.abs(Integer.parseInt(moveString.substring(4, 5)) - m.getBoard().length);</span>
+<span class="nc" id="L72">		int toCol = moveString.substring(3, 4).toUpperCase().charAt(0) - 'A';</span>
+<span class="nc" id="L73">		Move move = new Move(fromRow, fromCol, toRow, toCol);</span>
+
+<span class="nc" id="L75">		m.move(move);</span>
+<span class="nc" id="L76">		update();</span>
+<span class="nc" id="L77">	}</span>
+
+	public boolean isValidInput(String s) {
+<span class="nc" id="L80">		boolean fromRow = false;</span>
+<span class="nc" id="L81">		boolean fromCol = false;</span>
+<span class="nc" id="L82">		boolean toRow = false;</span>
+<span class="nc" id="L83">		boolean toCol = false;</span>
+<span class="nc" id="L84">		boolean space = false;</span>
+<span class="nc" id="L85">		String[] letters = new String[] { &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;, &quot;g&quot;,</span>
+<span class="nc" id="L86">				&quot;h&quot; };</span>
+<span class="nc" id="L87">		String[] numbers = new String[] { &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;,</span>
+<span class="nc" id="L88">				&quot;8&quot; };</span>
+		// if length is too short
+<span class="nc bnc" id="L90" title="All 2 branches missed.">		if (s.length() &lt; 5) {</span>
+<span class="nc" id="L91">			return false;</span>
+		}
+		// if length too long
+<span class="nc bnc" id="L94" title="All 2 branches missed.">		if (s.length() &gt; 5) {</span>
+<span class="nc" id="L95">			return false;</span>
+		}
+		// runs through all letters/numbers in arrays
+<span class="nc bnc" id="L98" title="All 2 branches missed.">		for (int i = 0; i &lt; letters.length; i++) {</span>
+			// if first character is valid
+<span class="nc bnc" id="L100" title="All 2 branches missed.">			if (s.substring(0, 1).toLowerCase().equals(letters[i])) {</span>
+<span class="nc" id="L101">				fromRow = true;</span>
+			}
+			// if fourth character is valid
+<span class="nc bnc" id="L104" title="All 2 branches missed.">			if (s.substring(3, 4).toLowerCase().equals(letters[i])) {</span>
+<span class="nc" id="L105">				toRow = true;</span>
+			}
+			// if second character is valid
+<span class="nc bnc" id="L108" title="All 2 branches missed.">			if (s.substring(1, 2).equals(numbers[i])) {</span>
+<span class="nc" id="L109">				fromCol = true;</span>
+			}
+			// if fifth character is valid
+<span class="nc bnc" id="L112" title="All 2 branches missed.">			if (s.substring(4, 5).equals(numbers[i])) {</span>
+<span class="nc" id="L113">				toCol = true;</span>
+			}
+		}
+		// if middle character is space
+<span class="nc bnc" id="L117" title="All 2 branches missed.">		if (s.substring(2, 3).equals(&quot; &quot;)) {</span>
+<span class="nc" id="L118">			space = true;</span>
+		}
+		// if string meets all criteria
+<span class="nc bnc" id="L121" title="All 10 branches missed.">		if (fromRow &amp;&amp; fromCol &amp;&amp; toRow &amp;&amp; toCol &amp;&amp; space) {</span>
+<span class="nc" id="L122">			return true;</span>
+		}
+<span class="nc" id="L124">		return false;</span>
+	}
+
+	/*****************************************************
+	 * Main method
+	 * 
+	 * @param args
+	 * @return none
+	 ****************************************************/
+	public static void main(String[] args) {
+<span class="nc" id="L134">		Present p = new Present();</span>
+<span class="nc" id="L135">		p.update();</span>
+<span class="nc" id="L136">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span>ModelTest (Feb 21, 2014 1:47:24 PM)</div></body></html>

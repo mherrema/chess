@@ -47,6 +47,7 @@ public class View {
 				} else {
 					out.print(" " + pieceToString(board[Math.abs(i - 8)][c])
 							+ " *");
+					
 				}
 			}
 			out.println();
@@ -65,7 +66,7 @@ public class View {
 	public String pieceToString(IChessPiece p) {
 		String name = "";
 		name += p.player().name().charAt(0);
-		name += p.name().charAt(0);
+		name += p.type().charAt(0);
 		return name;
 	}
 

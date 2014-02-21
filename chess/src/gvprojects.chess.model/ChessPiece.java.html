@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>ChessPiece.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">ModelTest (Feb 21, 2014 1:47:24 PM)</a> &gt; <a href="../../index.html" class="el_group">chess</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.html" class="el_package">gvprojects.chess.model</a> &gt; <span class="el_source">ChessPiece.java</span></div><h1>ChessPiece.java</h1><pre class="source lang-java linenums">package gvprojects.chess.model;
+
+/*********************************************************************
+ * This class creates a {@code ChessPiece}, 
+ * and determines if moves are valid
+ * 
+ * @author Mitch Herrema
+ * @version April 10, 2013
+ *********************************************************************/
+
+public class ChessPiece implements IChessPiece {
+
+	private String name;
+	private Player color;
+
+	/******************************************************************
+	 * ChessPiece Constructor creates a chess piece
+	 * 
+	 * @return none
+	 ******************************************************************/
+<span class="fc" id="L21">	public ChessPiece(Player color, String name) {</span>
+<span class="fc" id="L22">		this.name = name;</span>
+<span class="fc" id="L23">		this.color = color;</span>
+<span class="fc" id="L24">	}</span>
+
+	/******************************************************************
+	 * Returns if the move is valid
+	 * 
+	 * @param Move
+	 *            m
+	 * @param IChessPiece
+	 *            [][] board
+	 * @return boolean
+	 ******************************************************************/
+	@Override
+	public boolean isValidMove(Move position, IChessPiece[][] board) {
+<span class="fc" id="L37">		int fromRow = position.fromRow;</span>
+<span class="fc" id="L38">		int fromColumn = position.fromColumn;</span>
+<span class="fc" id="L39">		int toRow = position.toRow;</span>
+<span class="fc" id="L40">		int toColumn = position.toColumn;</span>
+<span class="fc" id="L41">		int max = board[0].length - 1;</span>
+<span class="pc bpc" id="L42" title="3 of 8 branches missed.">		if (fromRow &gt; max || toRow &gt; max || fromColumn &gt; max || toColumn &gt; max</span>
+<span class="pc bpc" id="L43" title="3 of 8 branches missed.">				|| fromRow &lt; 0 || toRow &lt; 0 || fromColumn &lt; 0 || toColumn &lt; 0) {</span>
+<span class="fc" id="L44">			return false;</span>
+		}
+<span class="fc bfc" id="L46" title="All 2 branches covered.">		if (board[fromRow][fromColumn] == null) {</span>
+<span class="fc" id="L47">			throw new IllegalArgumentException(&quot;null from&quot;);</span>
+		}
+<span class="fc bfc" id="L49" title="All 2 branches covered.">		if (board[fromRow][fromColumn] != this) {</span>
+<span class="fc" id="L50">			throw new IllegalArgumentException(&quot;wrong object&quot;);</span>
+		}
+<span class="fc bfc" id="L52" title="All 4 branches covered.">		if (fromRow == toRow &amp;&amp; fromColumn == toColumn) {</span>
+<span class="fc" id="L53">			return false;</span>
+		}
+<span class="fc bfc" id="L55" title="All 2 branches covered.">		if (board[toRow][toColumn] != null) {</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">			if (board[toRow][toColumn].player() == color) {</span>
+<span class="fc" id="L57">				return false;</span>
+			}
+		}
+
+<span class="fc" id="L61">		return true;</span>
+	}
+
+	/******************************************************************
+	 * Returns the name of the piece
+	 * 
+	 * @return String name
+	 ******************************************************************/
+	@Override
+	public String type() {
+<span class="fc" id="L71">		return name;</span>
+	}
+
+	/******************************************************************
+	 * Returns the player that owns the piece
+	 * 
+	 * @return Player color
+	 ******************************************************************/
+	@Override
+	public Player player() {
+<span class="fc" id="L81">		return color;</span>
+	}
+
+//	@Override
+//	public String type() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span>ModelTest (Feb 21, 2014 1:47:24 PM)</div></body></html>

@@ -19,7 +19,7 @@ public class KingTest extends ChessPieceTest {
 	// whereas calling make when running ChessPiece Tests generates a ChessPiece
 	// object.
 	@Override
-	protected IChessPiece make(Player p) {
+	protected IChessPiece make(Player p){
 		return new King(p);
 	}
 

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>KnightTest.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">ModelTest (Feb 21, 2014 1:47:24 PM)</a> &gt; <a href="../../index.html" class="el_group">chess</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.html" class="el_package">gvprojects.chess.model</a> &gt; <span class="el_source">KnightTest.java</span></div><h1>KnightTest.java</h1><pre class="source lang-java linenums">package gvprojects.chess.model;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
+/*********************************************************************
+ * This class tests the {@code Knight} {@code ChessPiece} class. 
+ * 
+ * @author Mitch Herrema
+ * @version April 10, 2013
+ *********************************************************************/
+
+<span class="fc" id="L15">public class KnightTest extends ChessPieceTest {</span>
+
+	// This method overrides make(Player p) in the ChessPieceTest class
+	// Thus, when running these tests, calling make() generates a Pawn object
+	// whereas calling make when running ChessPiece Tests generates a ChessPiece
+	// object.
+	@Override
+	protected IChessPiece make(Player p) {
+<span class="fc" id="L23">		return new Knight(p);</span>
+	}
+
+	// As noted in ChessPieceTest: Many tests require a valid move. The set of
+	// valid moves is different for
+	// each chess piece. This method generates a move that is valid from the
+	// given row and column
+	@Override
+	protected Move getValidMove(int row, int col) {
+<span class="fc" id="L32">		int newRow = row + 2;</span>
+<span class="fc" id="L33">		int newCol = col + 1;</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">		if (newRow &gt;= board.length) {</span>
+<span class="nc" id="L35">			newRow = row - 3;</span>
+		}
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">		if (newCol &gt;= board.length) {</span>
+<span class="nc" id="L38">			newCol = col - 1;</span>
+		}
+<span class="fc" id="L40">		return new Move(row, col, newRow, newCol);</span>
+	}
+
+	// Verify that a knight cannot move across a row
+	@Test
+	public void cannotMoveInRow() throws Exception {
+<span class="fc" id="L46">		board[1][1] = piece;</span>
+<span class="fc" id="L47">		assertFalse(&quot;Knight Test 1&quot;,</span>
+<span class="fc" id="L48">				piece.isValidMove(new Move(1, 1, 1, 6), board));</span>
+<span class="fc" id="L49">	}</span>
+
+	// Verify that a knight cannot move up a column
+	@Test
+	public void cannotMoveInColumn() throws Throwable {
+<span class="fc" id="L54">		board[1][1] = piece;</span>
+<span class="fc" id="L55">		assertFalse(&quot;Knight Test 2&quot;,</span>
+<span class="fc" id="L56">				piece.isValidMove(new Move(1, 1, 6, 1), board));</span>
+<span class="fc" id="L57">	}</span>
+
+	// Verify that a knight cannot move diagonally
+	@Test
+	public void cannotMoveDiagonal() throws Throwable {
+<span class="fc" id="L62">		board[1][1] = piece;</span>
+<span class="fc" id="L63">		assertFalse(&quot;Knight Test 3&quot;,</span>
+<span class="fc" id="L64">				piece.isValidMove(new Move(1, 1, 4, 4), board));</span>
+<span class="fc" id="L65">	}</span>
+
+	// Verify that a knight cannot move backward
+	@Test
+	public void canMoveBackward() throws Throwable {
+<span class="fc" id="L70">		board[1][1] = piece;</span>
+<span class="fc" id="L71">		assertFalse(&quot;Knight Test 5&quot;,</span>
+<span class="fc" id="L72">				piece.isValidMove(new Move(1, 1, 0, 0), board));</span>
+<span class="fc" id="L73">	}</span>
+
+	// Verify that a knight cannot move off the board
+	@Test
+	public void cannotMoveOffBoard() throws Throwable {
+<span class="fc" id="L78">		board[1][1] = piece;</span>
+<span class="fc" id="L79">		assertFalse(&quot;Knight Test 6&quot;,</span>
+<span class="fc" id="L80">				piece.isValidMove(new Move(1, 1, -2, 0), board));</span>
+<span class="fc" id="L81">	}</span>
+
+	// Verify that a knight can move correctly.
+	@Test
+	public void firstCorrect() throws Throwable {
+<span class="fc" id="L86">		board[2][2] = piece;</span>
+<span class="fc" id="L87">		assertTrue(&quot;Knight Test 7&quot;,</span>
+<span class="fc" id="L88">				piece.isValidMove(new Move(2, 2, 3, 4), board));</span>
+<span class="fc" id="L89">	}</span>
+
+	// Verify that a king can move correctly the other way.
+	@Test
+	public void secondCorrect() throws Throwable {
+<span class="fc" id="L94">		board[2][2] = piece;</span>
+<span class="fc" id="L95">		assertTrue(&quot;Knight Test 8&quot;,</span>
+<span class="fc" id="L96">				piece.isValidMove(new Move(2, 2, 4, 3), board));</span>
+<span class="fc" id="L97">	}</span>
+
+	// Verify that a knight can move the third way.
+	@Test
+	public void thirdCorrect() throws Throwable {
+<span class="fc" id="L102">		board[2][2] = piece;</span>
+<span class="fc" id="L103">		assertTrue(&quot;Knight Test 9&quot;,</span>
+<span class="fc" id="L104">				piece.isValidMove(new Move(2, 2, 0, 1), board));</span>
+<span class="fc" id="L105">	}</span>
+	
+	// Verify that a knight can move the third way.
+		@Test
+		public void fourthCorrect() throws Throwable {
+<span class="fc" id="L110">			board[2][2] = piece;</span>
+<span class="fc" id="L111">			assertTrue(&quot;Knight Test 10&quot;,</span>
+<span class="fc" id="L112">					piece.isValidMove(new Move(2, 2, 4, 1), board));</span>
+<span class="fc" id="L113">		}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span>ModelTest (Feb 21, 2014 1:47:24 PM)</div></body></html>

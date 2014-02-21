@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>Pawn.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">ModelTest (Feb 21, 2014 1:47:24 PM)</a> &gt; <a href="../../index.html" class="el_group">chess</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.html" class="el_package">gvprojects.chess.model</a> &gt; <span class="el_source">Pawn.java</span></div><h1>Pawn.java</h1><pre class="source lang-java linenums">package gvprojects.chess.model;
+
+/*********************************************************************
+ * This class creates a {@code Pawn} {@code ChessPiece}, 
+ * and determines if moves are valid
+ * 
+ * @author Mitch Herrema
+ * @version April 10, 2013
+ *********************************************************************/
+
+public class Pawn extends ChessPiece {
+	
+	/** starting row */
+	private int startRow;
+	
+	/** player */
+	private Player p;
+	
+	/******************************************************************
+	 * Pawn Constructor
+	 * Creates a pawn
+	 *  chess piece
+	 * 
+	 * @return none
+	 ******************************************************************/
+	public Pawn(Player p, int startRow) {
+<span class="fc" id="L27">		super(p, &quot;Pawn&quot;);</span>
+<span class="fc" id="L28">		this.startRow = startRow;</span>
+<span class="fc" id="L29">		this.p = p;</span>
+<span class="fc" id="L30">	}</span>
+	
+	/******************************************************************
+	 * Returns if the move is valid
+	 * 
+	 * @param Move m
+	 * @param IChessPiece[][] board
+	 * @return boolean
+	 ******************************************************************/
+	@Override
+	public boolean isValidMove(Move m, IChessPiece[][] board) {
+		int rowChange;
+<span class="fc" id="L42">		int colChange = Math.abs(m.fromColumn-m.toColumn);</span>
+		//if the move as a Chesspiece is invalid
+<span class="fc bfc" id="L44" title="All 2 branches covered.">		if(super.isValidMove(m, board)==false){</span>
+<span class="fc" id="L45">			return false;</span>
+		}
+		//if starting from row one
+<span class="fc bfc" id="L48" title="All 2 branches covered.">		if(startRow == 1){</span>
+<span class="fc" id="L49">			rowChange = m.toRow-m.fromRow;</span>
+<span class="fc" id="L50">		}</span>
+		else{
+<span class="fc" id="L52">			rowChange = m.fromRow-m.toRow;</span>
+		}
+			//if moving two rows, no columns, and moving from starting row
+<span class="pc bpc" id="L55" title="5 of 8 branches missed.">			if(rowChange==2 &amp;&amp; m.fromRow==startRow &amp;&amp; colChange == 0 &amp;&amp; board[m.toRow][m.toColumn]==null){</span>
+<span class="nc" id="L56">				return true;</span>
+			}
+			//if moving diagonal and other player is diagonal
+<span class="pc bpc" id="L59" title="1 of 8 branches missed.">			if(rowChange==1 &amp;&amp; colChange ==1 &amp;&amp; board[m.toRow][m.toColumn]!=null &amp;&amp; board[m.toRow][m.toColumn].player()!=p){</span>
+<span class="fc" id="L60">				return true;</span>
+			}
+			//if moving one row and no columns
+<span class="pc bpc" id="L63" title="1 of 6 branches missed.">			if(rowChange==1 &amp;&amp; colChange == 0 &amp;&amp; board[m.toRow][m.toColumn]==null){</span>
+<span class="fc" id="L64">				return true;</span>
+			}
+<span class="fc" id="L66">		return false;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span>ModelTest (Feb 21, 2014 1:47:24 PM)</div></body></html>

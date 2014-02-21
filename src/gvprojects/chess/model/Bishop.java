@@ -1,7 +1,7 @@
 package gvprojects.chess.model;
 
 /*********************************************************************
- * This class creates a {@code Bishop} {@code ChessPiece}, 
+ * This class creates a {@code Bishop} {@code ChessPiece}.
  * and determines if moves are valid
  * 
  * @author Mitch Herrema
@@ -11,21 +11,18 @@ package gvprojects.chess.model;
 public class Bishop extends ChessPiece {
 
 	/******************************************************************
-	 * Bishop Constructor Creates a bishop chess piece
-	 * 
-	 * @return none
+	 * Bishop Constructor Creates a bishop chess piece.
 	 ******************************************************************/
 	public Bishop(Player p) {
 		super(p, "Bishop");
 	}
 
 	/******************************************************************
-	 * Returns if the move is valid
+	 * Returns if the move is valid.
 	 * 
-	 * @param Move
-	 *            m
-	 * @param IChessPiece
-	 *            [][] board
+	 * @param Move m
+	 * 
+	 * @param IChessPiece [][] board
 	 * @return boolean
 	 ******************************************************************/
 	public boolean isValidMove(Move m, IChessPiece[][] board) {
