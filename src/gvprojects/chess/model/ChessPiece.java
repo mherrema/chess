@@ -67,7 +67,7 @@ public class ChessPiece implements IChessPiece {
 	 * @return String name
 	 ******************************************************************/
 	@Override
-	public String name() {
+	public String type() {
 		return name;
 	}
 
@@ -80,5 +80,11 @@ public class ChessPiece implements IChessPiece {
 	public Player player() {
 		return color;
 	}
+
+//	@Override
+//	public String type() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 }

@@ -61,7 +61,7 @@ public class ChessPieceTest {
    @Test
    public void nameIsCorrect() throws Throwable {
       final String theName = "Plain, old chess piece";
-      assertEquals(theName, (new ChessPiece(Player.WHITE, theName)).name());
+      assertEquals(theName, (new ChessPiece(Player.WHITE, theName)).type());
    }
 
    @Test
