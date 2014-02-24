@@ -12,8 +12,10 @@ public class Bishop extends ChessPiece {
 
 	/******************************************************************
 	 * Bishop Constructor Creates a bishop chess piece.
+	 * 
+	 * @param Player p
 	 ******************************************************************/
-	public Bishop(Player p) {
+	public Bishop(final Player p) {
 		super(p, "Bishop");
 	}
 
@@ -23,20 +25,25 @@ public class Bishop extends ChessPiece {
 	 * @param Move m
 	 * 
 	 * @param IChessPiece [][] board
+	 * 
 	 * @return boolean
 	 ******************************************************************/
-	public boolean isValidMove(Move m, IChessPiece[][] board) {
+	public final boolean isValidMove(final Move m, 
+			final IChessPiece[][] board) {
 		int rowChange = Math.abs(m.fromRow - m.toRow);
 		int colChange = Math.abs(m.fromColumn - m.toColumn);
 		int startRow;
+		
 		// if the move as a Chesspiece is invalid
 		if (super.isValidMove(m, board) == false) {
 			return false;
 		}
+		
 		// if not diagonal
 		if (rowChange != colChange) {
 			return false;
 		}
+		
 		// if moving to the down
 		if (m.toRow > m.fromRow) {
 			startRow = m.fromRow + 1;
@@ -51,6 +58,7 @@ public class Bishop extends ChessPiece {
 					startRow++;
 				}
 			}
+			
 			// if moving left
 			if (m.fromColumn > m.toColumn) {
 				// checks spaces between

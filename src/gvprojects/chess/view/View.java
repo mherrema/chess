@@ -2,7 +2,6 @@ package gvprojects.chess.view;
 
 import gvprojects.chess.model.IChessPiece;
 import gvprojects.chess.model.Player;
-
 import java.io.PrintStream;
 
 /*********************************************************************
@@ -14,13 +13,13 @@ import java.io.PrintStream;
 
 
 public class View {
+	// opens a PrintStream
 	private PrintStream out = System.out;
 
 	/******************************************************************
 	 * View constructor
 	 * 
 	 * @param none
-	 * @return none
 	 ******************************************************************/
 	public View() {
 
@@ -31,9 +30,8 @@ public class View {
 	 * 
 	 * @param IChessPiece
 	 *            [][] board
-	 * @return none
 	 ******************************************************************/
-	public void printBoard(IChessPiece[][] board) {
+	public final void printBoard(IChessPiece[][] board) {
 		out.println("\n      A    B    C    D    E    F    G    H  ");
 		out.println("   *****************************************");
 		// runs down rows
@@ -63,7 +61,7 @@ public class View {
 	 *            p
 	 * @return String name
 	 ******************************************************************/
-	public String pieceToString(IChessPiece p) {
+	public final String pieceToString(final IChessPiece p) {
 		String name = "";
 		name += p.player().name().charAt(0);
 		name += p.type().charAt(0);
@@ -75,39 +73,32 @@ public class View {
 	 * 
 	 * @param Player
 	 *            p
-	 * @return none
 	 ******************************************************************/
-	public void prompt(Player p) {
+	public final void prompt(final Player p) {
 		out.print(p.name() + ", please enter a move: ");
 	}
 
 	/******************************************************************
 	 * Displays if put self in check
 	 * 
-	 * @param none
-	 * @return none
 	 ******************************************************************/
-	public void putSelfInCheck() {
+	public final void putSelfInCheck() {
 		out.println("You can't place yourself in check.");
 	}
 
 	/******************************************************************
 	 * Displays if player has been placed in check
 	 * 
-	 * @param none
-	 * @return none
 	 ******************************************************************/
-	public void inCheck() {
+	public final void inCheck() {
 		out.println("You have been placed in check!");
 	}
 
 	/******************************************************************
 	 * Displays if invalid input
 	 * 
-	 * @param none
-	 * @return none
 	 ******************************************************************/
-	public void invalidInput() {
+	public final void invalidInput() {
 		out.println("Command not recognized. Please try again.");
 	}
 }

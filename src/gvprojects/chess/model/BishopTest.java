@@ -19,7 +19,7 @@ public class BishopTest extends ChessPieceTest {
 	// whereas calling make when running ChessPiece Tests generates a ChessPiece
 	// object.
 	@Override
-	protected IChessPiece make(Player p) {
+	protected final IChessPiece make(final Player p) {
 		return new Bishop(p);
 	}
 
@@ -28,13 +28,13 @@ public class BishopTest extends ChessPieceTest {
 	// each chess piece. This method generates a move that is valid from the
 	// given row and column
 	@Override
-	protected Move getValidMove(int row, int col) {
+	protected final Move getValidMove(final int row, final int col) {
 		int newRow = row + 1;
 		int newCol = col + 1;
 		if (newRow >= board.length) {
 			newRow = row - 1;
 		}
-		if (newCol >= board.length){
+		if (newCol >= board.length) {
 			newCol = col - 1;
 		}
 		return new Move(row, col, newRow, newCol);
@@ -42,7 +42,7 @@ public class BishopTest extends ChessPieceTest {
 
 	// Verify that a bishop cannot move across a row
 	@Test
-	public void cannotMoveInRow() throws Exception {
+	public final void cannotMoveInRow() throws Exception {
 		board[1][1] = piece;
 		assertFalse("Bishop Test 1",
 				piece.isValidMove(new Move(1, 1, 1, 6), board));
@@ -50,7 +50,7 @@ public class BishopTest extends ChessPieceTest {
 
 	// Verify that a bishop cannot move up a column
 	@Test
-	public void cannotMoveInColumn() throws Throwable {
+	public final void cannotMoveInColumn() throws Throwable {
 		board[1][1] = piece;
 		assertFalse("Bishop Test 2",
 				piece.isValidMove(new Move(1, 1, 2, 1), board));
@@ -58,7 +58,8 @@ public class BishopTest extends ChessPieceTest {
 
 	// Verify that a bishop can move diagonally
 	@Test
-	public void cannotMoveDiagonalUnlessOtherPlayerPiece() throws Throwable {
+	public final void cannotMoveDiagonalUnlessOtherPlayerPiece() 
+			throws Throwable {
 		board[1][1] = piece;
 		assertTrue("Bishop Test 3",
 				piece.isValidMove(new Move(1, 1, 2, 2), board));
@@ -66,7 +67,7 @@ public class BishopTest extends ChessPieceTest {
 
 	// Verify that a king can move diagonally with other player
 	@Test
-	public void canMoveDiagonalWithOtherPlayerPiece() throws Throwable {
+	public final void canMoveDiagonalWithOtherPlayerPiece() throws Throwable {
 		board[1][1] = piece;
 		board[2][2] = make(Player.BLACK);
 		assertTrue("Bishop Test 4",
@@ -75,7 +76,7 @@ public class BishopTest extends ChessPieceTest {
 
 	// Verify that a bishop cannot move backward
 	@Test
-	public void canMoveBackward() throws Throwable {
+	public final void canMoveBackward() throws Throwable {
 		board[1][1] = piece;
 		assertTrue("Bishop Test 5",
 				piece.isValidMove(new Move(1, 1, 0, 0), board));
@@ -83,7 +84,7 @@ public class BishopTest extends ChessPieceTest {
 
 	// Verify that a bishop cannot move off the board
 	@Test
-	public void cannotMoveOffBoard() throws Throwable {
+	public final void cannotMoveOffBoard() throws Throwable {
 		board[1][1] = piece;
 		assertFalse("Bishop Test 6",
 				piece.isValidMove(new Move(1, 1, -1, 1), board));
@@ -91,7 +92,7 @@ public class BishopTest extends ChessPieceTest {
 
 	// Verify that a bishop cannot jump over other pieces.
 	@Test
-	public void pathMustBeClear1() throws Throwable {
+	public final void pathMustBeClear1() throws Throwable {
 		board[2][2] = piece;
 		board[3][3] = make();
 		assertFalse("Bishop Test 7",

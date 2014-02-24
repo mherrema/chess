@@ -1,6 +1,13 @@
 package gvprojects.chess.model;
 
+/**
+ * This class defines a player
+ */
 public enum Player {
+	
+	/**
+	 * Both player colors
+	 */
 	BLACK, WHITE;
 
 	/**

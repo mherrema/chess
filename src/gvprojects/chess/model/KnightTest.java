@@ -19,7 +19,7 @@ public class KnightTest extends ChessPieceTest {
 	// whereas calling make when running ChessPiece Tests generates a ChessPiece
 	// object.
 	@Override
-	protected IChessPiece make(Player p) {
+	protected final IChessPiece make(final Player p) {
 		return new Knight(p);
 	}
 
@@ -28,7 +28,7 @@ public class KnightTest extends ChessPieceTest {
 	// each chess piece. This method generates a move that is valid from the
 	// given row and column
 	@Override
-	protected Move getValidMove(int row, int col) {
+	protected final Move getValidMove(final int row, final int col) {
 		int newRow = row + 2;
 		int newCol = col + 1;
 		if (newRow >= board.length) {
@@ -42,7 +42,7 @@ public class KnightTest extends ChessPieceTest {
 
 	// Verify that a knight cannot move across a row
 	@Test
-	public void cannotMoveInRow() throws Exception {
+	public final void cannotMoveInRow() throws Exception {
 		board[1][1] = piece;
 		assertFalse("Knight Test 1",
 				piece.isValidMove(new Move(1, 1, 1, 6), board));
@@ -50,7 +50,7 @@ public class KnightTest extends ChessPieceTest {
 
 	// Verify that a knight cannot move up a column
 	@Test
-	public void cannotMoveInColumn() throws Throwable {
+	public final void cannotMoveInColumn() throws Throwable {
 		board[1][1] = piece;
 		assertFalse("Knight Test 2",
 				piece.isValidMove(new Move(1, 1, 6, 1), board));
@@ -58,7 +58,7 @@ public class KnightTest extends ChessPieceTest {
 
 	// Verify that a knight cannot move diagonally
 	@Test
-	public void cannotMoveDiagonal() throws Throwable {
+	public final void cannotMoveDiagonal() throws Throwable {
 		board[1][1] = piece;
 		assertFalse("Knight Test 3",
 				piece.isValidMove(new Move(1, 1, 4, 4), board));
@@ -66,7 +66,7 @@ public class KnightTest extends ChessPieceTest {
 
 	// Verify that a knight cannot move backward
 	@Test
-	public void canMoveBackward() throws Throwable {
+	public final void canMoveBackward() throws Throwable {
 		board[1][1] = piece;
 		assertFalse("Knight Test 5",
 				piece.isValidMove(new Move(1, 1, 0, 0), board));
@@ -74,7 +74,7 @@ public class KnightTest extends ChessPieceTest {
 
 	// Verify that a knight cannot move off the board
 	@Test
-	public void cannotMoveOffBoard() throws Throwable {
+	public final void cannotMoveOffBoard() throws Throwable {
 		board[1][1] = piece;
 		assertFalse("Knight Test 6",
 				piece.isValidMove(new Move(1, 1, -2, 0), board));
@@ -82,7 +82,7 @@ public class KnightTest extends ChessPieceTest {
 
 	// Verify that a knight can move correctly.
 	@Test
-	public void firstCorrect() throws Throwable {
+	public final void firstCorrect() throws Throwable {
 		board[2][2] = piece;
 		assertTrue("Knight Test 7",
 				piece.isValidMove(new Move(2, 2, 3, 4), board));
@@ -90,7 +90,7 @@ public class KnightTest extends ChessPieceTest {
 
 	// Verify that a king can move correctly the other way.
 	@Test
-	public void secondCorrect() throws Throwable {
+	public final void secondCorrect() throws Throwable {
 		board[2][2] = piece;
 		assertTrue("Knight Test 8",
 				piece.isValidMove(new Move(2, 2, 4, 3), board));
@@ -98,7 +98,7 @@ public class KnightTest extends ChessPieceTest {
 
 	// Verify that a knight can move the third way.
 	@Test
-	public void thirdCorrect() throws Throwable {
+	public final void thirdCorrect() throws Throwable {
 		board[2][2] = piece;
 		assertTrue("Knight Test 9",
 				piece.isValidMove(new Move(2, 2, 0, 1), board));
@@ -106,7 +106,7 @@ public class KnightTest extends ChessPieceTest {
 	
 	// Verify that a knight can move the third way.
 		@Test
-		public void fourthCorrect() throws Throwable {
+		public final void fourthCorrect() throws Throwable {
 			board[2][2] = piece;
 			assertTrue("Knight Test 10",
 					piece.isValidMove(new Move(2, 2, 4, 1), board));

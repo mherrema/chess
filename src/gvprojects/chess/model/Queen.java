@@ -16,7 +16,7 @@ public class Queen extends ChessPiece {
 	 * 
 	 * @return none
 	 ******************************************************************/
-	public Queen(Player p) {
+	public Queen(final Player p) {
 		super(p, "Queen");
 	}
 
@@ -27,7 +27,8 @@ public class Queen extends ChessPiece {
 	 * @param IChessPiece[][] board
 	 * @return boolean
 	 ******************************************************************/
-	public boolean isValidMove(Move m, IChessPiece[][] board) {
+	public final boolean isValidMove(final Move m, 
+			final IChessPiece[][] board) {
 		int rowChange = Math.abs(m.fromRow - m.toRow);
 		int colChange = Math.abs(m.fromColumn - m.toColumn);
 		int startRow;
@@ -91,27 +92,26 @@ public class Queen extends ChessPiece {
 				}
 				//if passes all
 				return true;
-			}
-			//if not diagonal
-			else{
+				//if not diaganol
+			} else {
 				//if moving rows
-				if (colChange == 0){
+				if (colChange == 0) {
 					//to higher row
-					if(m.toRow>m.fromRow){
+					if (m.toRow > m.fromRow) {
 						//checks spaces between
-						for(int i = m.fromRow+1; i<m.toRow; i++){
+						for (int i = m.fromRow + 1; i < m.toRow; i++) {
 							//checks if empty
-							if(board[i][m.fromColumn]!=null){
+							if (board[i][m.fromColumn] != null) {
 								return false;
 							}
 						}
 					}
 					//to lower row
-					if(m.toRow<m.fromRow){
+					if (m.toRow < m.fromRow) {
 						//checks spaces between
-						for(int i = m.fromRow-1; i>m.toRow; i--){
+						for (int i = m.fromRow - 1; i > m.toRow; i--) {
 							//checks if empty
-							if(board[i][m.fromColumn]!=null){
+							if (board[i][m.fromColumn] != null) {
 								return false;
 							}
 						}
@@ -119,23 +119,23 @@ public class Queen extends ChessPiece {
 					return true;
 				}
 				//if column change
-				if (rowChange == 0){
+				if (rowChange == 0) {
 					//if higher column
-					if(m.toColumn>m.fromColumn){
+					if (m.toColumn > m.fromColumn) {
 						//checks spaces between
-						for(int i = m.fromColumn+1; i<m.toColumn; i++){
+						for (int i = m.fromColumn + 1; i < m.toColumn; i++) {
 							//checks if empty
-							if(board[m.fromRow][i]!=null){
+							if (board[m.fromRow][i] != null) {
 								return false;
 							}
 						}
 					}
 					//if lower column
-					if(m.toColumn<m.fromColumn){
+					if (m.toColumn < m.fromColumn) {
 						//checks spaces between
-						for(int i = m.fromColumn-1; i>m.toColumn; i--){
+						for (int i = m.fromColumn - 1; i > m.toColumn; i--) {
 							//checks if empty
-							if(board[m.fromRow][i]!=null){
+							if (board[m.fromRow][i] != null) {
 								return false;
 							}
 						}

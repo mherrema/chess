@@ -29,7 +29,6 @@ public class Present {
 	/******************************************************************
 	 * Presenter Constructor
 	 * 
-	 * @return none
 	 ******************************************************************/
 	public Present() {
 		moveString = "";
@@ -41,9 +40,8 @@ public class Present {
 	/******************************************************************
 	 * Updates the gameboard
 	 * 
-	 * @return none
 	 ******************************************************************/
-	public void update() {
+	public final void update() {
 		v.printBoard(m.getBoard());
 		// if they put themselves in check
 		if (m.isPutSelfInCheck()) {
@@ -66,17 +64,27 @@ public class Present {
 		}
 
 		int fromRow = Math
-				.abs(Integer.parseInt(moveString.substring(1, 2)) - m.getBoard().length);
-		int fromCol = moveString.substring(0, 1).toUpperCase().charAt(0) - 'A';
-		int toRow = Math.abs(Integer.parseInt(moveString.substring(4, 5)) - m.getBoard().length);
-		int toCol = moveString.substring(3, 4).toUpperCase().charAt(0) - 'A';
+				.abs(Integer.parseInt(moveString
+						.substring(1, 2)) - m.getBoard().length);
+		int fromCol = moveString.substring(0, 1)
+				.toUpperCase().charAt(0) - 'A';
+		int toRow = Math.abs(Integer.
+				parseInt(moveString.substring(4, 5)) 
+				- m.getBoard().length);
+		int toCol = moveString.substring(3, 4)
+				.toUpperCase().charAt(0) - 'A';
 		Move move = new Move(fromRow, fromCol, toRow, toCol);
 
 		m.move(move);
 		update();
 	}
 
-	public boolean isValidInput(String s) {
+	/** 
+	 * Determines whether or not it is valid input
+	 * 
+	 * @return boolean
+	 */
+	public final boolean isValidInput(final String s) {
 		boolean fromRow = false;
 		boolean fromCol = false;
 		boolean toRow = false;
@@ -128,7 +136,6 @@ public class Present {
 	 * Main method
 	 * 
 	 * @param args
-	 * @return none
 	 ****************************************************/
 	public static void main(String[] args) {
 		Present p = new Present();

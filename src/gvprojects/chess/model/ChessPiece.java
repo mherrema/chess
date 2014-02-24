@@ -10,15 +10,25 @@ package gvprojects.chess.model;
 
 public class ChessPiece implements IChessPiece {
 
+	/*
+	 * Initialize variables
+	 * 
+	 * @param String name
+	 * 
+	 * @param Player color
+	 */
 	private String name;
 	private Player color;
 
 	/******************************************************************
 	 * ChessPiece Constructor creates a chess piece
 	 * 
-	 * @return none
+	 * @param Player color
+	 * 
+	 * @param String name
+	 * 
 	 ******************************************************************/
-	public ChessPiece(Player color, String name) {
+	public ChessPiece(final Player color, final String name) {
 		this.name = name;
 		this.color = color;
 	}
@@ -27,13 +37,14 @@ public class ChessPiece implements IChessPiece {
 	 * Returns if the move is valid
 	 * 
 	 * @param Move
-	 *            m
+	 *            position
 	 * @param IChessPiece
 	 *            [][] board
 	 * @return boolean
 	 ******************************************************************/
 	@Override
-	public boolean isValidMove(Move position, IChessPiece[][] board) {
+	public boolean isValidMove(final Move position, 
+			final IChessPiece[][] board) {
 		int fromRow = position.fromRow;
 		int fromColumn = position.fromColumn;
 		int toRow = position.toRow;
@@ -67,7 +78,7 @@ public class ChessPiece implements IChessPiece {
 	 * @return String name
 	 ******************************************************************/
 	@Override
-	public String type() {
+	public final String type() {
 		return name;
 	}
 
@@ -77,7 +88,7 @@ public class ChessPiece implements IChessPiece {
 	 * @return Player color
 	 ******************************************************************/
 	@Override
-	public Player player() {
+	public final Player player() {
 		return color;
 	}
 

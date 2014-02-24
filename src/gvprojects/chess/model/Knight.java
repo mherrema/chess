@@ -14,9 +14,8 @@ public class Knight extends ChessPiece {
 	 * Knight Constructor
 	 * Creates a knight chess piece
 	 * 
-	 * @return none
 	 ******************************************************************/
-	public Knight(Player p) {
+	public Knight(final Player p) {
 		super(p, "Knight");
 	}
 

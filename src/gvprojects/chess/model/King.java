@@ -8,7 +8,7 @@ package gvprojects.chess.model;
  * @version April 10, 2013
  *********************************************************************/
 
-public class King extends ChessPiece{
+public class King extends ChessPiece {
 	
 	/******************************************************************
 	 * King Constructor
@@ -16,7 +16,7 @@ public class King extends ChessPiece{
 	 * 
 	 * @return none
 	 ******************************************************************/
-	public King(Player p){
+	public King(final Player p) {
 		super(p, "King");
 	}
 	
@@ -27,13 +27,13 @@ public class King extends ChessPiece{
 	 * @param IChessPiece[][] board
 	 * @return boolean
 	 ******************************************************************/
-	public boolean isValidMove(Move m, IChessPiece[][] board){
+	public final boolean isValidMove(Move m, IChessPiece[][] board) {
 		//if the move as a Chesspiece is invalid
-		if(super.isValidMove(m, board)==false){
+		if (super.isValidMove(m, board) == false) {
 			return false;
 		}
 		//if moving greater than one space
-		if(Math.abs(m.toRow-m.fromRow)>1 || Math.abs(m.toColumn-m.fromColumn)>1){
+		if (Math.abs(m.toRow - m.fromRow) > 1 || Math.abs(m.toColumn - m.fromColumn) > 1) {
 			return false;
 		}
 		return true;

@@ -8,15 +8,14 @@ package gvprojects.chess.model;
  * @version April 10, 2013
  *********************************************************************/
 
-public class Rook extends ChessPiece{
+public class Rook extends ChessPiece {
 
 	/******************************************************************
 	 * Rook Constructor
 	 * Creates a rook chess piece
 	 * 
-	 * @return none
 	 ******************************************************************/
-	public Rook(Player p) {
+	public Rook(final Player p) {
 		super(p, "Rook");
 	}
 
@@ -28,13 +27,14 @@ public class Rook extends ChessPiece{
 	 * @return boolean
 	 ******************************************************************/
 	@Override
-	public boolean isValidMove(Move m, IChessPiece[][] board) {
+	public final boolean isValidMove(final Move m, 
+			final IChessPiece[][] board) {
 		//if the move as a Chesspiece is invalid
-		if(super.isValidMove(m, board)==false){
+		if (super.isValidMove(m, board) == false) {
 			return false;
 		}
 		//if moving diagonal
-		if(m.fromRow!=m.toRow && m.fromColumn!=m.toColumn){
+		if (m.fromRow != m.toRow && m.fromColumn != m.toColumn) {
 			return false;
 		}
 		//if moving rows
@@ -42,7 +42,7 @@ public class Rook extends ChessPiece{
 			//if moving down
 			if (m.toRow > m.fromRow) {
 				//checks spaces between
-				for (int i = (m.fromRow+1); i < m.toRow; i++) {
+				for (int i = (m.fromRow + 1); i < m.toRow; i++) {
 					//checks if empty
 					if (board[i][m.toColumn] != null) {
 						return false;
@@ -51,7 +51,7 @@ public class Rook extends ChessPiece{
 				return true;
 			} else {
 				//checks spaces between
-				for (int i = m.toRow+1; i < m.fromRow; i++) {
+				for (int i = m.toRow + 1; i < m.fromRow; i++) {
 					//checks if empty
 					if (board[i][m.fromColumn] != null) {
 						return false;
@@ -66,7 +66,7 @@ public class Rook extends ChessPiece{
 			//if moving right
 			if (m.toColumn > m.fromColumn) {
 				//checks spaces between
-				for (int i = m.fromColumn+1; i < m.toColumn; i++) {
+				for (int i = m.fromColumn + 1; i < m.toColumn; i++) {
 					//checks if empty
 					if (board[m.fromRow][i] != null) {
 						return false;
@@ -75,7 +75,7 @@ public class Rook extends ChessPiece{
 				return true;
 			} else {
 				//checks spaces between
-				for (int i = m.toColumn+1; i < m.fromColumn; i++) {
+				for (int i = m.toColumn + 1; i < m.fromColumn; i++) {
 					//checks if empty
 					if (board[m.fromRow][i] != null) {
 						return false;
