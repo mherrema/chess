@@ -44,6 +44,8 @@ public class Presenter {
 				
 				setFromRow(buttonRow);
 				setFromCol(buttonCol);
+				g.getBoard()[buttonRow][buttonCol].setBackground(Color.blue);
+				g.getBoard()[buttonRow][buttonCol].setOpaque(true);
 				System.out.println(getFromRow()+ " + "+ getFromCol());
 				//g.getBoard()[buttonRow][buttonCol].setBackground(Color.BLUE);
 				from = false;
@@ -55,6 +57,8 @@ public class Presenter {
 				System.out.println(getToRow()+ " + "+ getToCol());
 				Move tempMove = new Move(fromRow, fromCol, toRow, toCol);
 				m.move(tempMove);
+				g.getBoard()[tempMove.fromRow][tempMove.fromColumn].setBackground(Color.LIGHT_GRAY);
+				g.getBoard()[tempMove.fromRow][tempMove.fromColumn].setOpaque(false);
 				g.printBoard(m.getBoard());
 				from = true;
 			}
