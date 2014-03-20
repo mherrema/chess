@@ -41,10 +41,12 @@ public class Pawn extends ChessPiece {
 	@Override
 	public final boolean isValidMove(final Move m, final IChessPiece[][] board) {
 		int rowChange;
+		//System.out.println("from col " + m.fromColumn + " to col "+ m.toColumn);
 		int colChange = Math.abs(m.fromColumn - m.toColumn);
 		
 		//if the move as a Chesspiece is invalid
 		if (super.isValidMove(m, board) == false) {
+			System.out.println("super");
 			return false;
 		}
 		
@@ -54,6 +56,8 @@ public class Pawn extends ChessPiece {
 		} else {
 			rowChange = m.fromRow - m.toRow;
 		}
+		//System.out.println("row change = " + rowChange);
+		//System.out.println("col change = " + colChange);
 			//if moving two rows, no columns, and moving from starting row
 			if (rowChange == 2 && m.fromRow == startRow 
 					&& colChange == 0 && board[m.toRow][m.toColumn] == null) {

@@ -139,15 +139,19 @@ public class Model implements IChessModel {
 	public final boolean isValidMove(Move m) {
 		// if the location holds no piece
 		if (getBoard()[m.fromRow][m.fromColumn] == null) {
+			System.out.println("null");
 			return false;
 		}
 		// if trying to move the wrong player's piece
 		if (getBoard()[m.fromRow][m.fromColumn].player() != currentPlayer()) {
+			System.out.println("not current");
 			return false;
 		}
 		// if the piece can't move that direction/distance
 		if (getBoard()[m.fromRow][m.fromColumn]
 				.isValidMove(m, getBoard()) == false) {
+			System.out.println(getBoard()[m.fromRow][m.fromColumn].type());
+			System.out.println("wrong direction");
 			return false;
 		}
 		return true;
@@ -182,7 +186,11 @@ public class Model implements IChessModel {
 	 ******************************************************************/
 	public void move(Move m) {
 		// if valid move
+		System.out.println(m.fromRow + " " + m.toRow);
+		System.out.println(m.fromColumn + " " + m.toColumn);
+		
 		if (isValidMove(m)) {
+			System.out.println("valid");
 			// if moving the correct player's piece
 			if ((whiteTurn && getBoard()[m.fromRow][m.fromColumn]
 					.player() == Player.WHITE)
