@@ -42,20 +42,20 @@ public class GUI extends JPanel {
 	/**
 	 * GUI component instance variables
 	 */
-	JFrame frame;
-	JPanel panel;
-	JPanel rightPanel;
-	JTextPane pane;
-	JScrollPane scroll;
-	JMenuBar menu;
-	JMenu file;
-	JMenu help;
-	JMenuItem quit;
-	JMenuItem newGame;
-	JMenuItem gameTime;
-	JMenuItem version;
-	JMenuItem rules;
-	JMenuItem boneyard;
+	private JFrame frame;
+	private JPanel panel;
+	private JPanel rightPanel;
+	private JTextPane pane;
+	private JScrollPane scroll;
+	private JMenuBar menu;
+	private JMenu file;
+	private JMenu help;
+	private JMenuItem quit;
+	private JMenuItem newGame;
+	private JMenuItem gameTime;
+	private JMenuItem version;
+	private JMenuItem rules;
+	private JMenuItem boneyard;
 
 	/**
 	 * Board instance variable
@@ -91,8 +91,8 @@ public class GUI extends JPanel {
 	/**
 	 * String instance variables
 	 */
-	String textString;
-	String temp;
+	private String textString;
+	private String temp;
 
 	/**
 	 * ImageIcon instance variables
@@ -143,7 +143,7 @@ public class GUI extends JPanel {
 		/**
 		 * Initialize Strings
 		 */
-		textString = "";
+		setTextString("");
 		temp = "";
 
 		/**
@@ -230,7 +230,7 @@ public class GUI extends JPanel {
 		 */
 		initializeButtons();
 		quickPaint();
-		
+
 		/**
 		 * Set default size of panel and pane
 		 */
@@ -261,8 +261,8 @@ public class GUI extends JPanel {
 		temp = p.toString();
 		temp = temp.substring(0, 1).toUpperCase()
 				+ temp.substring(1, temp.length()) + "'s turn.\n";
-		textString = ": " + temp;
-		pane.setText(textString);
+		setTextString(": " + temp);
+		pane.setText(getTextString());
 	}
 
 	/**********************************************************************
@@ -292,21 +292,21 @@ public class GUI extends JPanel {
 			 * If user clicks "Quit" in the menu, display a dialog box asking if
 			 * the player wants to quit, the act accordingly
 			 */
-			if (e.getSource() == quit) {
-				int option = JOptionPane.showConfirmDialog(frame,
-						"Are you sure you want to quit?", "Exit Game",
-						JOptionPane.YES_NO_OPTION);
-				if (option == 0) {
-					System.exit(0);
-				} else {
-					// textString = ": Game resumed.\n" + textString;
-					// temp = game.currentPlayer().toString().toLowerCase();
-					// temp = temp.substring(0, 1).toUpperCase()
-					// + temp.substring(1, temp.length()) + "'s turn.\n";
-					// textString = ": " + temp + textString;
-					// pane.setText(textString);
-				}
-			}
+//			if (e.getSource() == quit) {
+//				int option = JOptionPane.showConfirmDialog(frame,
+//						"Are you sure you want to quit?", "Exit Game",
+//						JOptionPane.YES_NO_OPTION);
+//				if (option == 0) {
+//					System.exit(0);
+//				} else {
+//					textString = ": Game resumed.\n" + textString;
+//					temp = game.currentPlayer().toString().toLowerCase();
+//					temp = temp.substring(0, 1).toUpperCase()
+//							+ temp.substring(1, temp.length()) + "'s turn.\n";
+//					// textString = ": " + temp + textString;
+//					// pane.setText(textString);
+//				}
+//			}
 
 			/**
 			 * If user clicks "New Game" in the menu, display a dialog box
@@ -342,14 +342,14 @@ public class GUI extends JPanel {
 			 * the status pane
 			 */
 			if (e.getSource() == version) {
-				textString = "**************************\n"
+				setTextString("**************************\n"
 						+ "       Awesome Chess\n           Version 1.0\n       © Murphy's Law\n"
-						+ "**************************\n" + textString;
+						+ "**************************\n" + getTextString());
 				// temp = game.currentPlayer().toString().toLowerCase();
 				// temp = temp.substring(0, 1).toUpperCase()
 				// + temp.substring(1, temp.length()) + "'s turn.\n";
 				// textString = ": " + temp + textString;
-				pane.setText(textString);
+				pane.setText(getTextString());
 			}
 
 			/**
@@ -362,20 +362,20 @@ public class GUI extends JPanel {
 					.getDesktop()
 					.browse(java.net.URI
 							.create("http://www.chess.com/learn-how-to-play-chess"));
-					textString = ": Rules opened in \n: default browser.\n"
-							+ textString;
+					setTextString(": Rules opened in \n: default browser.\n"
+							+ getTextString());
 					// temp = game.currentPlayer().toString().toLowerCase();
 					// temp = temp.substring(0, 1).toUpperCase()
 					// + temp.substring(1, temp.length()) + "'s turn.\n";
 					// textString = ": " + temp + textString;
-					pane.setText(textString);
+					pane.setText(getTextString());
 				} catch (Exception ex) {
-					textString = ": Page not found.\n" + textString;
+					setTextString(": Page not found.\n" + getTextString());
 					// temp = game.currentPlayer().toString().toLowerCase();
 					// temp = temp.substring(0, 1).toUpperCase()
 					// + temp.substring(1, temp.length()) + "'s turn.\n";
 					// textString = ": " + temp + textString;
-					pane.setText(textString);
+					pane.setText(getTextString());
 				}
 			}
 
@@ -510,31 +510,31 @@ public class GUI extends JPanel {
 	 * @param Player
 	 * @param Move
 	 */
-	private void gameStatus(Player p, Move m) {
-		IChessPiece piece = null;// = game.checkPromotion(p,
-		// m);
-		if (piece != null) {
-			if (p == Player.WHITE) {
-				if (piece.type().equals("Rook"))
-					board[m.toRow][m.toColumn].setIcon(wRook);
-				if (piece.type().equals("Knight"))
-					board[m.toRow][m.toColumn].setIcon(wKnight);
-				if (piece.type().equals("Bishop"))
-					board[m.toRow][m.toColumn].setIcon(wBishop);
-				if (piece.type().equals("Queen"))
-					board[m.toRow][m.toColumn].setIcon(wQueen);
-			} else {
-				if (piece.type().equals("Rook"))
-					board[m.toRow][m.toColumn].setIcon(bRook);
-				if (piece.type().equals("Knight"))
-					board[m.toRow][m.toColumn].setIcon(bKnight);
-				if (piece.type().equals("Bishop"))
-					board[m.toRow][m.toColumn].setIcon(bBishop);
-				if (piece.type().equals("Queen"))
-					board[m.toRow][m.toColumn].setIcon(bQueen);
-			}
-
-		}
+//	private void gameStatus(Player p, Move m) {
+//		IChessPiece piece = null;// = game.checkPromotion(p,
+//		// m);
+//		if (piece != null) {
+//			if (p == Player.WHITE) {
+//				if (piece.type().equals("Rook"))
+//					board[m.toRow][m.toColumn].setIcon(wRook);
+//				if (piece.type().equals("Knight"))
+//					board[m.toRow][m.toColumn].setIcon(wKnight);
+//				if (piece.type().equals("Bishop"))
+//					board[m.toRow][m.toColumn].setIcon(wBishop);
+//				if (piece.type().equals("Queen"))
+//					board[m.toRow][m.toColumn].setIcon(wQueen);
+//			} else {
+//				if (piece.type().equals("Rook"))
+//					board[m.toRow][m.toColumn].setIcon(bRook);
+//				if (piece.type().equals("Knight"))
+//					board[m.toRow][m.toColumn].setIcon(bKnight);
+//				if (piece.type().equals("Bishop"))
+//					board[m.toRow][m.toColumn].setIcon(bBishop);
+//				if (piece.type().equals("Queen"))
+//					board[m.toRow][m.toColumn].setIcon(bQueen);
+//			}
+//
+//		}
 
 		/**
 		 * If the game is complete
@@ -603,7 +603,7 @@ public class GUI extends JPanel {
 		// checkIcon);
 		// }
 		// }
-	}
+	//}
 
 	/**
 	 * A native method that clears the status pane
@@ -672,41 +672,6 @@ public class GUI extends JPanel {
 		}
 	}
 
-	/**
-	 * A native method that fills a new board with pieces
-	 */
-//	public void fillNewBoard() {
-//		// game.fillNewBoard();
-//		for (int k = 0; k < 8; k++) {
-//			board[1][k].setIcon(bPawn);
-//			board[6][k].setIcon(wPawn);
-//		}
-//
-//		for (int k = 2; k < 6; k++) {
-//			for (int j = 0; j < 8; j++) {
-//				board[k][j].setIcon(emptyIcon);
-//			}
-//		}
-//
-//		board[0][0].setIcon(bRook);
-//		board[0][1].setIcon(bKnight);
-//		board[0][2].setIcon(bBishop);
-//		board[0][3].setIcon(bQueen);
-//		board[0][4].setIcon(bKing);
-//		board[0][5].setIcon(bBishop);
-//		board[0][6].setIcon(bKnight);
-//		board[0][7].setIcon(bRook);
-//
-//		board[7][0].setIcon(wRook);
-//		board[7][1].setIcon(wKnight);
-//		board[7][2].setIcon(wBishop);
-//		board[7][3].setIcon(wQueen);
-//		board[7][4].setIcon(wKing);
-//		board[7][5].setIcon(wBishop);
-//		board[7][6].setIcon(wKnight);
-//		board[7][7].setIcon(wRook);
-//	}
-
 	/*********************************************************************
 	 * Adds ActionListeners to the button array
 	 * 
@@ -738,83 +703,108 @@ public class GUI extends JPanel {
 		for(int i = 0; i<ROWS; i++){
 			for(int j = 0; j<COLS; j++){
 				if(gameBoard[i][j]!=null){
-				if(gameBoard[i][j].player()==Player.WHITE){
-					if (gameBoard[i][j].type().equals("Rook")){
-						board[i][j].setIcon(wRook);
+					if(gameBoard[i][j].player()==Player.WHITE){
+						if (gameBoard[i][j].type().equals("Rook")){
+							board[i][j].setIcon(wRook);
+						}
+						else if (gameBoard[i][j].type().equals("Knight")){
+							board[i][j].setIcon(wKnight);
+						}
+						else if (gameBoard[i][j].type().equals("Bishop")){
+							board[i][j].setIcon(wBishop);
+						}
+						else if (gameBoard[i][j].type().equals("Queen")){
+							board[i][j].setIcon(wQueen);
+						}
+						else if (gameBoard[i][j].type().equals("King")){
+							board[i][j].setIcon(wKing);
+						}
+						else if (gameBoard[i][j].type().equals("Pawn")){
+							board[i][j].setIcon(wPawn);
+						}
 					}
-					else if (gameBoard[i][j].type().equals("Knight")){
-						board[i][j].setIcon(wKnight);
+					else{
+						if (gameBoard[i][j].type().equals("Rook")){
+							board[i][j].setIcon(bRook);
+						}
+						else if (gameBoard[i][j].type().equals("Knight")){
+							board[i][j].setIcon(bKnight);
+						}
+						else if (gameBoard[i][j].type().equals("Bishop")){
+							board[i][j].setIcon(bBishop);
+						}
+						else if (gameBoard[i][j].type().equals("Queen")){
+							board[i][j].setIcon(bQueen);
+						}
+						else if (gameBoard[i][j].type().equals("King")){
+							board[i][j].setIcon(bKing);
+						}
+						else if (gameBoard[i][j].type().equals("Pawn")){
+							board[i][j].setIcon(bPawn);
+						}
 					}
-					else if (gameBoard[i][j].type().equals("Bishop")){
-						board[i][j].setIcon(wBishop);
-					}
-					else if (gameBoard[i][j].type().equals("Queen")){
-						board[i][j].setIcon(wQueen);
-					}
-					else if (gameBoard[i][j].type().equals("King")){
-						board[i][j].setIcon(wKing);
-					}
-					else if (gameBoard[i][j].type().equals("Pawn")){
-						board[i][j].setIcon(wPawn);
-					}
-				}
-				else{
-					if (gameBoard[i][j].type().equals("Rook")){
-						board[i][j].setIcon(bRook);
-					}
-					else if (gameBoard[i][j].type().equals("Knight")){
-						board[i][j].setIcon(bKnight);
-					}
-					else if (gameBoard[i][j].type().equals("Bishop")){
-						board[i][j].setIcon(bBishop);
-					}
-					else if (gameBoard[i][j].type().equals("Queen")){
-						board[i][j].setIcon(bQueen);
-					}
-					else if (gameBoard[i][j].type().equals("King")){
-						board[i][j].setIcon(bKing);
-					}
-					else if (gameBoard[i][j].type().equals("Pawn")){
-						board[i][j].setIcon(bPawn);
-					}
-				}
 				}
 				else{
 					board[i][j].setIcon(emptyIcon);
 				}
 			}
 		}
-}
+	}
 
-public void putSelfInCheck() {
-	// TODO Auto-generated method stub
+	public void setText(){
+		pane.setText(textString);
+	}
+	
+	public JFrame getFrame(){
+		return frame;
+	}
+	
+	public JMenuItem getQuit(){
+		return quit;
+	}
 
-}
+	public void putSelfInCheck() {
+		// TODO Auto-generated method stub
 
-public void inCheck() {
-	// TODO Auto-generated method stub
+	}
 
-}
+	public void inCheck() {
+		// TODO Auto-generated method stub
 
-public void prompt(Player currentPlayer) {
-	// TODO Auto-generated method stub
+	}
 
-}
+	public void prompt(Player currentPlayer) {
+		// TODO Auto-generated method stub
 
-public void repack() {
-	// TODO Auto-generated method stub
+	}
 
-}
+	public void repack() {
+		// TODO Auto-generated method stub
 
-public void update(Move tempMove) {
-	// TODO Auto-generated method stub
+	}
 
-}
+	public void update(Move tempMove) {
+		// TODO Auto-generated method stub
 
-public void end() {
-	// TODO Auto-generated method stub
+	}
 
-	JOptionPane.showMessageDialog(null, "Checkmate!");
+	public void end() {
+		// TODO Auto-generated method stub
 
-}
+		JOptionPane.showMessageDialog(null, "Checkmate!");
+
+	}
+
+	public String getTextString() {
+		return textString;
+	}
+
+	public void setTextString(String textString) {
+		this.textString = textString;
+	}
+
+	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
 }

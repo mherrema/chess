@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
+
 import gvprojects.chess.model.Model;
 import gvprojects.chess.model.Move;
 import gvprojects.chess.view.GUI;
@@ -17,6 +19,7 @@ public class Presenter {
 	private GUI g;
 	
 	private boolean from;
+	private String temp;
 	
 	private int fromRow;
 	private int fromCol;
@@ -108,6 +111,25 @@ public class Presenter {
 						j));
 			}
 		}
+		
+		// adds action listener to the reset button
+		g.getQuit().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(g.getFrame(),
+						"Are you sure you want to quit?", "Exit Game",
+						JOptionPane.YES_NO_OPTION);
+				if (option == 0) {
+					System.exit(0);
+				} else {
+					g.setTextString(": Game resumed.\n---------------\n" + g.getTextString());
+					temp = m.currentPlayer().toString().toLowerCase();
+					temp = temp.substring(0, 1).toUpperCase()
+							+ temp.substring(1, temp.length()) + "'s turn.\n";
+					g.setTextString(": " + temp + g.getTextString());
+					g.setText();
+				}
+			}
+		});
 	}
 	
 	/******************************************************************
