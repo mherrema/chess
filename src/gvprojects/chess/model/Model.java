@@ -1,5 +1,7 @@
 package gvprojects.chess.model;
 
+import gvprojects.chess.view.View;
+
 /*********************************************************************
  * This class creates a Chess game engine, altering and keeping track of each
  * move of the game
@@ -23,12 +25,19 @@ public class Model implements IChessModel {
 
 	/** game board size */
 	final int boardsize = 8;
-	
+
 	/** temporary move */
 	Move tempMove;
 
+	//private IChessPiece[][] saveBoard;
+	//private boolean savePlayer;
+	private IChessPiece[][] saveFirstBoard;
+	private boolean saveFirstPlayer;
+	private Player winner;
+
 	private boolean putSelfInCheck = false;
 	private boolean otherPlayerCheck = false;
+
 	/******************************************************************
 	 * Model Constructor Creates game board and places all pieces, marking king
 	 * locations and setting it to white's turn
@@ -70,6 +79,7 @@ public class Model implements IChessModel {
 		for (int i = 0; i < boardsize; i++) {
 			getBoard()[6][i] = new Pawn(Player.WHITE, 6);
 		}
+		saveFirstBoard = new IChessPiece[boardsize][boardsize];
 	}
 
 	/******************************************************************
@@ -117,8 +127,50 @@ public class Model implements IChessModel {
 	 * Unimplemented checkmate
 	 ******************************************************************/
 	public boolean isComplete() {
-		// TODO Auto-generated method stub
-		return false;
+		System.out.println("checked complete");
+		// Player p = Player.WHITE;
+		Move checkMateMove = null;
+		saveFirstState();
+		//View v = new View();
+		//v.printBoard(saveFirstBoard);
+		// for(int k=0; k<2; k++){
+		for (int i = 0; i < numRows(); i++) {
+			for (int j = 0; j < numColumns(); j++) {
+				if (pieceAt(i, j) != null) {
+					if (pieceAt(i, j).player() == currentPlayer()) {
+						for (int l = 0; l < numRows(); l++) {
+							for (int n = 0; n < numColumns(); n++) {
+								checkMateMove = new Move(i, j, l, n);
+								if (isValidMove(checkMateMove)) {
+									// saveState();
+									move(checkMateMove);
+									System.out.println("moved");
+									if (!inCheck(currentPlayer())) {
+										System.out
+										.println("not in check anymore");
+										loadFirstState();
+										//v.printBoard(saveFirstBoard);
+										return false;
+									} else {
+										loadFirstState();
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		// p = Player.BLACK;
+		// }
+
+		if (inCheck(Player.WHITE)) {
+			winner = Player.BLACK;
+		} else {
+			winner = Player.WHITE;
+		}
+		//loadFirstState();
+		return true;
 	}
 
 	/******************************************************************
@@ -195,22 +247,24 @@ public class Model implements IChessModel {
 					blackKing[1] = m.toColumn;
 				}
 			}
-			//if the move puts themselves in check
+			// if the move puts themselves in check
 			if (inCheck(currentPlayer())) {
 				cancelMove(m);
 				setPutSelfInCheck(true);
-				System.out.println("current player in check. current player =" + whiteTurn);
-				//update();
+				System.out.println("current player in check. current player ="
+						+ whiteTurn);
+				// update();
 			}
-			//if move puts other player in check
+			// if move puts other player in check
 			else if (inCheck(otherPlayer(currentPlayer()))) {
 				setOtherPlayerCheck(true);
-			}
-			else{
-			switchTurns();
-			//System.out.println("switched");
+			} else {
+				switchTurns();
+				// System.out.println("switched");
 			}
 		}
+		//View v = new View();
+		//v.printBoard(saveFirstBoard)
 	}
 
 	/******************************************************************
@@ -332,5 +386,42 @@ public class Model implements IChessModel {
 
 	public void setOtherPlayerCheck(boolean otherPlayerCheck) {
 		this.otherPlayerCheck = otherPlayerCheck;
+	}
+
+//	private void saveState() {
+//		saveBoard = board;
+//		savePlayer = whiteTurn;
+//	}
+//
+//	private void loadState() {
+//		board = saveBoard;
+//		whiteTurn = savePlayer;
+//	}
+
+	private void saveFirstState() {
+		for(int i=0; i<board.length; i++){
+			for(int j=0; j<board.length; j++){
+				saveFirstBoard[i][j]=board[i][j];
+			}
+		}
+		saveFirstPlayer = whiteTurn;
+	}
+
+	private void loadFirstState() {
+		for(int i=0; i<board.length; i++){
+			for(int j=0; j<board.length; j++){
+				board[i][j]=saveFirstBoard[i][j];
+			}
+		}
+		whiteTurn = saveFirstPlayer;
+		System.out.println("loaded first state");
+	}
+
+	public Player getWinner() {
+		return winner;
+	}
+
+	public void setWinner(Player winner) {
+		this.winner = winner;
 	}
 }

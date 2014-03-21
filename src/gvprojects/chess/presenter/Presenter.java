@@ -73,6 +73,12 @@ public class Presenter {
 					m.setOtherPlayerCheck(false);
 					m.switchTurns();
 				}
+				if(m.inCheck(m.currentPlayer())){
+				if(m.isComplete()){
+					g.checkmate(m.getWinner());
+				}
+				//g.printBoard(m.getBoard());
+				}
 				g.updateCurrentPlayer(m.currentPlayer());
 				from = true;
 			}

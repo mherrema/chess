@@ -258,7 +258,7 @@ public class GUI extends JPanel {
 	 * Set the player turn on the status
 	 */
 	public void updateCurrentPlayer(Player p) {
-		temp = p.toString();
+		temp = p.toString().toLowerCase();
 		temp = temp.substring(0, 1).toUpperCase()
 				+ temp.substring(1, temp.length()) + "'s turn.\n";
 		setTextString(": " + temp + getTextString());
@@ -710,5 +710,10 @@ public class GUI extends JPanel {
 
 	public void setRules(JMenuItem rules) {
 		this.rules = rules;
+	}
+
+	public void gameOver(Player winner) {
+		// TODO Auto-generated method stub
+		
 	}
 }
