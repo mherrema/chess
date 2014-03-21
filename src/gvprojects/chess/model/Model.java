@@ -9,36 +9,31 @@ package gvprojects.chess.model;
  *********************************************************************/
 public class Model implements IChessModel {
 
-	/** the game board. */
+	/** the game board */
 	private IChessPiece[][] board;
 
-	/** white king location. */
+	/** white king location */
 	private int[] whiteKing;
 
-	/** black king location. */
+	/** black king location */
 	private int[] blackKing;
 
-	/** keeps track of who's turn. */
+	/** keeps track of who's turn */
 	private boolean whiteTurn;
 
-	/** game board size. */
-	private int boardsize = 8;
+	/** game board size */
+	final int boardsize = 8;
 	
-	/** temporary move. */
-	private Move tempMove;
+	/** temporary move */
+	Move tempMove;
 
-	/**
-	 * @param boolean putselfInCheck
-	 * 
-	 * @param boolean otherPlayerCheck
-	 */
 	private boolean putSelfInCheck = false;
 	private boolean otherPlayerCheck = false;
-	
 	/******************************************************************
 	 * Model Constructor Creates game board and places all pieces, marking king
 	 * locations and setting it to white's turn
 	 * 
+	 * @return none
 	 ******************************************************************/
 	public Model() {
 		whiteTurn = true;
@@ -82,7 +77,7 @@ public class Model implements IChessModel {
 	 * 
 	 * @return Player
 	 ******************************************************************/
-	public final Player currentPlayer() {
+	public Player currentPlayer() {
 		if (whiteTurn) {
 			return Player.WHITE;
 		} else {
@@ -96,7 +91,7 @@ public class Model implements IChessModel {
 	 * @param Player
 	 * @return boolean if in check
 	 ******************************************************************/
-	public final boolean inCheck(Player p) {
+	public boolean inCheck(Player p) {
 		// runs through every row
 		for (int i = 0; i < boardsize; i++) {
 			// runs through every column
@@ -104,8 +99,9 @@ public class Model implements IChessModel {
 				// if the player given is white
 				if (p == Player.WHITE) {
 					tempMove = new Move(i, j, whiteKing[0], whiteKing[1]);
-					// if the player given is black
-				} else if (p == Player.BLACK) {
+				}
+				// if the player given is black
+				else if (p == Player.BLACK) {
 					tempMove = new Move(i, j, blackKing[0], blackKing[1]);
 				}
 				// if the move above is valid, player is in check
@@ -119,8 +115,6 @@ public class Model implements IChessModel {
 
 	/******************************************************************
 	 * Unimplemented checkmate
-	 * 
-	 * @return boolean
 	 ******************************************************************/
 	public boolean isComplete() {
 		// TODO Auto-generated method stub
@@ -136,22 +130,17 @@ public class Model implements IChessModel {
 	 *            m
 	 * @return boolean if valid
 	 ******************************************************************/
-	public final boolean isValidMove(Move m) {
+	public boolean isValidMove(Move m) {
 		// if the location holds no piece
 		if (getBoard()[m.fromRow][m.fromColumn] == null) {
-			System.out.println("null");
 			return false;
 		}
 		// if trying to move the wrong player's piece
 		if (getBoard()[m.fromRow][m.fromColumn].player() != currentPlayer()) {
-			System.out.println("not current");
 			return false;
 		}
 		// if the piece can't move that direction/distance
-		if (getBoard()[m.fromRow][m.fromColumn]
-				.isValidMove(m, getBoard()) == false) {
-			System.out.println(getBoard()[m.fromRow][m.fromColumn].type());
-			System.out.println("wrong direction");
+		if (getBoard()[m.fromRow][m.fromColumn].isValidMove(m, getBoard()) == false) {
 			return false;
 		}
 		return true;
@@ -165,14 +154,13 @@ public class Model implements IChessModel {
 	 *            m
 	 * @return boolean if valid
 	 ******************************************************************/
-	public boolean isValidCheck(final Move m) {
+	public boolean isValidCheck(Move m) {
 		// if the location is null
 		if (getBoard()[m.fromRow][m.fromColumn] == null) {
 			return false;
 		}
 		// if the piece can't move that direction/distance
-		if (getBoard()[m.fromRow][m.fromColumn]
-				.isValidMove(m, getBoard()) == false) {
+		if (getBoard()[m.fromRow][m.fromColumn].isValidMove(m, getBoard()) == false) {
 			return false;
 		}
 		return true;
@@ -183,21 +171,18 @@ public class Model implements IChessModel {
 	 * 
 	 * @param Move
 	 *            m
+	 * @return none
 	 ******************************************************************/
 	public void move(Move m) {
+		IChessPiece[][] tempboard = null;
 		// if valid move
-		System.out.println(m.fromRow + " " + m.toRow);
-		System.out.println(m.fromColumn + " " + m.toColumn);
-		
 		if (isValidMove(m)) {
-			System.out.println("valid");
 			// if moving the correct player's piece
-			if ((whiteTurn && getBoard()[m.fromRow][m.fromColumn]
-					.player() == Player.WHITE)
+			if ((whiteTurn && getBoard()[m.fromRow][m.fromColumn].player() == Player.WHITE)
 					|| (!whiteTurn && getBoard()[m.fromRow][m.fromColumn]
 							.player() == Player.BLACK)) {
-				getBoard()[m.toRow][m.toColumn] 
-						= getBoard()[m.fromRow][m.fromColumn];
+				tempboard = getBoard();
+				getBoard()[m.toRow][m.toColumn] = getBoard()[m.fromRow][m.fromColumn];
 				getBoard()[m.fromRow][m.fromColumn] = null;
 				// if moving the white king
 				if (m.fromRow == whiteKing[0] && m.fromColumn == whiteKing[1]) {
@@ -214,14 +199,16 @@ public class Model implements IChessModel {
 			if (inCheck(currentPlayer())) {
 				cancelMove(m);
 				setPutSelfInCheck(true);
+				System.out.println("current player in check. current player =" + whiteTurn);
 				//update();
 			}
 			//if move puts other player in check
-			if (inCheck(otherPlayer(currentPlayer()))) {
+			else if (inCheck(otherPlayer(currentPlayer()))) {
 				setOtherPlayerCheck(true);
 			}
-			if (!inCheck(currentPlayer())) {
+			else{
 			switchTurns();
+			//System.out.println("switched");
 			}
 		}
 	}
@@ -233,7 +220,7 @@ public class Model implements IChessModel {
 	 *            m
 	 * @return none
 	 ******************************************************************/
-	public final void cancelMove(final Move m) {
+	public void cancelMove(Move m) {
 		board[m.fromRow][m.fromColumn] = board[m.toRow][m.toColumn];
 		// if moving the white king
 		if (m.toRow == whiteKing[0] && m.toColumn == whiteKing[1]) {
@@ -254,7 +241,7 @@ public class Model implements IChessModel {
 	 * @param none
 	 * @return none
 	 ******************************************************************/
-	public final void switchTurns() {
+	public void switchTurns() {
 		// if it's white's turn
 		if (whiteTurn) {
 			whiteTurn = false;
@@ -270,7 +257,7 @@ public class Model implements IChessModel {
 	 *            p
 	 * @return other Player
 	 ******************************************************************/
-	public final Player otherPlayer(Player p) {
+	public Player otherPlayer(Player p) {
 		// if p is white
 		if (p.equals(Player.WHITE)) {
 			return Player.BLACK;
@@ -285,7 +272,7 @@ public class Model implements IChessModel {
 	 * @param none
 	 * @return int columns
 	 ******************************************************************/
-	public final int numColumns() {
+	public int numColumns() {
 		return boardsize;
 	}
 
@@ -295,7 +282,7 @@ public class Model implements IChessModel {
 	 * @param none
 	 * @return int rows
 	 ******************************************************************/
-	public final int numRows() {
+	public int numRows() {
 		return boardsize;
 	}
 
@@ -306,7 +293,7 @@ public class Model implements IChessModel {
 	 * @param int col
 	 * @return IChessPiece
 	 ******************************************************************/
-	public final IChessPiece pieceAt(int row, int col) {
+	public IChessPiece pieceAt(int row, int col) {
 		return getBoard()[row][col];
 	}
 
@@ -316,7 +303,7 @@ public class Model implements IChessModel {
 	 * @param none
 	 * @return IChessPiece[][] board
 	 ******************************************************************/
-	public final IChessPiece[][] getBoard() {
+	public IChessPiece[][] getBoard() {
 		return board;
 	}
 
@@ -327,41 +314,23 @@ public class Model implements IChessModel {
 	 *            [][] board
 	 * @return none
 	 ******************************************************************/
-	public final void setBoard(IChessPiece[][] board) {
+	public void setBoard(IChessPiece[][] board) {
 		this.board = board;
 	}
 
-	/**
-	 * Checks for checkmate
-	 * @return boolean
-	 */
-	public final boolean isPutSelfInCheck() {
+	public boolean isPutSelfInCheck() {
 		return putSelfInCheck;
 	}
 
-	/**
-	 * Sets the checkmate
-	 * 
-	 *  *@param boolean putSelfInCheck
-	 */
-	public final void setPutSelfInCheck(boolean putSelfInCheck) {
+	public void setPutSelfInCheck(boolean putSelfInCheck) {
 		this.putSelfInCheck = putSelfInCheck;
 	}
 
-	/**
-	 * Checks for checkmate
-	 * @return boolean
-	 */
-	public final boolean isOtherPlayerCheck() {
+	public boolean isOtherPlayerCheck() {
 		return otherPlayerCheck;
 	}
 
-	/**
-	 * Sets the checkmate on the other player
-	 *
-	 *@param boolean otherPlayerCheck
-	 */
-	public final void setOtherPlayerCheck(boolean otherPlayerCheck) {
+	public void setOtherPlayerCheck(boolean otherPlayerCheck) {
 		this.otherPlayerCheck = otherPlayerCheck;
 	}
 }

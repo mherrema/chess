@@ -46,7 +46,7 @@ public class Pawn extends ChessPiece {
 		
 		//if the move as a Chesspiece is invalid
 		if (super.isValidMove(m, board) == false) {
-			System.out.println("super");
+			//System.out.println("super");
 			return false;
 		}
 		

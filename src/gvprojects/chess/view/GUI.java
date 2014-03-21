@@ -172,19 +172,19 @@ public class GUI extends JPanel {
 		file = new JMenu("File");
 		help = new JMenu("Help");
 		quit = new JMenuItem("Quit");
-		newGame = new JMenuItem("New Game");
-		version = new JMenuItem("Version");
+		setNewGame(new JMenuItem("New Game"));
+		setVersion(new JMenuItem("Version"));
 		gameTime = new JMenuItem("Game Time");
-		rules = new JMenuItem("Rules");
+		setRules(new JMenuItem("Rules"));
 		frame.setJMenuBar(menu);
 		menu.add(file);
 		menu.add(help);
-		file.add(newGame);
+		file.add(getNewGame());
 		// file.add(boneyard);
 		file.add(gameTime);
 		file.add(quit);
-		help.add(version);
-		help.add(rules);
+		help.add(getVersion());
+		help.add(getRules());
 
 		/**
 		 * Initialize the board
@@ -199,12 +199,12 @@ public class GUI extends JPanel {
 		/**
 		 * Add action listeners
 		 */
-		newGame.addActionListener(l);
+		getNewGame().addActionListener(l);
 		quit.addActionListener(l);
 		// boneyard.addActionListener(l);
 		gameTime.addActionListener(l);
-		version.addActionListener(l);
-		rules.addActionListener(l);
+		getVersion().addActionListener(l);
+		getRules().addActionListener(l);
 
 		/**
 		 * Initialize booleans
@@ -261,8 +261,8 @@ public class GUI extends JPanel {
 		temp = p.toString();
 		temp = temp.substring(0, 1).toUpperCase()
 				+ temp.substring(1, temp.length()) + "'s turn.\n";
-		setTextString(": " + temp);
-		pane.setText(getTextString());
+		setTextString(": " + temp + getTextString());
+		setText();
 	}
 
 	/**********************************************************************
@@ -286,97 +286,6 @@ public class GUI extends JPanel {
 				JOptionPane.showMessageDialog(frame, "Game time: " + min
 						+ " min. " + sec + " sec. ", "Game Time",
 						JOptionPane.INFORMATION_MESSAGE, tempIcon);
-			}
-
-			/**
-			 * If user clicks "Quit" in the menu, display a dialog box asking if
-			 * the player wants to quit, the act accordingly
-			 */
-//			if (e.getSource() == quit) {
-//				int option = JOptionPane.showConfirmDialog(frame,
-//						"Are you sure you want to quit?", "Exit Game",
-//						JOptionPane.YES_NO_OPTION);
-//				if (option == 0) {
-//					System.exit(0);
-//				} else {
-//					textString = ": Game resumed.\n" + textString;
-//					temp = game.currentPlayer().toString().toLowerCase();
-//					temp = temp.substring(0, 1).toUpperCase()
-//							+ temp.substring(1, temp.length()) + "'s turn.\n";
-//					// textString = ": " + temp + textString;
-//					// pane.setText(textString);
-//				}
-//			}
-
-			/**
-			 * If user clicks "New Game" in the menu, display a dialog box
-			 * asking the player if they want to lose their progress then act
-			 * accordingly
-			 */
-			if (e.getSource() == newGame) {
-				int option = 0;
-				if (!gameComplete)
-					option = JOptionPane.showConfirmDialog(frame,
-							"All current progress will be lost, continue?",
-							"New Game", JOptionPane.YES_NO_OPTION);
-				if (option == 0) {
-					// resetGame();
-					// textString = ": New game.\n" + textString;
-					// temp = game.currentPlayer().toString().toLowerCase();
-					// temp = temp.substring(0, 1).toUpperCase()
-					// + temp.substring(1, temp.length()) + "'s turn.\n";
-					// textString = ": " + temp + textString;
-					// pane.setText(textString);
-				} else {
-					// textString = ": Game resumed.\n" + textString;
-					// temp = game.currentPlayer().toString().toLowerCase();
-					// temp = temp.substring(0, 1).toUpperCase()
-					// + temp.substring(1, temp.length()) + "'s turn.\n";
-					// textString = ": " + temp + textString;
-					// pane.setText(textString);
-				}
-			}
-
-			/**
-			 * If user clicks "Game Time" in the menu, display the version in
-			 * the status pane
-			 */
-			if (e.getSource() == version) {
-				setTextString("**************************\n"
-						+ "       Awesome Chess\n           Version 1.0\n       © Murphy's Law\n"
-						+ "**************************\n" + getTextString());
-				// temp = game.currentPlayer().toString().toLowerCase();
-				// temp = temp.substring(0, 1).toUpperCase()
-				// + temp.substring(1, temp.length()) + "'s turn.\n";
-				// textString = ": " + temp + textString;
-				pane.setText(getTextString());
-			}
-
-			/**
-			 * If user clicks "Rules" in the menu, open the default web browser
-			 * with a web site detailing the rules of chess
-			 */
-			if (e.getSource() == rules) {
-				try {
-					java.awt.Desktop
-					.getDesktop()
-					.browse(java.net.URI
-							.create("http://www.chess.com/learn-how-to-play-chess"));
-					setTextString(": Rules opened in \n: default browser.\n"
-							+ getTextString());
-					// temp = game.currentPlayer().toString().toLowerCase();
-					// temp = temp.substring(0, 1).toUpperCase()
-					// + temp.substring(1, temp.length()) + "'s turn.\n";
-					// textString = ": " + temp + textString;
-					pane.setText(getTextString());
-				} catch (Exception ex) {
-					setTextString(": Page not found.\n" + getTextString());
-					// temp = game.currentPlayer().toString().toLowerCase();
-					// temp = temp.substring(0, 1).toUpperCase()
-					// + temp.substring(1, temp.length()) + "'s turn.\n";
-					// textString = ": " + temp + textString;
-					pane.setText(getTextString());
-				}
 			}
 
 			/**
@@ -502,6 +411,14 @@ public class GUI extends JPanel {
 		}
 	}
 
+	public void setVersionText(Player p) {
+		/**
+		 * If user clicks "Version" in the menu, display the version in the
+		 * status pane
+		 */
+
+	}
+
 	/**
 	 * GameStatus calls the methods that determine, in order, whether a piece
 	 * needs to be promoted, whether the current player is in checkmate, and
@@ -510,100 +427,80 @@ public class GUI extends JPanel {
 	 * @param Player
 	 * @param Move
 	 */
-//	private void gameStatus(Player p, Move m) {
-//		IChessPiece piece = null;// = game.checkPromotion(p,
-//		// m);
-//		if (piece != null) {
-//			if (p == Player.WHITE) {
-//				if (piece.type().equals("Rook"))
-//					board[m.toRow][m.toColumn].setIcon(wRook);
-//				if (piece.type().equals("Knight"))
-//					board[m.toRow][m.toColumn].setIcon(wKnight);
-//				if (piece.type().equals("Bishop"))
-//					board[m.toRow][m.toColumn].setIcon(wBishop);
-//				if (piece.type().equals("Queen"))
-//					board[m.toRow][m.toColumn].setIcon(wQueen);
-//			} else {
-//				if (piece.type().equals("Rook"))
-//					board[m.toRow][m.toColumn].setIcon(bRook);
-//				if (piece.type().equals("Knight"))
-//					board[m.toRow][m.toColumn].setIcon(bKnight);
-//				if (piece.type().equals("Bishop"))
-//					board[m.toRow][m.toColumn].setIcon(bBishop);
-//				if (piece.type().equals("Queen"))
-//					board[m.toRow][m.toColumn].setIcon(bQueen);
-//			}
-//
-//		}
+	// private void gameStatus(Player p, Move m) {
+	// IChessPiece piece = null;// = game.checkPromotion(p,
+	// // m);
+	// if (piece != null) {
+	// if (p == Player.WHITE) {
+	// if (piece.type().equals("Rook"))
+	// board[m.toRow][m.toColumn].setIcon(wRook);
+	// if (piece.type().equals("Knight"))
+	// board[m.toRow][m.toColumn].setIcon(wKnight);
+	// if (piece.type().equals("Bishop"))
+	// board[m.toRow][m.toColumn].setIcon(wBishop);
+	// if (piece.type().equals("Queen"))
+	// board[m.toRow][m.toColumn].setIcon(wQueen);
+	// } else {
+	// if (piece.type().equals("Rook"))
+	// board[m.toRow][m.toColumn].setIcon(bRook);
+	// if (piece.type().equals("Knight"))
+	// board[m.toRow][m.toColumn].setIcon(bKnight);
+	// if (piece.type().equals("Bishop"))
+	// board[m.toRow][m.toColumn].setIcon(bBishop);
+	// if (piece.type().equals("Queen"))
+	// board[m.toRow][m.toColumn].setIcon(bQueen);
+	// }
+	//
+	// }
 
-		/**
-		 * If the game is complete
-		 */
-		// if (game.isComplete()) {
-		// long time = (System.currentTimeMillis() - startTime)/1000;
-		// long min = time/60;
-		// long sec = time % 60;
-		// ImageIcon winIcon = new ImageIcon(
-		// "winner.png");
-		// gameComplete = true;
-		//
-		// /**
-		// * If White has been checkmated
-		// */
-		// if (game.currentPlayer() == Player.WHITE) {
-		// JOptionPane
-		// .showMessageDialog(
-		// frame,
-		// "White has been checkmated.  Black wins!"
-		// + "\nGame time: " + min + " min. " + sec + " sec.",
-		// "Game Over",
-		// JOptionPane.INFORMATION_MESSAGE,
-		// winIcon);
-		//
-		// /**
-		// * If Black has been checkmated
-		// */
-		// } else {
-		// JOptionPane
-		// .showMessageDialog(
-		// frame,
-		// "Black has been checkmated.  White wins!"
-		// + "\nGame time: " + min + " min. " + sec + " sec.",
-		// "Game Over",
-		// JOptionPane.INFORMATION_MESSAGE,
-		// winIcon);
-		// }
-		// } else {
-		// ImageIcon checkIcon = new ImageIcon(
-		// "check.png");
-		//
-		// /**
-		// * White is in check
-		// */
-		// if (game.inCheck(game.currentPlayer())) {
-		// if (game.currentPlayer() == Player.WHITE)
-		// JOptionPane
-		// .showMessageDialog(
-		// frame,
-		// "White King is in check!",
-		// "Check",
-		// JOptionPane.INFORMATION_MESSAGE,
-		// checkIcon);
-		//
-		// /**
-		// * Black is in check
-		// */
-		// else
-		// JOptionPane
-		// .showMessageDialog(
-		// frame,
-		// "Black King is in check!",
-		// "Check",
-		// JOptionPane.INFORMATION_MESSAGE,
-		// checkIcon);
-		// }
-		// }
-	//}
+
+	public void checkmate(Player p) {
+		long time = (System.currentTimeMillis() - startTime) / 1000;
+		long min = time / 60;
+		long sec = time % 60;
+		ImageIcon winIcon = new ImageIcon("winner.png");
+
+		if (p.toString().equals("WHITE")) {
+			JOptionPane.showMessageDialog(frame,
+					"Black has been checkmated.  White wins!" + "\nGame time: "
+							+ min + " min. " + sec + " sec.", "Game Over",
+					JOptionPane.INFORMATION_MESSAGE, winIcon);
+		} else {
+			JOptionPane.showMessageDialog(frame,
+					"White has been checkmated.  Black wins!" + "\nGame time: "
+							+ min + " min. " + sec + " sec.", "Game Over",
+					JOptionPane.INFORMATION_MESSAGE, winIcon);
+		}
+	}
+
+	//
+	// /**
+	// * White is in check
+	// */
+	// if (game.inCheck(game.currentPlayer())) {
+	// if (game.currentPlayer() == Player.WHITE)
+	// JOptionPane
+	// .showMessageDialog(
+	// frame,
+	// "White King is in check!",
+	// "Check",
+	// JOptionPane.INFORMATION_MESSAGE,
+	// checkIcon);
+	//
+	// /**
+	// * Black is in check
+	// */
+	// else
+	// JOptionPane
+	// .showMessageDialog(
+	// frame,
+	// "Black King is in check!",
+	// "Check",
+	// JOptionPane.INFORMATION_MESSAGE,
+	// checkIcon);
+	// }
+	// }
+	// }
 
 	/**
 	 * A native method that clears the status pane
@@ -618,19 +515,11 @@ public class GUI extends JPanel {
 	// }
 
 	/**
-	 * A native method that resets all GUI components as well as the game within
-	 * the model
+	 * A native method that resets the time of the game
 	 */
-	// public void resetGame() {
-	// gameComplete = false;
-	// game.setCurrentPlayer(Player.WHITE);
-	// frame.remove(panel);
-	// fillNewBoard();
-	// quickPaint();
-	// frame.add(panel, BorderLayout.CENTER);
-	// game.reset();
-	// startTime = System.currentTimeMillis();
-	// }
+	public void resetTime() {
+		startTime = System.currentTimeMillis();
+	}
 
 	/**
 	 * A native method that initializes the buttons on the board
@@ -700,77 +589,80 @@ public class GUI extends JPanel {
 
 	public void printBoard(IChessPiece[][] gameBoard) {
 
-		for(int i = 0; i<ROWS; i++){
-			for(int j = 0; j<COLS; j++){
-				if(gameBoard[i][j]!=null){
-					if(gameBoard[i][j].player()==Player.WHITE){
-						if (gameBoard[i][j].type().equals("Rook")){
+		for (int i = 0; i < ROWS; i++) {
+			for (int j = 0; j < COLS; j++) {
+				if (gameBoard[i][j] != null) {
+					if (gameBoard[i][j].player() == Player.WHITE) {
+						if (gameBoard[i][j].type().equals("Rook")) {
 							board[i][j].setIcon(wRook);
-						}
-						else if (gameBoard[i][j].type().equals("Knight")){
+						} else if (gameBoard[i][j].type().equals("Knight")) {
 							board[i][j].setIcon(wKnight);
-						}
-						else if (gameBoard[i][j].type().equals("Bishop")){
+						} else if (gameBoard[i][j].type().equals("Bishop")) {
 							board[i][j].setIcon(wBishop);
-						}
-						else if (gameBoard[i][j].type().equals("Queen")){
+						} else if (gameBoard[i][j].type().equals("Queen")) {
 							board[i][j].setIcon(wQueen);
-						}
-						else if (gameBoard[i][j].type().equals("King")){
+						} else if (gameBoard[i][j].type().equals("King")) {
 							board[i][j].setIcon(wKing);
-						}
-						else if (gameBoard[i][j].type().equals("Pawn")){
+						} else if (gameBoard[i][j].type().equals("Pawn")) {
 							board[i][j].setIcon(wPawn);
 						}
-					}
-					else{
-						if (gameBoard[i][j].type().equals("Rook")){
+					} else {
+						if (gameBoard[i][j].type().equals("Rook")) {
 							board[i][j].setIcon(bRook);
-						}
-						else if (gameBoard[i][j].type().equals("Knight")){
+						} else if (gameBoard[i][j].type().equals("Knight")) {
 							board[i][j].setIcon(bKnight);
-						}
-						else if (gameBoard[i][j].type().equals("Bishop")){
+						} else if (gameBoard[i][j].type().equals("Bishop")) {
 							board[i][j].setIcon(bBishop);
-						}
-						else if (gameBoard[i][j].type().equals("Queen")){
+						} else if (gameBoard[i][j].type().equals("Queen")) {
 							board[i][j].setIcon(bQueen);
-						}
-						else if (gameBoard[i][j].type().equals("King")){
+						} else if (gameBoard[i][j].type().equals("King")) {
 							board[i][j].setIcon(bKing);
-						}
-						else if (gameBoard[i][j].type().equals("Pawn")){
+						} else if (gameBoard[i][j].type().equals("Pawn")) {
 							board[i][j].setIcon(bPawn);
 						}
 					}
-				}
-				else{
+				} else {
 					board[i][j].setIcon(emptyIcon);
 				}
 			}
 		}
 	}
 
-	public void setText(){
+	public void setText() {
 		pane.setText(textString);
 	}
-	
-	public JFrame getFrame(){
+
+	public JFrame getFrame() {
 		return frame;
 	}
-	
-	public JMenuItem getQuit(){
+
+	public JMenuItem getQuit() {
 		return quit;
 	}
 
-	public void putSelfInCheck() {
-		// TODO Auto-generated method stub
+	public JMenuItem getNewGame() {
+		return newGame;
+	}
 
+	public JMenuItem getVersion() {
+		return version;
+	}
+
+	public JMenuItem getRules() {
+		return rules;
+	}
+
+	public void putSelfInCheck() {
+		setTextString(": You can't put\n: yourself in check!\n*************************\n"
+				+ getTextString());
+		setText();
 	}
 
 	public void inCheck() {
 		// TODO Auto-generated method stub
-
+		setTextString(": You placed them in check!\n*************************\n"
+				+ getTextString());
+		setText();
 	}
 
 	public void prompt(Player currentPlayer) {
@@ -805,6 +697,18 @@ public class GUI extends JPanel {
 
 	public void reset() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public void setNewGame(JMenuItem newGame) {
+		this.newGame = newGame;
+	}
+
+	public void setVersion(JMenuItem version) {
+		this.version = version;
+	}
+
+	public void setRules(JMenuItem rules) {
+		this.rules = rules;
 	}
 }
