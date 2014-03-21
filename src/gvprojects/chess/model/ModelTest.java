@@ -23,9 +23,9 @@ public class ModelTest {
 	@Test
 	public final void testCheck() throws Exception {
 		Model m = new Model();
-		Move move1 = new Move(6, 3, 5, 3);
-		Move move2 = new Move(1, 4, 2, 4);
-		Move move3 = new Move(7, 2, 3, 6);
+		Move move1 = new Move(6, 4, 5, 4);
+		Move move2 = new Move(1, 3, 2, 3);
+		Move move3 = new Move(7, 5, 3, 1);
 		m.move(move1);
 		m.move(move2);
 		m.move(move3);
@@ -36,10 +36,10 @@ public class ModelTest {
 	@Test
 	public final void testMoveInCheck() throws Exception {
 		Model m = new Model();
-		Move move1 = new Move(6, 3, 5, 3);
-		Move move2 = new Move(1, 4, 2, 4);
-		Move move3 = new Move(7, 2, 3, 6);
-		Move move4 = new Move(0, 3, 1, 4);
+		Move move1 = new Move(6, 4, 5, 4);
+		Move move2 = new Move(1, 3, 2, 3);
+		Move move3 = new Move(7, 5, 3, 1);
+		Move move4 = new Move(0, 4, 1, 3);
 		m.move(move1);
 		m.move(move2);
 		m.move(move3);
@@ -53,10 +53,10 @@ public class ModelTest {
 	@Test
 	public final void testMoveOutOfCheck() throws Exception {
 		Model m = new Model();
-		Move move1 = new Move(6, 3, 5, 3);
-		Move move2 = new Move(1, 4, 2, 4);
-		Move move3 = new Move(7, 2, 3, 6);
-		Move move4 = new Move(0, 5, 1, 4);
+		Move move1 = new Move(6, 4, 5, 4);
+		Move move2 = new Move(1, 3, 2, 3);
+		Move move3 = new Move(7, 5, 3, 1);
+		Move move4 = new Move(0, 2, 1, 3);
 		m.move(move1);
 		m.move(move2);
 		m.move(move3);
@@ -88,10 +88,17 @@ public class ModelTest {
 	@Test
 	public final void isComplete() throws Exception {
 		Model m = new Model();
+<<<<<<< HEAD
 		Move move1 = new Move(6, 5, 4, 5);
 		Move move2 = new Move(1, 4, 2, 4);
 		Move move3 = new Move(6, 6, 4, 6);
 		Move move4 = new Move(0, 3, 4, 7);
+=======
+		Move move1 = new Move(6, 4, 5, 4);
+		Move move2 = new Move(1, 3, 2, 3);
+		Move move3 = new Move(7, 5, 3, 1);
+		Move move4 = new Move(0, 4, 1, 3);
+>>>>>>> FETCH_HEAD
 		m.move(move1);
 		m.move(move2);
 		m.move(move3);
