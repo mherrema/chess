@@ -227,6 +227,7 @@ public class Model implements IChessModel {
 	 ******************************************************************/
 	public void move(Move m) {
 		IChessPiece[][] tempboard = null;
+		saveFirstState();
 		// if valid move
 		if (isValidMove(m)) {
 			// if moving the correct player's piece
@@ -275,7 +276,8 @@ public class Model implements IChessModel {
 	 * @return none
 	 ******************************************************************/
 	public void cancelMove(Move m) {
-		board[m.fromRow][m.fromColumn] = board[m.toRow][m.toColumn];
+		//board[m.fromRow][m.fromColumn] = board[m.toRow][m.toColumn];
+		loadFirstState();
 		// if moving the white king
 		if (m.toRow == whiteKing[0] && m.toColumn == whiteKing[1]) {
 			whiteKing[0] = m.fromRow;
@@ -286,7 +288,7 @@ public class Model implements IChessModel {
 			blackKing[0] = m.fromRow;
 			blackKing[1] = m.fromColumn;
 		}
-		board[m.toRow][m.toColumn] = null;
+		//board[m.toRow][m.toColumn] = null;
 	}
 
 	/******************************************************************
