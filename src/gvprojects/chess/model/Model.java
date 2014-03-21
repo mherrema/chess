@@ -1,7 +1,5 @@
 package gvprojects.chess.model;
 
-import gvprojects.chess.view.View;
-
 /*********************************************************************
  * This class creates a Chess game engine, altering and keeping track of each
  * move of the game
@@ -56,10 +54,10 @@ public class Model implements IChessModel {
 		getBoard()[0][6] = new Knight(Player.BLACK);
 		getBoard()[0][2] = new Bishop(Player.BLACK);
 		getBoard()[0][5] = new Bishop(Player.BLACK);
-		getBoard()[0][3] = new King(Player.BLACK);
+		getBoard()[0][4] = new King(Player.BLACK);
 		blackKing[0] = 0;
-		blackKing[1] = 3;
-		getBoard()[0][4] = new Queen(Player.BLACK);
+		blackKing[1] = 4;
+		getBoard()[0][3] = new Queen(Player.BLACK);
 		// creates the pawns in their row
 		for (int i = 0; i < boardsize; i++) {
 			getBoard()[1][i] = new Pawn(Player.BLACK, 1);
@@ -72,10 +70,10 @@ public class Model implements IChessModel {
 		getBoard()[7][6] = new Knight(Player.WHITE);
 		getBoard()[7][2] = new Bishop(Player.WHITE);
 		getBoard()[7][5] = new Bishop(Player.WHITE);
-		getBoard()[7][3] = new King(Player.WHITE);
+		getBoard()[7][4] = new King(Player.WHITE);
 		whiteKing[0] = 7;
-		whiteKing[1] = 3;
-		getBoard()[7][4] = new Queen(Player.WHITE);
+		whiteKing[1] = 4;
+		getBoard()[7][3] = new Queen(Player.WHITE);
 		for (int i = 0; i < boardsize; i++) {
 			getBoard()[6][i] = new Pawn(Player.WHITE, 6);
 		}
@@ -226,7 +224,7 @@ public class Model implements IChessModel {
 	 * @return none
 	 ******************************************************************/
 	public void move(Move m) {
-		IChessPiece[][] tempboard = null;
+		//IChessPiece[][] tempboard = null;
 		saveFirstState();
 		// if valid move
 		if (isValidMove(m)) {
@@ -234,7 +232,7 @@ public class Model implements IChessModel {
 			if ((whiteTurn && getBoard()[m.fromRow][m.fromColumn].player() == Player.WHITE)
 					|| (!whiteTurn && getBoard()[m.fromRow][m.fromColumn]
 							.player() == Player.BLACK)) {
-				tempboard = getBoard();
+				//tempboard = getBoard();
 				getBoard()[m.toRow][m.toColumn] = getBoard()[m.fromRow][m.fromColumn];
 				getBoard()[m.fromRow][m.fromColumn] = null;
 				// if moving the white king
