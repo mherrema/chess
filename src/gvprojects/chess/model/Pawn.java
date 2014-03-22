@@ -1,7 +1,7 @@
 package gvprojects.chess.model;
 
 /*********************************************************************
- * This class creates a {@code Pawn} {@code ChessPiece}, 
+ * This class creates a {@code Pawn} {@code ChessPiece}.
  * and determines if moves are valid
  * 
  * @author Mitch Herrema
@@ -10,19 +10,19 @@ package gvprojects.chess.model;
 
 public class Pawn extends ChessPiece {
 	
-	/** starting row */
+	/** starting row. */
 	private int startRow;
 	
-	/** player */
+	/** player. */
 	private Player p;
 	
 	/******************************************************************
-	 * Pawn Constructor
+	 * Pawn Constructor.
 	 * Creates a pawn
 	 *  chess piece
 	 * 
-	 * @param Player p
-	 * @param int Start Row
+	 * @param p Player
+	 * @param startRow int
 	 ******************************************************************/
 	public Pawn(final Player p, final int startRow) {
 		super(p, "Pawn");
@@ -31,21 +31,24 @@ public class Pawn extends ChessPiece {
 	}
 	
 	/******************************************************************
-	 * Returns if the move is valid
+	 * Returns if the move is valid.
 	 * 
-	 * @param Move m
-	 * @param IChessPiece[][] board
+	 * @param m Move
+	 * @param board IChessPiece[][]
+	 * 
 	 * @return boolean
 	 ******************************************************************/
 	
 	@Override
-	public final boolean isValidMove(final Move m, final IChessPiece[][] board) {
+	public final boolean isValidMove(final Move m, 
+			final IChessPiece[][] board) {
 		int rowChange;
-		//System.out.println("from col " + m.fromColumn + " to col "+ m.toColumn);
+		//System.out.println("from col " + m.fromColumn + 
+		//						" to col "+ m.toColumn);
 		int colChange = Math.abs(m.fromColumn - m.toColumn);
 		
 		//if the move as a Chesspiece is invalid
-		if (super.isValidMove(m, board) == false) {
+		if (!super.isValidMove(m, board)) {
 			//System.out.println("super");
 			return false;
 		}

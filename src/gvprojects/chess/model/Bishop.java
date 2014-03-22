@@ -1,4 +1,11 @@
 package gvprojects.chess.model;
+/**
+ *  File:               Bishop.java 
+ *  Author:             mumfordr, herremam, vassalty
+ *  Date:               2009-03-02 15:30:24
+ *  Version:            1.0
+ */
+
 
 /*********************************************************************
  * This class creates a {@code Bishop} {@code ChessPiece}.
@@ -9,12 +16,12 @@ package gvprojects.chess.model;
  *********************************************************************/
 
 public class Bishop extends ChessPiece {
-
 	/******************************************************************
 	 * Bishop Constructor Creates a bishop chess piece.
 	 * 
-	 * @param Player p
-	 ******************************************************************/
+	 * @param p Player
+	 *****************************************************************/
+
 	public Bishop(final Player p) {
 		super(p, "Bishop");
 	}
@@ -22,9 +29,9 @@ public class Bishop extends ChessPiece {
 	/******************************************************************
 	 * Returns if the move is valid.
 	 * 
-	 * @param Move m
+	 * @param m Move
 	 * 
-	 * @param IChessPiece [][] board
+	 * @param board IChessPiece[][]
 	 * 
 	 * @return boolean
 	 ******************************************************************/
@@ -33,17 +40,17 @@ public class Bishop extends ChessPiece {
 		int rowChange = Math.abs(m.fromRow - m.toRow);
 		int colChange = Math.abs(m.fromColumn - m.toColumn);
 		int startRow;
-		
+
 		// if the move as a Chesspiece is invalid
-		if (super.isValidMove(m, board) == false) {
+		if (!super.isValidMove(m, board)) {
 			return false;
 		}
-		
+
 		// if not diagonal
 		if (rowChange != colChange) {
 			return false;
 		}
-		
+
 		// if moving to the down
 		if (m.toRow > m.fromRow) {
 			startRow = m.fromRow + 1;
@@ -58,7 +65,7 @@ public class Bishop extends ChessPiece {
 					startRow++;
 				}
 			}
-			
+
 			// if moving left
 			if (m.fromColumn > m.toColumn) {
 				// checks spaces between

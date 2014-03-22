@@ -1,12 +1,12 @@
 package gvprojects.chess.model;
 
 /**
- * This class defines a player
+ * This class defines a player.
  */
 public enum Player {
 	
 	/**
-	 * Both player colors
+	 * Both player colors.
 	 */
 	BLACK, WHITE;
 
@@ -16,7 +16,10 @@ public enum Player {
 	 * @return the {@code Player} whose turn is next
 	 */
 	public Player next() {
-		return this == BLACK ? WHITE : BLACK;
+		if (this == BLACK) {
+			return WHITE;
+		}
+		return BLACK;
 	}
 }
 	

@@ -29,7 +29,7 @@ public class ModelTest {
 		m.move(move1);
 		m.move(move2);
 		m.move(move3);
-		assertTrue("Model Test 2", m.inCheck(Player.WHITE));
+		assertTrue("Model Test 2", m.inCheck(Player.BLACK));
 	}
 
 	// Verify that check occurs when moving into check
@@ -88,22 +88,19 @@ public class ModelTest {
 	@Test
 	public final void isComplete() throws Exception {
 		Model m = new Model();
-<<<<<<< HEAD
-		Move move1 = new Move(6, 5, 4, 5);
+		Move move1 = new Move(6, 5, 5, 5);
 		Move move2 = new Move(1, 4, 2, 4);
 		Move move3 = new Move(6, 6, 4, 6);
 		Move move4 = new Move(0, 3, 4, 7);
-=======
-		Move move1 = new Move(6, 4, 5, 4);
-		Move move2 = new Move(1, 3, 2, 3);
-		Move move3 = new Move(7, 5, 3, 1);
-		Move move4 = new Move(0, 4, 1, 3);
->>>>>>> FETCH_HEAD
+//		Move move1 = new Move(5, 2, 5, 3);
+//		Move move2 = new Move(4, 6, 4, 5);
+//		Move move3 = new Move(6, 1, 6, 3);
+//		Move move4 = new Move(0, 4, 1, 3);
 		m.move(move1);
 		m.move(move2);
 		m.move(move3);
 		m.move(move4);
-		m.isComplete();
+		//assertTrue(m.isComplete() == false);
 		assertTrue(m.getWinner() == Player.BLACK);
 		//assertTrue("Model Test 3", m.isComplete());
 		//assertTrue("Model Test 4", m.currentPlayer() == Player.BLACK);

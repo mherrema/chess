@@ -1,7 +1,7 @@
 package gvprojects.chess.model;
 
 /*********************************************************************
- * This class creates a Chess game engine, altering and keeping track of each
+ * This class creates a Chess game engine, altering and keeping track of each.
  * move of the game
  * 
  * @author Mitch Herrema
@@ -9,38 +9,42 @@ package gvprojects.chess.model;
  *********************************************************************/
 public class Model implements IChessModel {
 
-	/** the game board */
+	/** the game board. */
 	private IChessPiece[][] board;
 
-	/** white king location */
+	/** white king location. */
 	private int[] whiteKing;
 
-	/** black king location */
+	/** black king location. */
 	private int[] blackKing;
 
-	/** keeps track of who's turn */
+	/** keeps track of who's turn. */
 	private boolean whiteTurn;
 
-	/** game board size */
-	final int boardsize = 8;
+	/** game board size. */
+	private int boardsize = 8;
 
-	/** temporary move */
-	Move tempMove;
+	/** temporary move. */
+	private Move tempMove;
 
-	//private IChessPiece[][] saveBoard;
-	//private boolean savePlayer;
+	/** Saves the board. */
 	private IChessPiece[][] saveFirstBoard;
+	
+	/** Saves the first player. */
 	private boolean saveFirstPlayer;
+	/** Winner variable. */
 	private Player winner;
 
+	/** Variable for check in self. */
 	private boolean putSelfInCheck = false;
+	
+	/** Variable if other player is in check. */
 	private boolean otherPlayerCheck = false;
 
 	/******************************************************************
-	 * Model Constructor Creates game board and places all pieces, marking king
+	 * Model Constructor Creates game board and places all pieces, marking king.
 	 * locations and setting it to white's turn
 	 * 
-	 * @return none
 	 ******************************************************************/
 	public Model() {
 		whiteTurn = true;
@@ -81,11 +85,11 @@ public class Model implements IChessModel {
 	}
 
 	/******************************************************************
-	 * Returns current player
+	 * Returns current player.
 	 * 
 	 * @return Player
 	 ******************************************************************/
-	public Player currentPlayer() {
+	public final Player currentPlayer() {
 		if (whiteTurn) {
 			return Player.WHITE;
 		} else {
@@ -94,37 +98,39 @@ public class Model implements IChessModel {
 	}
 
 	/******************************************************************
-	 * Returns if the player given is in check
+	 * Returns if the player given is in check.
 	 * 
-	 * @param Player
+	 * @param p - Player
 	 * @return boolean if in check
 	 ******************************************************************/
-	public boolean inCheck(Player p) {
+	public final boolean inCheck(final Player p) {
 		// runs through every row
-		for (int i = 0; i < boardsize; i++) {
-			// runs through every column
-			for (int j = 0; j < boardsize; j++) {
-				// if the player given is white
-				if (p == Player.WHITE) {
-					tempMove = new Move(i, j, whiteKing[0], whiteKing[1]);
+				for (int i = 0; i < boardsize; i++) {
+					// runs through every column
+					for (int j = 0; j < boardsize; j++) {
+						// if the player given is white
+						if (p == Player.WHITE) {
+							tempMove = new Move(i, j, whiteKing[0], 
+									whiteKing[1]); 
+						} else if (p == Player.BLACK) {
+							tempMove = new Move(i, j, blackKing[0], 
+									blackKing[1]);
+						}
+						// if the move above is valid, player is in check
+						if (isValidCheck(tempMove)) {
+							return true;
+						}
+					}
 				}
-				// if the player given is black
-				else if (p == Player.BLACK) {
-					tempMove = new Move(i, j, blackKing[0], blackKing[1]);
-				}
-				// if the move above is valid, player is in check
-				if (isValidCheck(tempMove)) {
-					return true;
-				}
-			}
-		}
-		return false;
+				return false;
 	}
 
 	/******************************************************************
-	 * Unimplemented checkmate
+	 * Unimplemented checkmate.
+	 * 
+	 * @return boolean
 	 ******************************************************************/
-	public boolean isComplete() {
+	public final boolean isComplete() {
 		System.out.println("checked complete");
 		// Player p = Player.WHITE;
 		Move checkMateMove = null;
@@ -176,11 +182,11 @@ public class Model implements IChessModel {
 	 * own isValidMove, but that is specific to which direction/distance they
 	 * are able to move
 	 * 
-	 * @param Move
-	 *            m
+	 * @param m Move
+	 * 
 	 * @return boolean if valid
 	 ******************************************************************/
-	public boolean isValidMove(Move m) {
+	public final boolean isValidMove(final Move m) {
 		// if the location holds no piece
 		if (getBoard()[m.fromRow][m.fromColumn] == null) {
 			return false;
@@ -190,50 +196,50 @@ public class Model implements IChessModel {
 			return false;
 		}
 		// if the piece can't move that direction/distance
-		if (getBoard()[m.fromRow][m.fromColumn].isValidMove(m, getBoard()) == false) {
+		if (!getBoard()[m.fromRow][m.fromColumn].isValidMove(m, getBoard())) {
 			return false;
 		}
 		return true;
 	}
 
 	/******************************************************************
-	 * Method specific to checking if the current move will put the player
+	 * Method specific to checking if the current move will put the player.
 	 * moving in check
 	 * 
-	 * @param Move
-	 *            m
+	 * @param m Move
+	 * 
 	 * @return boolean if valid
 	 ******************************************************************/
-	public boolean isValidCheck(Move m) {
+	public final boolean isValidCheck(Move m) {
 		// if the location is null
 		if (getBoard()[m.fromRow][m.fromColumn] == null) {
 			return false;
 		}
 		// if the piece can't move that direction/distance
-		if (getBoard()[m.fromRow][m.fromColumn].isValidMove(m, getBoard()) == false) {
+		if (!getBoard()[m.fromRow][m.fromColumn].isValidMove(m, getBoard())) {
 			return false;
 		}
 		return true;
 	}
 
 	/******************************************************************
-	 * Moves the piece
+	 * Moves the piece.
 	 * 
-	 * @param Move
-	 *            m
-	 * @return none
+	 * @param m Move
 	 ******************************************************************/
-	public void move(Move m) {
+	public final void move(final Move m) {
 		//IChessPiece[][] tempboard = null;
 		saveFirstState();
 		// if valid move
 		if (isValidMove(m)) {
 			// if moving the correct player's piece
-			if ((whiteTurn && getBoard()[m.fromRow][m.fromColumn].player() == Player.WHITE)
+			if ((whiteTurn && getBoard()[m.fromRow][m.fromColumn].player()
+					== Player.WHITE)
 					|| (!whiteTurn && getBoard()[m.fromRow][m.fromColumn]
 							.player() == Player.BLACK)) {
 				//tempboard = getBoard();
-				getBoard()[m.toRow][m.toColumn] = getBoard()[m.fromRow][m.fromColumn];
+				getBoard()[m.toRow][m.toColumn] = 
+						getBoard()[m.fromRow][m.fromColumn];
 				getBoard()[m.fromRow][m.fromColumn] = null;
 				// if moving the white king
 				if (m.fromRow == whiteKing[0] && m.fromColumn == whiteKing[1]) {
@@ -251,8 +257,7 @@ public class Model implements IChessModel {
 				cancelMove(m);
 				setPutSelfInCheck(true);
 				System.out.println("current player in check. current player ="
-						+ whiteTurn);
-				// update();
+						+ whiteTurn); 
 			}
 			// if move puts other player in check
 			else if (inCheck(otherPlayer(currentPlayer()))) {
@@ -267,13 +272,11 @@ public class Model implements IChessModel {
 	}
 
 	/******************************************************************
-	 * Cancels the move (if putting self into check
+	 * Cancels the move (if putting self into check.
 	 * 
-	 * @param Move
-	 *            m
-	 * @return none
+	 * @param m Move
 	 ******************************************************************/
-	public void cancelMove(Move m) {
+	public final void cancelMove(final Move m) {
 		//board[m.fromRow][m.fromColumn] = board[m.toRow][m.toColumn];
 		loadFirstState();
 		// if moving the white king
@@ -290,12 +293,9 @@ public class Model implements IChessModel {
 	}
 
 	/******************************************************************
-	 * Switches turns after a move
-	 * 
-	 * @param none
-	 * @return none
+	 * Switches turns after a move.
 	 ******************************************************************/
-	public void switchTurns() {
+	public final void switchTurns() {
 		// if it's white's turn
 		if (whiteTurn) {
 			whiteTurn = false;
@@ -305,13 +305,13 @@ public class Model implements IChessModel {
 	}
 
 	/******************************************************************
-	 * Returns the other player
+	 * Returns the other player.
 	 * 
-	 * @param Player
-	 *            p
+	 * @param p Player
+	 *
 	 * @return other Player
 	 ******************************************************************/
-	public Player otherPlayer(Player p) {
+	public final Player otherPlayer(final Player p) {
 		// if p is white
 		if (p.equals(Player.WHITE)) {
 			return Player.BLACK;
@@ -321,70 +321,88 @@ public class Model implements IChessModel {
 	}
 
 	/******************************************************************
-	 * Returns number of columns
+	 * Returns number of columns.
 	 * 
 	 * @param none
 	 * @return int columns
 	 ******************************************************************/
-	public int numColumns() {
+	public final int numColumns() {
 		return boardsize;
 	}
 
 	/******************************************************************
-	 * Returns the number of rows
+	 * Returns the number of rows.
 	 * 
 	 * @param none
 	 * @return int rows
 	 ******************************************************************/
-	public int numRows() {
+	public final int numRows() {
 		return boardsize;
 	}
 
 	/******************************************************************
-	 * Returns the piece at the given row and col
+	 * Returns the piece at the given row and col.
 	 * 
-	 * @param int row
-	 * @param int col
+	 * @param row int
+	 * @param col int
 	 * @return IChessPiece
 	 ******************************************************************/
-	public IChessPiece pieceAt(int row, int col) {
+	public final IChessPiece pieceAt(final int row, final int col) {
 		return getBoard()[row][col];
 	}
 
 	/******************************************************************
-	 * Returns the game board
+	 * Returns the game board.
 	 * 
 	 * @param none
 	 * @return IChessPiece[][] board
 	 ******************************************************************/
-	public IChessPiece[][] getBoard() {
+	public final IChessPiece[][] getBoard() {
 		return board;
 	}
 
 	/******************************************************************
-	 * Sets the board
+	 * Sets the board.
 	 * 
-	 * @param IChessPiece
-	 *            [][] board
-	 * @return none
+	 * @param board IChessPiece [][]
 	 ******************************************************************/
-	public void setBoard(IChessPiece[][] board) {
+	public void setBoard(final IChessPiece[][] board) {
 		this.board = board;
 	}
 
-	public boolean isPutSelfInCheck() {
+	/******************************************************************
+	 * Checks to see if you put yourself in check.
+	 * 
+	 * @return boolean
+	 ******************************************************************/
+	public final boolean isPutSelfInCheck() {
 		return putSelfInCheck;
 	}
 
-	public void setPutSelfInCheck(boolean putSelfInCheck) {
+	/******************************************************************
+	 * Checks to see if you put yourself in check tbe sets the variable.
+	 * 
+	 * @param putSelfInCheck boolean
+	 ******************************************************************/
+	public final void setPutSelfInCheck(final boolean putSelfInCheck) {
 		this.putSelfInCheck = putSelfInCheck;
 	}
 
+	/******************************************************************
+	 * Checks to see if the other player is in check.
+	 * 
+	 * @return boolean
+	 ******************************************************************/
 	public boolean isOtherPlayerCheck() {
 		return otherPlayerCheck;
 	}
 
-	public void setOtherPlayerCheck(boolean otherPlayerCheck) {
+	/******************************************************************
+	 * Checks to see if the other payer is in check then sets the variable.
+	 * 
+	 * @param otherPlayerCheck boolean
+	 ******************************************************************/
+	public final void setOtherPlayerCheck(final boolean otherPlayerCheck) {
 		this.otherPlayerCheck = otherPlayerCheck;
 	}
 
@@ -398,30 +416,41 @@ public class Model implements IChessModel {
 //		whiteTurn = savePlayer;
 //	}
 
+	/** Saves board state. */
 	private void saveFirstState() {
-		for(int i=0; i<board.length; i++){
-			for(int j=0; j<board.length; j++){
-				saveFirstBoard[i][j]=board[i][j];
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board.length; j++) {
+				saveFirstBoard[i][j] = board[i][j];
 			}
 		}
 		saveFirstPlayer = whiteTurn;
 	}
-
+	
+	/** Loads board state. */
 	private void loadFirstState() {
-		for(int i=0; i<board.length; i++){
-			for(int j=0; j<board.length; j++){
-				board[i][j]=saveFirstBoard[i][j];
+		for (int i = 0; i < board.length; i++) {
+			for (int j = 0; j < board.length; j++) {
+				board[i][j] = saveFirstBoard[i][j];
 			}
 		}
 		whiteTurn = saveFirstPlayer;
 		System.out.println("loaded first state");
 	}
 
-	public Player getWinner() {
+	/** returns winning player.
+	 * 
+	 * @return winner Player 
+	 */
+	public final Player getWinner() {
 		return winner;
 	}
 
-	public void setWinner(Player winner) {
+	/******************************************************************
+	 * sets Winner.
+	 * 
+	 *@param winner Player  
+	 ******************************************************************/
+	public final void setWinner(Player winner) {
 		this.winner = winner;
 	}
 }
