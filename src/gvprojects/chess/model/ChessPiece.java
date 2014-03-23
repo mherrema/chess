@@ -1,3 +1,9 @@
+/**
+ *  File:               ChessPiece.java 
+ *  Author:             mumfordr, herremam, vassalty
+ *  Date:               2009-03-02 15:30:24
+ *  Version:            1.0
+ */
 package gvprojects.chess.model;
 
 /*********************************************************************
@@ -45,7 +51,6 @@ public class ChessPiece implements IChessPiece {
 	 * 
 	 * @return boolean
 	 ******************************************************************/
-	@Override
 	public boolean isValidMove(final Move position, 
 			final IChessPiece[][] board) {
 		int fromRow = position.fromRow;
