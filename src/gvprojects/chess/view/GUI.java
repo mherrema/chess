@@ -40,18 +40,18 @@ import javax.swing.border.TitledBorder;
  **********************************************************************/
 public class GUI extends JPanel {
 
-<<<<<<< HEAD
+
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
 	/** Timer instance variable. */
-	private long startTime = System.currentTimeMillis();
-=======
+	private long startTime1 = System.currentTimeMillis();
+
 	/**
 	 * Timer instance variable
 	 */
 	long startTime = System.currentTimeMillis();
->>>>>>> FETCH_HEAD
+
 
 	/**
 	 * GUI component instance variables
@@ -294,7 +294,7 @@ public class GUI extends JPanel {
 			 */
 			if (e.getSource() == gameTime) {
 				ImageIcon tempIcon = new ImageIcon("clock.png");
-				long time = (System.currentTimeMillis() - startTime) / 1000;
+				long time = (System.currentTimeMillis() - startTime1) / 1000;
 				long min = time / 60;
 				long sec = time % 60;
 				JOptionPane.showMessageDialog(frame, "Game time: " + min
@@ -469,7 +469,7 @@ public class GUI extends JPanel {
 
 
 	public void checkmate(Player p) {
-		long time = (System.currentTimeMillis() - startTime) / 1000;
+		long time = (System.currentTimeMillis() - startTime1) / 1000;
 		long min = time / 60;
 		long sec = time % 60;
 		ImageIcon winIcon = new ImageIcon("winner.png");
@@ -532,7 +532,7 @@ public class GUI extends JPanel {
 	 * A native method that resets the time of the game
 	 */
 	public void resetTime() {
-		startTime = System.currentTimeMillis();
+		startTime1 = System.currentTimeMillis();
 	}
 
 	/**
