@@ -1,3 +1,9 @@
+/**
+ *  File:               GUI.java 
+ *  Author:             mumfordr, herremam, vassalty
+ *  Date:               2009-03-02 15:30:24
+ *  Version:            1.0
+ */
 package gvprojects.chess.view;
 
 import gvprojects.chess.model.IChessPiece;
@@ -31,9 +37,10 @@ import javax.swing.border.TitledBorder;
  **********************************************************************/
 public class GUI extends JPanel {
 
-	/**
-	 * Timer instance variable.
-	 */
+	/** serialVersionUID. */
+	private static final long serialVersionUID = 1L;
+
+	/** Timer instance variable. */
 	private long startTime = System.currentTimeMillis();
 
 	/** instance variables. */

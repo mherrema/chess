@@ -42,21 +42,24 @@ public class PawnTest extends ChessPieceTest {
 	   @Test
 	   public void cannotMoveInRow() throws Exception {
 	      board[1][1] = piece;
-	      assertFalse("Pawn Test 1", piece.isValidMove(new Move(1, 1, 1, 6), board));
+	      assertFalse("Pawn Test 1", piece.
+	    		  isValidMove(new Move(1, 1, 1, 6), board));
 	   }
 
 	   // Verify that a pawn can move up a column
 	   @Test
 	   public void canMoveInColumn() throws Throwable {
 	      board[1][1] = piece;
-	      assertTrue("Pawn Test 2", piece.isValidMove(new Move(1, 1, 2, 1), board));
+	      assertTrue("Pawn Test 2", piece.
+	    		  isValidMove(new Move(1, 1, 2, 1), board));
 	   }
 
 	   // Verify that a pawn cannot move diagonally
 	   @Test
 	   public void cannotMoveDiagonalUnlessOtherPlayerPiece() throws Throwable {
 	      board[1][1] = piece;
-	      assertFalse("Pawn Test 3", piece.isValidMove(new Move(1, 1, 2, 2), board));
+	      assertFalse("Pawn Test 3", piece.
+	    		  isValidMove(new Move(1, 1, 2, 2), board));
 	   }
 	   
 	// Verify that a pawn cannot move diagonally unless other player
@@ -64,21 +67,24 @@ public class PawnTest extends ChessPieceTest {
 	   public void canMoveDiagonalWithOtherPlayerPiece() throws Throwable {
 	      board[1][1] = piece;
 	      board[2][2] = make(Player.BLACK);
-	      assertTrue("Pawn Test 4", piece.isValidMove(new Move(1, 1, 2, 2), board));
+	      assertTrue("Pawn Test 4", piece.
+	    		  isValidMove(new Move(1, 1, 2, 2), board));
 	   }
 	   
 	// Verify that a pawn cannot move backward
 	   @Test
 	   public void cannotMoveBackward() throws Throwable {
 	      board[1][1] = piece;
-	      assertFalse("Pawn Test 5", piece.isValidMove(new Move(1, 1, 0, 1), board));
+	      assertFalse("Pawn Test 5", piece.
+	    		  isValidMove(new Move(1, 1, 0, 1), board));
 	   }
 	   
 	// Verify that a pawn cannot move off the board
 	   @Test
 	   public void cannotMoveOffBoard() throws Throwable {
 	      board[1][1] = piece;
-	      assertFalse("Pawn Test 6", piece.isValidMove(new Move(1, 1, -1, 1), board));
+	      assertFalse("Pawn Test 6", piece.
+	    		  isValidMove(new Move(1, 1, -1, 1), board));
 	   }
 
 	   // Verify that a pawn cannot jump over other pieces.
@@ -86,6 +92,7 @@ public class PawnTest extends ChessPieceTest {
 	   public void rowMustBeClear1() throws Throwable {
 	      board[2][2] = piece;
 	      board[3][2] = make();
-	      assertFalse("Pawn Test 7", piece.isValidMove(new Move(2, 2, 4, 2), board));
+	      assertFalse("Pawn Test 7", piece.
+	    		  isValidMove(new Move(2, 2, 4, 2), board));
 	   }
 }

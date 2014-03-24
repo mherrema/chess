@@ -1,4 +1,11 @@
 /**
+ *  File:               Bishop.java 
+ *  Author:             mumfordr, herremam, vassalty
+ *  Date:               2009-03-02 15:30:24
+ *  Version:            1.0
+ */
+package gvprojects.chess.view;
+/**
 				 * If user clicks "Boneyard" in the menu, display a dialog box
 				 * showing the pieces that have been captured
 				 */
@@ -15,7 +22,8 @@
 //						if (i == (game.getBoneyard().size() - 1)) {
 //							fin = fin + game.getBoneyard().get(i).toString();
 //						} else {
-//							fin = fin + game.getBoneyard().get(i).toString() + ", ";
+//							fin = fin + game.getBoneyard().get(i).
+//								toString() + ", ";
 //						}
 //					}
 //					JOptionPane.showMessageDialog(frame, fin, "Boneyard",
