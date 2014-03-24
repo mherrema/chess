@@ -23,16 +23,16 @@ public class Move {
 	/******************************************************************
 	 * The logic for moving a chess piece.
 	 * 
-	 * @param fromRow final int
-	 * @param fromColumn final int
-	 * @param toRow final int
-	 * @param toColumn final int
+	 * @param pfromRow final int
+	 * @param pfromColumn final int
+	 * @param ptoRow final int
+	 * @param ptoColumn final int
 	 ******************************************************************/
-	public Move(final int fromRow, final int fromColumn, 
-			final int toRow, final int toColumn) {
-		this.fromRow = fromRow;
-		this.fromColumn = fromColumn;
-		this.toRow = toRow;
-		this.toColumn = toColumn;
+	public Move(final int pfromRow, final int pfromColumn, 
+			final int ptoRow, final int ptoColumn) {
+		this.fromRow = pfromRow;
+		this.fromColumn = pfromColumn;
+		this.toRow = ptoRow;
+		this.toColumn = ptoColumn;
 	}
 }

@@ -17,14 +17,17 @@ public class PawnTest extends ChessPieceTest {
 	
 	   // This method overrides make(Player p) in the ChessPieceTest class
 	   // Thus, when running these tests, calling make() generates a Pawn object
-	   // whereas calling make when running ChessPiece Tests generates a ChessPiece object.
+	   // whereas calling make when running ChessPiece Tests generates a 
+	   //ChessPiece object.
 	   @Override
 	   protected IChessPiece make(Player p) {
 		   return new Pawn(p, 1);
 	   }
 
-	   // As noted in ChessPieceTest:  Many tests require a valid move.  The set of valid moves is different for
-	   // each chess piece.  This method generates a move that is valid from the given row and column
+	   // As noted in ChessPieceTest:  Many tests require a valid move.  
+	   // The set of valid moves is different for
+	   // each chess piece.  This method generates a move that is valid from 
+	   // the given row and column
 	   @Override
 	   protected Move getValidMove(int row, int col) {
 	      int newRow = row + 1;

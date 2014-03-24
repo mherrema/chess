@@ -32,14 +32,14 @@ public class ChessPiece implements IChessPiece {
 	/******************************************************************
 	 * ChessPiece Constructor creates a chess piece.
 	 * 
-	 * @param color - Player
+	 * @param pcolor - Player
 	 * 
-	 * @param name - String
+	 * @param pname - String
 	 * 
 	 ******************************************************************/
-	public ChessPiece(final Player color, final String name) {
-		this.color = color;
-		this.name = name;
+	public ChessPiece(final Player pcolor, final String pname) {
+		this.color = pcolor;
+		this.name = pname;
 	}
 
 	/******************************************************************

@@ -28,7 +28,7 @@ public class Model implements IChessModel {
 	private boolean whiteTurn;
 
 	/** game board size. */
-	private int boardsize = 8;
+	private final int boardsize = 8;
 
 	/** temporary move. */
 	private Move tempMove;
@@ -86,7 +86,7 @@ public class Model implements IChessModel {
 		getBoard()[row][2] = new Bishop(Player.WHITE);
 		getBoard()[row][bishop] = new Bishop(Player.WHITE);
 		getBoard()[row][king] = new King(Player.WHITE);
-		whiteKing[row] = row;
+		whiteKing[0] = row;
 		whiteKing[1] = king;
 		getBoard()[row][queen] = new Queen(Player.WHITE);
 		for (int i = 0; i < boardsize; i++) {
@@ -364,10 +364,10 @@ public class Model implements IChessModel {
 	/******************************************************************
 	 * Sets the board.
 	 * 
-	 * @param board IChessPiece [][]
+	 * @param pboard IChessPiece [][]
 	 ******************************************************************/
-	public final void setBoard(final IChessPiece[][] board) {
-		this.board = board;
+	public final void setBoard(final IChessPiece[][] pboard) {
+		this.board = pboard;
 	}
 
 	/******************************************************************
@@ -382,10 +382,10 @@ public class Model implements IChessModel {
 	/******************************************************************
 	 * Checks to see if you put yourself in check tbe sets the variable.
 	 * 
-	 * @param putSelfInCheck boolean
+	 * @param pputSelfInCheck boolean
 	 ******************************************************************/
-	public final void setPutSelfInCheck(final boolean putSelfInCheck) {
-		this.putSelfInCheck = putSelfInCheck;
+	public final void setPutSelfInCheck(final boolean pputSelfInCheck) {
+		this.putSelfInCheck = pputSelfInCheck;
 	}
 
 	/******************************************************************
