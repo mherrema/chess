@@ -1,4 +1,14 @@
 package gvprojects.chess.model;
+<<<<<<< HEAD
+=======
+/**
+ *  File:               Bishop.java 
+ *  Author:             mumfordr, herremam, vassalty
+ *  Date:               2009-03-02 15:30:24
+ *  Version:            1.0
+ */
+
+>>>>>>> parent of 9282353... Checkstyle Fixes
 
 /*********************************************************************
  * This class creates a {@code Bishop} {@code ChessPiece}.
