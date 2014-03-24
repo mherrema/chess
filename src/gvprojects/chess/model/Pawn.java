@@ -27,13 +27,13 @@ public class Pawn extends ChessPiece {
 	 * Creates a pawn
 	 *  chess piece
 	 * 
-	 * @param pp Player
-	 * @param pstartRow int
+	 * @param p Player
+	 * @param startRow int
 	 ******************************************************************/
-	public Pawn(final Player pp, final int pstartRow) {
-		super(pp, "Pawn");
-		this.startRow = pstartRow;
-		this.p = pp;
+	public Pawn(final Player p, final int startRow) {
+		super(p, "Pawn");
+		this.startRow = startRow;
+		this.p = p;
 	}
 	
 	/******************************************************************

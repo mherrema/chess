@@ -10,87 +10,71 @@ import gvprojects.chess.model.Model;
 import gvprojects.chess.model.Move;
 import gvprojects.chess.view.GUI;
 
-/**
- * presenter class.
- * 
- * @author raleighmumford
- *
- */
 public class Presenter {
 
-	/** model. */
+	/** model */
 	private Model m;
 
-	/** view. */
+	/** view */
 	private GUI g;
-	/** from. */
+
 	private boolean from;
-	/** temp. */
 	private String temp;
-	/** fromRow. */
+
 	private int fromRow;
-	/** fromCol. */
 	private int fromCol;
-	/** toRow. */
 	private int toRow;
-	/** toCol. */
 	private int toCol;
 
 	/*********************************************************************
-	 * ActionListener and ActionPerformed for array.
+	 * ActionListener and ActionPerformed for array
+	 * 
+	 * @return none
 	 *********************************************************************/
-	class BOARDLISTENER implements ActionListener {
-		/** buttonRow. */
+	class boardListener implements ActionListener {
+
 		private int buttonRow;
-		/** buttonCOL. */
 		private int buttonCol;
-		
-		/*********************************************************************
-		 * BoardListener for the code.
-		 * 
-		 * @param pbuttonRow int
-		 * @param pbuttonCol int
-		 *********************************************************************/
-		BOARDLISTENER(final int pbuttonRow, final int pbuttonCol) {
-			this.buttonRow = pbuttonRow;
-			this.buttonCol = pbuttonCol;
+
+		boardListener(int buttonRow, int buttonCol) {
+			this.buttonRow = buttonRow;
+			this.buttonCol = buttonCol;
 		}
 
-		/*********************************************************************
-		 * ActionPerformed for array.
-		 * 
-		 * @param e ActionEvent
-		 *********************************************************************/
-		public void actionPerformed(final ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 
-			if (isFrom() && hasPiece(buttonRow, buttonCol)) {
+			if(isFrom() && hasPiece(buttonRow, buttonCol)){
 				setFromRow(buttonRow);
 				setFromCol(buttonCol);
 				g.getBoard()[buttonRow][buttonCol].setBackground(Color.blue);
 				g.getBoard()[buttonRow][buttonCol].setOpaque(true);
+				//System.out.println(getFromRow()+ " + "+ getFromCol());
+				//g.getBoard()[buttonRow][buttonCol].setBackground(Color.BLUE);
 				from = false;
-			} else {
+			}
+			else{
+
 				setToRow(buttonRow);
 				setToCol(buttonCol);
+				//System.out.println(getToRow()+ " + "+ getToCol());
 				Move tempMove = new Move(fromRow, fromCol, toRow, toCol);
 				m.move(tempMove);
+				//System.out.println("self check: " + m.isPutSelfInCheck());
 				
-				g.getBoard()[tempMove.fromRow][tempMove.fromColumn]
-						.setBackground(Color.LIGHT_GRAY);
-				g.getBoard()[tempMove.fromRow][tempMove.fromColumn]
-						.setOpaque(false);
+				g.getBoard()[tempMove.fromRow][tempMove.fromColumn].setBackground(Color.LIGHT_GRAY);
+				g.getBoard()[tempMove.fromRow][tempMove.fromColumn].setOpaque(false);
 				g.printBoard(m.getBoard());
-				if (m.isPutSelfInCheck()) {
+				if(m.isPutSelfInCheck()){
 					g.putSelfInCheck();
 					m.setPutSelfInCheck(false);
 				}
-				if (m.isOtherPlayerCheck()) {
+				if(m.isOtherPlayerCheck()) {
 					g.inCheck();
 					m.setOtherPlayerCheck(false);
 					m.switchTurns();
 				}
-				if (m.inCheck(m.currentPlayer())) {
-				if (m.isComplete()) {
+				if(m.inCheck(m.currentPlayer())){
+				if(m.isComplete()){
 					g.checkmate(m.getWinner());
 				}
 				//g.printBoard(m.getBoard());
@@ -98,18 +82,25 @@ public class Presenter {
 				g.updateCurrentPlayer(m.currentPlayer());
 				from = true;
 			}
-			}
+
+			//			if (m.isComplete()) {
+			//				g.end();
+			//			}
+
+			
+			//			// pops up window if white won
+			//			if (engine.status() == GameStatus.X_WON) {
+			//				window.won(true);
+			//			}
+			//
+			//			// pops up window if black won
+			//			if (engine.status() == GameStatus.O_WON) {
+			//				window.won(false);
+			//			}
 		}
 
-<<<<<<< HEAD
-
-=======
 	}
-	
-	/*********************************************************************
-	 * Constructor.
-	 *********************************************************************/
->>>>>>> FETCH_HEAD
+
 	public Presenter() {
 		m = new Model();
 		g = new GUI();
@@ -122,22 +113,21 @@ public class Presenter {
 		// adds action listeners to all the buttons in the array
 		for (int i = 0; i < g.getBoard().length; i++) {
 			for (int j = 0; j < g.getBoard()[0].length; j++) {
-				g.addButtonListener(i, j, new BOARDLISTENER(i,
+				g.addButtonListener(i, j, new boardListener(i,
 						j));
 			}
 		}
 
 		// adds action listener to the quit button
 		g.getQuit().addActionListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				int option = JOptionPane.showConfirmDialog(g.getFrame(),
 						"Are you sure you want to quit?", "Exit Game",
 						JOptionPane.YES_NO_OPTION);
 				if (option == 0) {
 					System.exit(0);
 				} else {
-					g.setTextString(": Game resumed.\n---------------\n" 
-								+ g.getTextString());
+					g.setTextString(": Game resumed.\n---------------\n" + g.getTextString());
 					temp = m.currentPlayer().toString().toLowerCase();
 					temp = temp.substring(0, 1).toUpperCase()
 							+ temp.substring(1, temp.length()) + "'s turn.\n";
@@ -149,13 +139,12 @@ public class Presenter {
 
 		// adds action listener to the quit button
 		g.getNewGame().addActionListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				int option = 0;
-				if (!m.isComplete()) {
+				if (!m.isComplete())
 					option = JOptionPane.showConfirmDialog(g.getFrame(),
 							"All current progress will be lost, continue?",
 							"New Game", JOptionPane.YES_NO_OPTION);
-				}
 				if (option == 0) {
 					m = new Model();
 					g.printBoard(m.getBoard());
@@ -167,8 +156,7 @@ public class Presenter {
 					g.setText();
 					g.resetTime();
 				} else {
-				  g.setTextString(": Game resumed.\n*************************\n"
-								+ g.getTextString());
+					g.setTextString(": Game resumed.\n*************************\n" + g.getTextString());
 					temp = m.currentPlayer().toString().toLowerCase();
 					temp = temp.substring(0, 1).toUpperCase()
 							+ temp.substring(1, temp.length()) + "'s turn.\n";
@@ -180,7 +168,7 @@ public class Presenter {
 
 		// adds action listener to the quit button
 		g.getVersion().addActionListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				g.setTextString("*************************\n"
 						+ "       Awesome Chess\n           Version 2.0\n"
 						+ "*************************\n" + g.getTextString());
@@ -197,19 +185,17 @@ public class Presenter {
 		 * with a web site detailing the rules of chess
 		 */
 		g.getRules().addActionListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				try {
 					java.awt.Desktop
 					.getDesktop()
 					.browse(java.net.URI
-					   .create("http://www.chess.com/learn-how-to-play-chess"));
-					g.setTextString(": Rules opened in \n: "
-							+ "default browser.\n*************************\n"
+							.create("http://www.chess.com/learn-how-to-play-chess"));
+					g.setTextString(": Rules opened in \n: default browser.\n*************************\n"
 							+ g.getTextString());
 
 				} catch (Exception ex) {
-				g.setTextString(": Page not found.\n*************************\n"
-				+ g.getTextString());
+					g.setTextString(": Page not found.\n*************************\n" + g.getTextString());
 				}
 				temp = m.currentPlayer().toString().toLowerCase();
 				temp = temp.substring(0, 1).toUpperCase()
@@ -220,11 +206,9 @@ public class Presenter {
 		});
 	}
 
-<<<<<<< HEAD
-
-=======
 	/******************************************************************
-	 * Updates the gameboard.
+	 * Updates the gameboard
+	 * 
 	 ******************************************************************/
 //	public final void update() {
 //		g.printBoard(m.getBoard());
@@ -241,118 +225,59 @@ public class Presenter {
 //		g.prompt(m.currentPlayer());
 //
 //	}
->>>>>>> FETCH_HEAD
 
-	/**
-	 * main.
-	 * 
-	 * @param args parameter
-	 */
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 		Presenter p = new Presenter();
 		p.g.printBoard(p.m.getBoard());
 		p.g.updateCurrentPlayer(p.m.currentPlayer());
 	}
-	
-	/**
-	 * hasPiece.
-	 * 
-	 * @param r param
-	 * @param c param
-	 * 
-	 * @return boolean
-	 */
-	public final boolean hasPiece(final int r, final int c) {
-		return m.getBoard()[r][c] != null;
+
+	public boolean hasPiece(int r, int c){
+		if(m.getBoard()[r][c]!=null){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
-	
-	/** 
-	 * isFrom.
-	 * 
-	 * @return boolean
-	 */
-	public final boolean isFrom() {
+
+	public boolean isFrom() {
 		return from;
 	}
 
-	/** 
-	 * setFrom.
-	 * 
-	 * @param pfrom boolean
-	 */
-	public final void setFrom(final boolean pfrom) {
-		this.from = pfrom;
+	public void setFrom(boolean from) {
+		this.from = from;
 	}
 
-	/**
-	 * getFromRow.
-	 * 
-	 * @return fromRow int
-	 */
-	public final int getFromRow() {
+	public int getFromRow(){
 		return fromRow;
 	}
 
-	/**
-	 * getFromRow.
-	 * 
-	 * @param r int
-	 */
-	public final void setFromRow(final int r) {
+	public void setFromRow(int r){
 		fromRow = r;
 	}
 
-	/**
-	 * getFromRow.
-	 * 
-	 * @return fromRow int
-	 */
-	public final int getFromCol() { 
+	public int getFromCol(){
 		return fromRow;
 	}
 
-	/**
-	 * getFromRow.
-	 * 
-	 * @param c int
-	 */
-	public final void setFromCol(final int c) {
+	public void setFromCol(int c){
 		fromCol = c;
 	}
 
-	/**
-	 * getFromRow.
-	 * 
-	 * @return fromRow int
-	 */
-	public final int getToRow() {
+	public int getToRow(){
 		return fromRow;
 	}
 
-	/**
-	 * getFromRow.
-	 * 
-	 * @param r int
-	 */
-	public final void setToRow(final int r) {
+	public void setToRow(int r){
 		toRow = r;
 	}
 
-	/**
-	 * getFromRow.
-	 * 
-	 * @return fromRow int
-	 */
-	public final int getToCol() {
+	public int getToCol(){
 		return fromRow;
 	}
-	
-	/**
-	 * getFromRow.
-	 * 
-	 * @param c int
-	 */
-	public final void setToCol(final int c) {
+
+	public void setToCol(int c){
 		toCol = c;
 	}
 }
