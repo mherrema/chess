@@ -79,7 +79,8 @@ public class View {
 	}
 
 	/******************************************************************
-	 * Displays if put self in check.
+	 * Displays if put self in check
+	 * 
 	 ******************************************************************/
 	public final void putSelfInCheck() {
 		out.println("You can't place yourself in check.");
