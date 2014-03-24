@@ -1,13 +1,7 @@
-/**
- *  File:               Pawn.java 
- *  Author:             mumfordr, herremam, vassalty
- *  Date:               2009-03-02 15:30:24
- *  Version:            1.0
- */
 package gvprojects.chess.model;
 
 /*********************************************************************
- * This class creates a {@code Pawn} {@code ChessPiece}.
+ * This class creates a {@code Pawn} {@code ChessPiece}, 
  * and determines if moves are valid
  * 
  * @author Mitch Herrema
@@ -16,19 +10,19 @@ package gvprojects.chess.model;
 
 public class Pawn extends ChessPiece {
 	
-	/** starting row. */
+	/** starting row */
 	private int startRow;
 	
-	/** player. */
+	/** player */
 	private Player p;
 	
 	/******************************************************************
-	 * Pawn Constructor.
+	 * Pawn Constructor
 	 * Creates a pawn
 	 *  chess piece
 	 * 
-	 * @param p Player
-	 * @param startRow int
+	 * @param Player p
+	 * @param int Start Row
 	 ******************************************************************/
 	public Pawn(final Player p, final int startRow) {
 		super(p, "Pawn");
@@ -37,25 +31,20 @@ public class Pawn extends ChessPiece {
 	}
 	
 	/******************************************************************
-	 * Returns if the move is valid.
+	 * Returns if the move is valid
 	 * 
-	 * @param m Move
-	 * @param board IChessPiece[][]
-	 * 
+	 * @param Move m
+	 * @param IChessPiece[][] board
 	 * @return boolean
 	 ******************************************************************/
 	
 	@Override
-	public final boolean isValidMove(final Move m, 
-			final IChessPiece[][] board) {
+	public final boolean isValidMove(final Move m, final IChessPiece[][] board) {
 		int rowChange;
-		//System.out.println("from col " + m.fromColumn + 
-		//						" to col "+ m.toColumn);
 		int colChange = Math.abs(m.fromColumn - m.toColumn);
 		
 		//if the move as a Chesspiece is invalid
-		if (!super.isValidMove(m, board)) {
-			//System.out.println("super");
+		if (super.isValidMove(m, board) == false) {
 			return false;
 		}
 		
@@ -65,8 +54,6 @@ public class Pawn extends ChessPiece {
 		} else {
 			rowChange = m.fromRow - m.toRow;
 		}
-		//System.out.println("row change = " + rowChange);
-		//System.out.println("col change = " + colChange);
 			//if moving two rows, no columns, and moving from starting row
 			if (rowChange == 2 && m.fromRow == startRow 
 					&& colChange == 0 && board[m.toRow][m.toColumn] == null) {
@@ -81,7 +68,7 @@ public class Pawn extends ChessPiece {
 			}
 			//if moving one row and no columns
 			if (rowChange == 1 && colChange == 0 
-					&& board[m.toRow][m.toColumn] == null) {
+					&& board[m.toRow][m.toColumn] == null){
 				return true;
 			}
 		return false;

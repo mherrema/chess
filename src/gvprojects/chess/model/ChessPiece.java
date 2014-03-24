@@ -1,13 +1,7 @@
-/**
- *  File:               ChessPiece.java 
- *  Author:             mumfordr, herremam, vassalty
- *  Date:               2009-03-02 15:30:24
- *  Version:            1.0
- */
 package gvprojects.chess.model;
 
 /*********************************************************************
- * This class creates a {@code ChessPiece}. 
+ * This class creates a {@code ChessPiece}, 
  * and determines if moves are valid
  * 
  * @author Mitch Herrema
@@ -16,41 +10,39 @@ package gvprojects.chess.model;
 
 public class ChessPiece implements IChessPiece {
 
-	/*****************************************************************
-	 * Initialize variable.
+	/*
+	 * Initialize variables
 	 * 
-	 * @param name String
-	 ****************************************************************/
+	 * @param String name
+	 * 
+	 * @param Player color
+	 */
 	private String name;
-	/*****************************************************************
-	 * Initialize variable.
-	 * 
-	 * @param color Player
-	 ****************************************************************/
 	private Player color;
 
 	/******************************************************************
-	 * ChessPiece Constructor creates a chess piece.
+	 * ChessPiece Constructor creates a chess piece
 	 * 
-	 * @param color - Player
+	 * @param Player color
 	 * 
-	 * @param name - String
+	 * @param String name
 	 * 
 	 ******************************************************************/
 	public ChessPiece(final Player color, final String name) {
-		this.color = color;
 		this.name = name;
+		this.color = color;
 	}
 
 	/******************************************************************
-	 * Returns if the move is valid.
+	 * Returns if the move is valid
 	 * 
-	 * @param position - Move
-	 *            
-	 * @param  board - IChessPiece [][]
-	 * 
+	 * @param Move
+	 *            position
+	 * @param IChessPiece
+	 *            [][] board
 	 * @return boolean
 	 ******************************************************************/
+	@Override
 	public boolean isValidMove(final Move position, 
 			final IChessPiece[][] board) {
 		int fromRow = position.fromRow;
@@ -81,7 +73,7 @@ public class ChessPiece implements IChessPiece {
 	}
 
 	/******************************************************************
-	 * Returns the name of the piece.
+	 * Returns the name of the piece
 	 * 
 	 * @return String name
 	 ******************************************************************/
@@ -91,7 +83,7 @@ public class ChessPiece implements IChessPiece {
 	}
 
 	/******************************************************************
-	 * Returns the player that owns the piece.
+	 * Returns the player that owns the piece
 	 * 
 	 * @return Player color
 	 ******************************************************************/

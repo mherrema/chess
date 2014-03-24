@@ -12,7 +12,7 @@ import org.junit.Test;
  * @version April 10, 2013
  *********************************************************************/
 
-public class PawnTest extends ChessPieceTest {
+public class PawnTest extends ChessPieceTest{
 	
 	
 	   // This method overrides make(Player p) in the ChessPieceTest class
