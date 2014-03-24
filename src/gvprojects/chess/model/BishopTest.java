@@ -98,5 +98,36 @@ public class BishopTest extends ChessPieceTest {
 		assertFalse("Bishop Test 7",
 				piece.isValidMove(new Move(2, 2, 4, 4), board));
 	}
+	
+	// Verify that a bishop can move diagonally
+	@Test
+	public final void canMoveOneLeftDiagonal() throws Throwable {
+		board[1][1] = piece;
+		assertTrue("Bishop Test 8",
+				piece.isValidMove(new Move(1, 1, 2, 0), board));
+	}
 
+	// Verify that a bishop can move diagonally
+	@Test
+	public final void canMoveOneBackDiagonal() throws Throwable {
+		board[1][1] = piece;
+		assertTrue("Bishop Test 8",
+				piece.isValidMove(new Move(1, 1, 0, 0), board));
+	}
+
+	// Verify that a bishop can move diagonally
+	@Test
+	public final void canMoveMultDiagonal() throws Throwable {
+		board[1][1] = piece;
+		assertTrue("Bishop Test 9",
+				piece.isValidMove(new Move(1, 1, 6, 6), board));
+	}
+	
+	// Verify that a bishop can move diagonally
+	@Test
+	public final void canMoveDiagonal2() throws Throwable {
+		board[5][5] = piece;
+		assertTrue("Bishop Test 9",
+				piece.isValidMove(new Move(5, 5, 1, 1), board));
+	}	
 }

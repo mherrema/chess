@@ -142,13 +142,10 @@ public class Model implements IChessModel {
 	 * @return boolean
 	 ******************************************************************/
 	public final boolean isComplete() {
-		System.out.println("checked complete");
 		// Player p = Player.WHITE;
 		Move checkMateMove = null;
 		saveFirstState();
-		//View v = new View();
-		//v.printBoard(saveFirstBoard);
-		// for(int k=0; k<2; k++){
+
 		for (int i = 0; i < numRows(); i++) {
 			for (int j = 0; j < numColumns(); j++) {
 				if (pieceAt(i, j) != null) {
@@ -159,10 +156,7 @@ public class Model implements IChessModel {
 								if (isValidMove(checkMateMove)) {
 									// saveState();
 									move(checkMateMove);
-									System.out.println("moved");
 									if (!inCheck(currentPlayer())) {
-										System.out
-										.println("not in check anymore");
 										loadFirstState();
 										//v.printBoard(saveFirstBoard);
 										return false;
@@ -267,17 +261,14 @@ public class Model implements IChessModel {
 			if (inCheck(currentPlayer())) {
 				cancelMove(m);
 				setPutSelfInCheck(true);
-				System.out.println("current player in check. current player ="
-						+ whiteTurn); 
+				
 			} else if (inCheck(otherPlayer(currentPlayer()))) {
 				setOtherPlayerCheck(true);
 			} else {
 				switchTurns();
-				// System.out.println("switched");
 			}
 		}
-		//View v = new View();
-		//v.printBoard(saveFirstBoard)
+		
 	}
 
 	/******************************************************************
@@ -443,7 +434,6 @@ public class Model implements IChessModel {
 			}
 		}
 		whiteTurn = saveFirstPlayer;
-		System.out.println("loaded first state");
 	}
 
 	/** returns winning player.

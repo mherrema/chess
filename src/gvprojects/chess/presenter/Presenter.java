@@ -48,18 +48,14 @@ public class Presenter {
 				setFromCol(buttonCol);
 				g.getBoard()[buttonRow][buttonCol].setBackground(Color.blue);
 				g.getBoard()[buttonRow][buttonCol].setOpaque(true);
-				//System.out.println(getFromRow()+ " + "+ getFromCol());
-				//g.getBoard()[buttonRow][buttonCol].setBackground(Color.BLUE);
 				from = false;
 			}
 			else{
 
 				setToRow(buttonRow);
 				setToCol(buttonCol);
-				//System.out.println(getToRow()+ " + "+ getToCol());
 				Move tempMove = new Move(fromRow, fromCol, toRow, toCol);
 				m.move(tempMove);
-				//System.out.println("self check: " + m.isPutSelfInCheck());
 				
 				g.getBoard()[tempMove.fromRow][tempMove.fromColumn].setBackground(Color.LIGHT_GRAY);
 				g.getBoard()[tempMove.fromRow][tempMove.fromColumn].setOpaque(false);
@@ -82,24 +78,9 @@ public class Presenter {
 				g.updateCurrentPlayer(m.currentPlayer());
 				from = true;
 			}
-
-			//			if (m.isComplete()) {
-			//				g.end();
-			//			}
-
-			
-			//			// pops up window if white won
-			//			if (engine.status() == GameStatus.X_WON) {
-			//				window.won(true);
-			//			}
-			//
-			//			// pops up window if black won
-			//			if (engine.status() == GameStatus.O_WON) {
-			//				window.won(false);
-			//			}
+			}
 		}
 
-	}
 
 	public Presenter() {
 		m = new Model();
@@ -206,25 +187,7 @@ public class Presenter {
 		});
 	}
 
-	/******************************************************************
-	 * Updates the gameboard
-	 * 
-	 ******************************************************************/
-//	public final void update() {
-//		g.printBoard(m.getBoard());
-//		// if they put themselves in check
-//		if (m.isPutSelfInCheck()) {
-//			g.putSelfInCheck();
-//			m.setPutSelfInCheck(false);
-//		}
-//		// if they put the other player in check
-//		if (m.isOtherPlayerCheck()) {
-//			g.inCheck();
-//			m.setOtherPlayerCheck(false);
-//		}
-//		g.prompt(m.currentPlayer());
-//
-//	}
+
 
 	public static void main(String[] args) {
 		Presenter p = new Presenter();
