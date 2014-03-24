@@ -86,7 +86,7 @@ public class Model implements IChessModel {
 		getBoard()[row][2] = new Bishop(Player.WHITE);
 		getBoard()[row][bishop] = new Bishop(Player.WHITE);
 		getBoard()[row][king] = new King(Player.WHITE);
-		whiteKing[row] = row;
+		whiteKing[0] = row;
 		whiteKing[1] = king;
 		getBoard()[row][queen] = new Queen(Player.WHITE);
 		for (int i = 0; i < boardsize; i++) {
@@ -159,10 +159,7 @@ public class Model implements IChessModel {
 								if (isValidMove(checkMateMove)) {
 									// saveState();
 									move(checkMateMove);
-									System.out.println("moved");
 									if (!inCheck(currentPlayer())) {
-										System.out
-										.println("not in check anymore");
 										loadFirstState();
 										//v.printBoard(saveFirstBoard);
 										return false;
@@ -178,7 +175,7 @@ public class Model implements IChessModel {
 		}
 		// p = Player.BLACK;
 		// }
-
+		System.out.println("checkmate");
 		if (inCheck(Player.WHITE)) {
 			winner = Player.BLACK;
 		} else {
@@ -266,9 +263,7 @@ public class Model implements IChessModel {
 			// if the move puts themselves in check
 			if (inCheck(currentPlayer())) {
 				cancelMove(m);
-				setPutSelfInCheck(true);
-				System.out.println("current player in check. current player ="
-						+ whiteTurn); 
+				setPutSelfInCheck(true); 
 			} else if (inCheck(otherPlayer(currentPlayer()))) {
 				setOtherPlayerCheck(true);
 			} else {

@@ -100,12 +100,46 @@ public class ModelTest {
 		m.move(move2);
 		m.move(move3);
 		m.move(move4);
-		//assertTrue(m.isComplete() == false);
-		assertTrue(m.getWinner() == Player.BLACK);
+		m.isComplete();
+		assertTrue(m.getWinner()==Player.BLACK);
+		//assertTrue(m.getWinner() == Player.BLACK);
 		//assertTrue("Model Test 3", m.isComplete());
 		//assertTrue("Model Test 4", m.currentPlayer() == Player.BLACK);
 	}
 	
+	// Verify kings move
+		@Test
+		public final void moveKings() throws Exception {
+			Model m = new Model();
+			Move move1 = new Move(6, 4, 5, 4);
+			Move move2 = new Move(7, 4, 6, 4);
+			Move move3 = new Move(1, 4, 2, 4);
+			Move move4 = new Move(0, 4, 1, 4);
+			Move move5 = new Move(6, 0, 5, 0);
+			m.move(move1);
+			m.move(move3);
+			m.move(move2);
+			m.cancelMove(move2);
+			m.move(move5);
+			m.move(move4);
+			m.cancelMove(move4);
+		}
 	
+		// Verify kings move
+		@Test
+		public final void selfCheck() throws Exception {
+			Model m = new Model();
+			Move move1 = new Move(6, 7, 5, 7);
+			Move move2 = new Move(1, 4, 2, 4);
+			Move move3 = new Move(5, 7, 4, 7);
+			Move move4 = new Move(0, 5, 4, 1);
+			Move move5 = new Move(6, 3, 5, 3);
+			m.move(move1);
+			m.move(move2);
+			m.move(move3);
+			m.move(move4);
+			m.move(move5);
+			assertTrue("Model Test 11", m.isPutSelfInCheck());
+		}
 	
 }
