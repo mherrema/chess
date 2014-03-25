@@ -36,6 +36,7 @@ public final void makeBoard() {
    // These methods create the particular type of chess piece we intend to test.
    // Here, we create ChessPiece; but, subclasses will override this
    // method to create
+   //
    
    // Kings, Bishops, Pawns, etc.
    protected IChessPiece make(Player p) {

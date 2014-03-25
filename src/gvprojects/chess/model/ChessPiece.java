@@ -10,6 +10,7 @@ package gvprojects.chess.model;
  * This class creates a {@code ChessPiece}. 
  * and determines if moves are valid
  * 
+ * 
  * @author Mitch Herrema
  * @version April 10, 2013
  *********************************************************************/
