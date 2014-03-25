@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import gvprojects.chess.model.IChessPiece;
 import gvprojects.chess.model.Model;
 import gvprojects.chess.model.Move;
 import gvprojects.chess.view.GUI;
@@ -247,6 +248,9 @@ public class Presenter {
 		}
 	}
 
+	public IChessPiece[][] getBoard() {
+		return m.getBoard();
+	}
 	public boolean isFrom() {
 		return from;
 	}

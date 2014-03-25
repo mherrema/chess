@@ -596,6 +596,10 @@ public class GUI extends JPanel {
 	public void setButtons(JButton[][] buttons) {
 		this.board = buttons;
 	}
+	
+	public JButton[][] getButtons() {
+		return this.board;
+	}
 
 	public static void main(String[] args) {
 		GUI g = new GUI();
