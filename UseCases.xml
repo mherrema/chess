@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Actor Name="Player 1/Player 2" Code="P1/P2" Description="Either P1 or P2 is a player in a virtual chess game.">
+	<UCGroup PrimaryActor="P1">
+		<UC1 Goal="P1 wishes to make a move against P2." Code="CASE100">
+			<PreConditions Item1="It is P1's turn to move." Item2="The game in not complete."></PreConditions>
+			<FailureGaruntees Item1="P1 is prompted to try and play again." Item2="P1 has the option to start a new game."></FailureGaruntees>
+			<SuccessGaruntees Item1="It is now P2's turn to move." Item2="P1 has made a successful move." Item3="P1 can no longer make a move."></SuccessGaruntees>
+			<Trigger>P1 attempts to make a move.</Trigger>
+			<Success>
+				<Step Handle="Valid piece 1">P1 picks a piece to move that has a valid path.<UCRef Code="CASE100"></UCRef></Step>
+				<Step Handle="Valid spot 1">
+				P1 picks a valid spot to put the valid piece.
+				<UCRef Code="CASE100"></UCRef></Step></Success>
+			<Extensions>
+				<Condition StepRef="Turns" When="P1 attempts to play but it is P2's turn.">
+					<Step>It is globally prompted that it is P2's turn.</Step></Condition></Extensions></UC1>
+		<UC2 Goal="P1/P2 wishes to start a new game." Code="CASE200">
+			<PreConditions Item1="The program is running." Item2="The program has started correctly."></PreConditions>
+			<FailureGaruntees Item1="Players are returned to previous screen."></FailureGaruntees>
+			<SuccessGaruntees Item1="A new game is started." Item2="It is P1's turn to move."></SuccessGaruntees>
+			<Trigger>P2 clicks on the new game menu item.</Trigger>
+			<Success>
+				<Step Handle="Menu item">
+					P2 clicks the menu.
+					<UCRef Code="CASE200"></UCRef></Step>
+				<Step Handle="">
+					P2 clicks the new game menu icon.
+					<UCRef Code="CASE200"></UCRef></Step>
+				<Step Handle="">
+				Players are prompted if they are sure they want to start
+				a new game.
+				<UCRef Code="CASE200"></UCRef></Step></Success>
+			<Extensions>
+				<Condition StepRef="New" When="A player clicks the new game menu item, but then chooses not to start a new game.">
+					<Step>The new game attempt is cancelled and the players are returned to the previous screen.</Step></Condition></Extensions></UC2>
+		<UC3 Goal="P1 attempts to put P2's king in checkmate." Code="CASE300">
+			<PreConditions Item1="P2's king is already in check." Item2="It is P1's turn to move."></PreConditions>
+			<FailureGaruntees Item1="P1 has an option to move another pawn." Item2="P1 has the option to put P2's king back in check."></FailureGaruntees>
+			<SuccessGaruntees Item1="P1 has won the game." Item2="P1 has put P2's king in check." Item3="P2 has lost."></SuccessGaruntees>
+			<Trigger>P1 has successfully moved a piece and placed P2's king in checkmate.</Trigger>
+			<Success>
+				<Step Handle="">
+				P1 moves a piece placing P2's king in check.
+				<UCRef Code="CASE300"></UCRef></Step>
+				<Step Handle="">
+				It is P2's turn, his king is in check, but he cannot
+				move his king out of check.
+				<UCRef Code="CASE300"></UCRef></Step>
+				<Step Handle="">
+					P1 has won the game.
+					<UCRef Code="CASE300"></UCRef></Step></Success>
+			<Extensions>
+				<Condition StepRef="Check" When="P2 moves his king out of check.">
+					<Step>It is P1's turn and they may have the oppurtunity to place P2 back in check.</Step></Condition>
+				<Condition StepRef="P2" When="It is P2's turn to play.">
+					<Step>It is globally prompted that it is P2's turn.</Step></Condition></Extensions></UC3></UCGroup></Actor>
