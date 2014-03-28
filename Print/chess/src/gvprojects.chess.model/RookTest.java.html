@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>RookTest.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">ModelTest (Mar 27, 2014 11:59:52 PM)</a> &gt; <a href="../../index.html" class="el_group">chess</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.html" class="el_package">gvprojects.chess.model</a> &gt; <span class="el_source">RookTest.java</span></div><h1>RookTest.java</h1><pre class="source lang-java linenums">package gvprojects.chess.model;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+/*********************************************************************
+ * This class tests the {@code Rook} {@code ChessPiece} class. 
+ * 
+ * @author Mitch Herrema
+ * @version April 10, 2013
+ *********************************************************************/
+
+<span class="nc" id="L15">public class RookTest extends ChessPieceTest {</span>
+
+
+   // This method overrides make(Player p) in the ChessPieceTest class
+   // Thus, when running these tests, calling make() generates a Rook object
+   // whereas calling make when running ChessPiece 
+	// Tests generates a ChessPiece object.
+   @Override
+protected final IChessPiece make(final Player p) {
+     // System.out.println(&quot;rook&quot;);
+<span class="nc" id="L25">	   return new Rook(p);</span>
+   }
+
+   // As noted in ChessPieceTest:  Many tests require a valid move.  
+   // The set of valid moves is different for
+   // each chess piece.  This method generates a 
+   // move that is valid from the given row and column
+   @Override
+protected final Move getValidMove(final int row, final int col) {
+<span class="nc" id="L34">      int newRow = row + 1;</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">      if (newRow &gt;= board.length) {</span>
+<span class="nc" id="L36">         newRow = row - 1;</span>
+      }
+<span class="nc" id="L38">      return new Move(row, col, newRow, col);</span>
+   }
+
+   // Verify that a rook can move across a row
+   @Test
+public final void canMoveInRow() throws Exception {
+<span class="nc" id="L44">      board[1][1] = piece;</span>
+<span class="nc" id="L45">      assertTrue(&quot;Rook Test 1&quot;, piece.isValidMove(new Move(1, 1, 1, 6), board));</span>
+<span class="nc" id="L46">   }</span>
+
+   // Verify that a rook can move up and down a column
+   @Test
+public final void canMoveInColumn() throws Throwable {
+<span class="nc" id="L51">      board[1][1] = piece;</span>
+<span class="nc" id="L52">      assertTrue(&quot;Rook Test 2&quot;, piece.isValidMove(new Move(1, 1, 6, 1), board));</span>
+<span class="nc" id="L53">   }</span>
+
+   // Verify that a rook cannot move diagonally
+   @Test
+public final void cannotMoveDiagonal() throws Throwable {
+<span class="nc" id="L58">      board[1][1] = piece;</span>
+<span class="nc" id="L59">      assertFalse(&quot;Rook Test 3&quot;, piece.isValidMove(</span>
+<span class="nc" id="L60">    		  new Move(1, 1, 3, 3), board));</span>
+<span class="nc" id="L61">   }</span>
+   
+// Verify that a rook cannot move off the board
+   @Test
+public final void cannotMoveOffBoard() throws Throwable {
+<span class="nc" id="L66">      board[1][1] = piece;</span>
+<span class="nc" id="L67">      assertFalse(&quot;Rook Test 3&quot;, piece.isValidMove(</span>
+<span class="nc" id="L68">    		  new Move(1, 1, 9, 1), board));</span>
+<span class="nc" id="L69">   }</span>
+
+   // Verify that a rook cannot jump over other pieces.
+   @Test
+public final void rowMustBeClear1() throws Throwable {
+<span class="nc" id="L74">      board[2][2] = piece;</span>
+<span class="nc" id="L75">      board[3][2] = make();</span>
+<span class="nc" id="L76">      assertFalse(&quot;Rook Test 4&quot;, piece.isValidMove(</span>
+<span class="nc" id="L77">    		  new Move(2, 2, 4, 2), board));</span>
+<span class="nc" id="L78">   }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span>ModelTest (Mar 27, 2014 11:59:52 PM)</div></body></html>

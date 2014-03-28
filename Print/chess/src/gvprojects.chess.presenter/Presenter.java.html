@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>Presenter.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">ModelTest (Mar 27, 2014 11:59:52 PM)</a> &gt; <a href="../../index.html" class="el_group">chess</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.html" class="el_package">gvprojects.chess.presenter</a> &gt; <span class="el_source">Presenter.java</span></div><h1>Presenter.java</h1><pre class="source lang-java linenums"><span class="nc" id="L1">/**</span>
+ *  File:               presenter.java 
+ *  Author:             mumfordr, herremam, vassalty
+ *  Date:               2009-03-02 15:30:24
+ *  Version:            1.0
+ */
+package gvprojects.chess.presenter;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JOptionPane;
+
+import gvprojects.chess.model.IChessPiece;
+import gvprojects.chess.model.Model;
+import gvprojects.chess.model.Move;
+import gvprojects.chess.view.GUI;
+
+public class Presenter {
+
+	/** model */
+	private Model m;
+
+	/** view */
+	private GUI g;
+
+	private boolean from;
+	private String temp;
+
+	private int fromRow;
+	private int fromCol;
+	private int toRow;
+	private int toCol;
+
+	/*********************************************************************
+	 * ActionListener and ActionPerformed for array
+	 * 
+	 * @return none
+	 *********************************************************************/
+	class boardListener implements ActionListener {
+
+		private int buttonRow;
+		private int buttonCol;
+
+<span class="nc" id="L46">		boardListener(int buttonRow, int buttonCol) {</span>
+<span class="nc" id="L47">			this.buttonRow = buttonRow;</span>
+<span class="nc" id="L48">			this.buttonCol = buttonCol;</span>
+<span class="nc" id="L49">		}</span>
+
+		public void actionPerformed(ActionEvent e) {
+
+<span class="nc bnc" id="L53" title="All 4 branches missed.">			if(isFrom() &amp;&amp; hasPiece(buttonRow, buttonCol)){</span>
+<span class="nc" id="L54">				setFromRow(buttonRow);</span>
+<span class="nc" id="L55">				setFromCol(buttonCol);</span>
+<span class="nc" id="L56">				g.getBoard()[buttonRow][buttonCol].setBackground(Color.blue);</span>
+<span class="nc" id="L57">				g.getBoard()[buttonRow][buttonCol].setOpaque(true);</span>
+				//System.out.println(getFromRow()+ &quot; + &quot;+ getFromCol());
+				//g.getBoard()[buttonRow][buttonCol].setBackground(Color.BLUE);
+<span class="nc" id="L60">				from = false;</span>
+<span class="nc" id="L61">			}</span>
+			else{
+
+<span class="nc" id="L64">				setToRow(buttonRow);</span>
+<span class="nc" id="L65">				setToCol(buttonCol);</span>
+				//System.out.println(getToRow()+ &quot; + &quot;+ getToCol());
+<span class="nc" id="L67">				Move tempMove = new Move(fromRow, fromCol, toRow, toCol);</span>
+<span class="nc" id="L68">				m.move(tempMove);</span>
+				//System.out.println(&quot;self check: &quot; + m.isPutSelfInCheck());
+				
+<span class="nc" id="L71">				g.getBoard()[tempMove.fromRow][tempMove.fromColumn].setBackground(Color.LIGHT_GRAY);</span>
+<span class="nc" id="L72">				g.getBoard()[tempMove.fromRow][tempMove.fromColumn].setOpaque(false);</span>
+<span class="nc" id="L73">				g.printBoard(m.getBoard());</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">				if(m.isPutSelfInCheck()){</span>
+<span class="nc" id="L75">					g.putSelfInCheck();</span>
+<span class="nc" id="L76">					m.setPutSelfInCheck(false);</span>
+				}
+<span class="nc bnc" id="L78" title="All 2 branches missed.">				if(m.isOtherPlayerCheck()) {</span>
+<span class="nc" id="L79">					g.inCheck();</span>
+<span class="nc" id="L80">					m.setOtherPlayerCheck(false);</span>
+<span class="nc" id="L81">					m.switchTurns();</span>
+				}
+<span class="nc bnc" id="L83" title="All 2 branches missed.">				if(m.inCheck(m.currentPlayer())){</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">				if(m.isComplete()){</span>
+<span class="nc" id="L85">					g.checkmate(m.getWinner());</span>
+				}
+				//g.printBoard(m.getBoard());
+				}
+<span class="nc" id="L89">				g.updateCurrentPlayer(m.currentPlayer());</span>
+<span class="nc" id="L90">				from = true;</span>
+			}
+
+			//			if (m.isComplete()) {
+			//				g.end();
+			//			}
+
+			
+			//			// pops up window if white won
+			//			if (engine.status() == GameStatus.X_WON) {
+			//				window.won(true);
+			//			}
+			//
+			//			// pops up window if black won
+			//			if (engine.status() == GameStatus.O_WON) {
+			//				window.won(false);
+			//			}
+<span class="nc" id="L107">		}</span>
+
+	}
+
+<span class="nc" id="L111">	public Presenter() {</span>
+<span class="nc" id="L112">		m = new Model();</span>
+<span class="nc" id="L113">		g = new GUI();</span>
+<span class="nc" id="L114">		setFrom(true);</span>
+<span class="nc" id="L115">		fromRow = 0;</span>
+<span class="nc" id="L116">		fromCol = 0;</span>
+<span class="nc" id="L117">		toCol = 0;</span>
+<span class="nc" id="L118">		toRow = 0;</span>
+
+		// adds action listeners to all the buttons in the array
+<span class="nc bnc" id="L121" title="All 2 branches missed.">		for (int i = 0; i &lt; g.getBoard().length; i++) {</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">			for (int j = 0; j &lt; g.getBoard()[0].length; j++) {</span>
+<span class="nc" id="L123">				g.addButtonListener(i, j, new boardListener(i,</span>
+<span class="nc" id="L124">						j));</span>
+			}
+		}
+
+		// adds action listener to the quit button
+<span class="nc" id="L129">		g.getQuit().addActionListener(new ActionListener() {</span>
+			public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L131">				int option = JOptionPane.showConfirmDialog(g.getFrame(),</span>
+<span class="nc" id="L132">						&quot;Are you sure you want to quit?&quot;, &quot;Exit Game&quot;,</span>
+<span class="nc" id="L133">						JOptionPane.YES_NO_OPTION);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">				if (option == 0) {</span>
+<span class="nc" id="L135">					System.exit(0);</span>
+<span class="nc" id="L136">				} else {</span>
+<span class="nc" id="L137">					g.setTextString(&quot;: Game resumed.\n---------------\n&quot; + g.getTextString());</span>
+<span class="nc" id="L138">					temp = m.currentPlayer().toString().toLowerCase();</span>
+<span class="nc" id="L139">					temp = temp.substring(0, 1).toUpperCase()</span>
+<span class="nc" id="L140">							+ temp.substring(1, temp.length()) + &quot;'s turn.\n&quot;;</span>
+<span class="nc" id="L141">					g.setTextString(&quot;: &quot; + temp + g.getTextString());</span>
+<span class="nc" id="L142">					g.setText();</span>
+				}
+<span class="nc" id="L144">			}</span>
+		});
+
+		// adds action listener to the quit button
+<span class="nc" id="L148">		g.getNewGame().addActionListener(new ActionListener() {</span>
+			public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L150">				int option = 0;</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">				if (!m.isComplete())</span>
+<span class="nc" id="L152">					option = JOptionPane.showConfirmDialog(g.getFrame(),</span>
+<span class="nc" id="L153">							&quot;All current progress will be lost, continue?&quot;,</span>
+<span class="nc" id="L154">							&quot;New Game&quot;, JOptionPane.YES_NO_OPTION);</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">				if (option == 0) {</span>
+<span class="nc" id="L156">					m = new Model();</span>
+<span class="nc" id="L157">					g.printBoard(m.getBoard());</span>
+<span class="nc" id="L158">					g.setTextString(&quot;: New game.\n*************************\n&quot;);</span>
+<span class="nc" id="L159">					temp = m.currentPlayer().toString().toLowerCase();</span>
+<span class="nc" id="L160">					temp = temp.substring(0, 1).toUpperCase()</span>
+<span class="nc" id="L161">							+ temp.substring(1, temp.length()) + &quot;'s turn.\n&quot;;</span>
+<span class="nc" id="L162">					g.setTextString(&quot;: &quot; + temp + g.getTextString());</span>
+<span class="nc" id="L163">					g.setText();</span>
+<span class="nc" id="L164">					g.resetTime();</span>
+<span class="nc" id="L165">				} else {</span>
+<span class="nc" id="L166">					g.setTextString(&quot;: Game resumed.\n*************************\n&quot; + g.getTextString());</span>
+<span class="nc" id="L167">					temp = m.currentPlayer().toString().toLowerCase();</span>
+<span class="nc" id="L168">					temp = temp.substring(0, 1).toUpperCase()</span>
+<span class="nc" id="L169">							+ temp.substring(1, temp.length()) + &quot;'s turn.\n&quot;;</span>
+<span class="nc" id="L170">					g.setTextString(&quot;: &quot; + temp + g.getTextString());</span>
+<span class="nc" id="L171">					g.setText();</span>
+				}
+<span class="nc" id="L173">			}</span>
+		});
+
+		// adds action listener to the quit button
+<span class="nc" id="L177">		g.getVersion().addActionListener(new ActionListener() {</span>
+			public void actionPerformed(ActionEvent e) {
+<span class="nc" id="L179">				g.setTextString(&quot;*************************\n&quot;</span>
+						+ &quot;       Awesome Chess\n           Version 2.0\n&quot;
+<span class="nc" id="L181">						+ &quot;*************************\n&quot; + g.getTextString());</span>
+<span class="nc" id="L182">				temp = m.currentPlayer().toString().toLowerCase();</span>
+<span class="nc" id="L183">				temp = temp.substring(0, 1).toUpperCase()</span>
+<span class="nc" id="L184">						+ temp.substring(1, temp.length()) + &quot;'s turn.\n&quot;;</span>
+<span class="nc" id="L185">				g.setTextString(&quot;: &quot; + temp + g.getTextString());</span>
+<span class="nc" id="L186">				g.setText();</span>
+<span class="nc" id="L187">			}</span>
+		});
+
+		/**
+		 * If user clicks &quot;Rules&quot; in the menu, open the default web browser
+		 * with a web site detailing the rules of chess
+		 */
+<span class="nc" id="L194">		g.getRules().addActionListener(new ActionListener() {</span>
+			public void actionPerformed(ActionEvent e) {
+				try {
+					java.awt.Desktop
+<span class="nc" id="L198">					.getDesktop()</span>
+<span class="nc" id="L199">					.browse(java.net.URI</span>
+<span class="nc" id="L200">							.create(&quot;http://www.chess.com/learn-how-to-play-chess&quot;));</span>
+<span class="nc" id="L201">					g.setTextString(&quot;: Rules opened in \n: default browser.\n*************************\n&quot;</span>
+<span class="nc" id="L202">							+ g.getTextString());</span>
+
+<span class="nc" id="L204">				} catch (Exception ex) {</span>
+<span class="nc" id="L205">					g.setTextString(&quot;: Page not found.\n*************************\n&quot; + g.getTextString());</span>
+				}
+<span class="nc" id="L207">				temp = m.currentPlayer().toString().toLowerCase();</span>
+<span class="nc" id="L208">				temp = temp.substring(0, 1).toUpperCase()</span>
+<span class="nc" id="L209">						+ temp.substring(1, temp.length()) + &quot;'s turn.\n&quot;;</span>
+<span class="nc" id="L210">				g.setTextString(&quot;: &quot; + temp + g.getTextString());</span>
+<span class="nc" id="L211">				g.setText();</span>
+<span class="nc" id="L212">			}</span>
+		});
+<span class="nc" id="L214">	}</span>
+
+	/******************************************************************
+	 * Updates the gameboard
+	 * 
+	 ******************************************************************/
+//	public final void update() {
+//		g.printBoard(m.getBoard());
+//		// if they put themselves in check
+//		if (m.isPutSelfInCheck()) {
+//			g.putSelfInCheck();
+//			m.setPutSelfInCheck(false);
+//		}
+//		// if they put the other player in check
+//		if (m.isOtherPlayerCheck()) {
+//			g.inCheck();
+//			m.setOtherPlayerCheck(false);
+//		}
+//		g.prompt(m.currentPlayer());
+//
+//	}
+
+	public static void main(String[] args) {
+<span class="nc" id="L237">		Presenter p = new Presenter();</span>
+<span class="nc" id="L238">		p.g.printBoard(p.m.getBoard());</span>
+<span class="nc" id="L239">		p.g.updateCurrentPlayer(p.m.currentPlayer());</span>
+<span class="nc" id="L240">	}</span>
+
+	public boolean hasPiece(int r, int c){
+<span class="nc bnc" id="L243" title="All 2 branches missed.">		if(m.getBoard()[r][c]!=null){</span>
+<span class="nc" id="L244">			return true;</span>
+		}
+		else{
+<span class="nc" id="L247">			return false;</span>
+		}
+	}
+
+	public IChessPiece[][] getBoard() {
+<span class="nc" id="L252">		return m.getBoard();</span>
+	}
+	public boolean isFrom() {
+<span class="nc" id="L255">		return from;</span>
+	}
+
+	public void setFrom(boolean from) {
+<span class="nc" id="L259">		this.from = from;</span>
+<span class="nc" id="L260">	}</span>
+
+	public int getFromRow(){
+<span class="nc" id="L263">		return fromRow;</span>
+	}
+
+	public void setFromRow(int r){
+<span class="nc" id="L267">		fromRow = r;</span>
+<span class="nc" id="L268">	}</span>
+
+	public int getFromCol(){
+<span class="nc" id="L271">		return fromRow;</span>
+	}
+
+	public void setFromCol(int c){
+<span class="nc" id="L275">		fromCol = c;</span>
+<span class="nc" id="L276">	}</span>
+
+	public int getToRow(){
+<span class="nc" id="L279">		return fromRow;</span>
+	}
+
+	public void setToRow(int r){
+<span class="nc" id="L283">		toRow = r;</span>
+<span class="nc" id="L284">	}</span>
+
+	public int getToCol(){
+<span class="nc" id="L287">		return fromRow;</span>
+	}
+
+	public void setToCol(int c){
+<span class="nc" id="L291">		toCol = c;</span>
+<span class="nc" id="L292">	}</span>
+}
+
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span>ModelTest (Mar 27, 2014 11:59:52 PM)</div></body></html>

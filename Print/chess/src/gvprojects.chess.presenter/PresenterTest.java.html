@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>PresenterTest.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">ModelTest (Mar 27, 2014 11:59:52 PM)</a> &gt; <a href="../../index.html" class="el_group">chess</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.html" class="el_package">gvprojects.chess.presenter</a> &gt; <span class="el_source">PresenterTest.java</span></div><h1>PresenterTest.java</h1><pre class="source lang-java linenums">package gvprojects.chess.presenter;
+
+import static org.junit.Assert.*;
+import gvprojects.chess.view.GUI;
+
+import org.junit.Test;
+
+<span class="nc" id="L8">public class PresenterTest {</span>
+
+	@Test
+	public final void getBoardTest() throws Exception {
+<span class="nc" id="L12">		Presenter pres = new Presenter();</span>
+<span class="nc" id="L13">		pres.getBoard();</span>
+<span class="nc" id="L14">	}</span>
+	
+	@Test
+	public final void getfromColTest() throws Exception {
+<span class="nc" id="L18">		Presenter pres = new Presenter();</span>
+<span class="nc" id="L19">		pres.getFromCol();</span>
+<span class="nc" id="L20">	}</span>
+	
+	@Test
+	public final void getfromRowTest() throws Exception {
+<span class="nc" id="L24">		Presenter pres = new Presenter();</span>
+<span class="nc" id="L25">		pres.getFromRow();</span>
+<span class="nc" id="L26">	}</span>
+	
+	@Test
+	public final void gettoRowTest() throws Exception {
+<span class="nc" id="L30">		Presenter pres = new Presenter();</span>
+<span class="nc" id="L31">		pres.getToRow();</span>
+<span class="nc" id="L32">	}</span>
+	
+	@Test
+	public final void gettoColTest() throws Exception {
+<span class="nc" id="L36">		Presenter pres = new Presenter();</span>
+<span class="nc" id="L37">		pres.getToCol();</span>
+<span class="nc" id="L38">	}</span>
+	
+	@Test
+	public final void hasPiecetest() throws Exception {
+<span class="nc" id="L42">		Presenter pres = new Presenter();</span>
+<span class="nc" id="L43">		pres.hasPiece(2, 2);</span>
+<span class="nc" id="L44">	}</span>
+	
+	@Test
+	public final void isFromTestt() throws Exception {
+<span class="nc" id="L48">		Presenter pres = new Presenter();</span>
+<span class="nc" id="L49">		pres.isFrom();</span>
+<span class="nc" id="L50">	}</span>
+	
+	@Test
+	public final void setfromRowTest() throws Exception {
+<span class="nc" id="L54">		Presenter pres = new Presenter();</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">		for (int i = 0; i &lt;= 7; i++) {</span>
+<span class="nc" id="L56">			pres.setFromRow(i);</span>
+		}
+<span class="nc" id="L58">	}</span>
+	
+	@Test
+	public final void setfromColTest() throws Exception {
+<span class="nc" id="L62">		Presenter pres = new Presenter();</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">		for (int i = 0; i &lt;= 7; i++) {</span>
+<span class="nc" id="L64">			pres.setFromCol(i);</span>
+		}
+<span class="nc" id="L66">	}</span>
+	
+	@Test
+	public final void setToRowTest() throws Exception {
+<span class="nc" id="L70">		Presenter pres = new Presenter();</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">		for (int i = 0; i &lt;= 7; i++) {</span>
+<span class="nc" id="L72">			pres.setToRow(i);</span>
+		}
+<span class="nc" id="L74">	}</span>
+	
+	@Test
+	public final void setToColTest() throws Exception {
+<span class="nc" id="L78">		Presenter pres = new Presenter();</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">		for (int i = 0; i &lt;= 7; i++) {</span>
+<span class="nc" id="L80">			pres.setToCol(i);</span>
+		}
+<span class="nc" id="L82">	}</span>
+	
+	@Test
+	public final void setFromTest() throws Exception {
+<span class="nc" id="L86">		Presenter pres = new Presenter();</span>
+<span class="nc" id="L87">		pres.setFrom(true);</span>
+<span class="nc" id="L88">		pres.setFrom(false);</span>
+<span class="nc" id="L89">	}</span>
+	
+	@Test
+	public final void Test() throws Exception {
+<span class="nc" id="L93">		Presenter pres = new Presenter();</span>
+<span class="nc" id="L94">		GUI gui = new GUI();</span>
+<span class="nc" id="L95">		gui.getNewGame();</span>
+<span class="nc" id="L96">	}</span>
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span>ModelTest (Mar 27, 2014 11:59:52 PM)</div></body></html>

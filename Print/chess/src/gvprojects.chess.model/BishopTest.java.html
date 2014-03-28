@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>BishopTest.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">ModelTest (Mar 27, 2014 11:59:52 PM)</a> &gt; <a href="../../index.html" class="el_group">chess</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.html" class="el_package">gvprojects.chess.model</a> &gt; <span class="el_source">BishopTest.java</span></div><h1>BishopTest.java</h1><pre class="source lang-java linenums">package gvprojects.chess.model;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
+/*********************************************************************
+ * This class tests the {@code Bishop} {@code ChessPiece} class. 
+ * 
+ * @author Mitch Herrema
+ * @version April 10, 2013
+ *********************************************************************/
+
+<span class="nc" id="L15">public class BishopTest extends ChessPieceTest {</span>
+
+	// This method overrides make(Player p) in the ChessPieceTest class
+	// Thus, when running these tests, calling make() generates a Pawn object
+	// whereas calling make when running ChessPiece Tests generates a ChessPiece
+	// object.
+	@Override
+	protected final IChessPiece make(final Player p) {
+<span class="nc" id="L23">		return new Bishop(p);</span>
+	}
+
+	// As noted in ChessPieceTest: Many tests require a valid move. The set of
+	// valid moves is different for
+	// each chess piece. This method generates a move that is valid from the
+	// given row and column
+	@Override
+	protected final Move getValidMove(final int row, final int col) {
+<span class="nc" id="L32">		int newRow = row + 1;</span>
+<span class="nc" id="L33">		int newCol = col + 1;</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">		if (newRow &gt;= board.length) {</span>
+<span class="nc" id="L35">			newRow = row - 1;</span>
+		}
+<span class="nc bnc" id="L37" title="All 2 branches missed.">		if (newCol &gt;= board.length) {</span>
+<span class="nc" id="L38">			newCol = col - 1;</span>
+		}
+<span class="nc" id="L40">		return new Move(row, col, newRow, newCol);</span>
+	}
+
+	// Verify that a bishop cannot move across a row
+	@Test
+	public final void cannotMoveInRow() throws Exception {
+<span class="nc" id="L46">		board[1][1] = piece;</span>
+<span class="nc" id="L47">		assertFalse(&quot;Bishop Test 1&quot;,</span>
+<span class="nc" id="L48">				piece.isValidMove(new Move(1, 1, 1, 6), board));</span>
+<span class="nc" id="L49">	}</span>
+
+	// Verify that a bishop cannot move up a column
+	@Test
+	public final void cannotMoveInColumn() throws Throwable {
+<span class="nc" id="L54">		board[1][1] = piece;</span>
+<span class="nc" id="L55">		assertFalse(&quot;Bishop Test 2&quot;,</span>
+<span class="nc" id="L56">				piece.isValidMove(new Move(1, 1, 2, 1), board));</span>
+<span class="nc" id="L57">	}</span>
+
+	// Verify that a bishop can move diagonally
+	@Test
+	public final void cannotMoveDiagonalUnlessOtherPlayerPiece() 
+			throws Throwable {
+<span class="nc" id="L63">		board[1][1] = piece;</span>
+<span class="nc" id="L64">		assertTrue(&quot;Bishop Test 3&quot;,</span>
+<span class="nc" id="L65">				piece.isValidMove(new Move(1, 1, 2, 2), board));</span>
+<span class="nc" id="L66">	}</span>
+
+	// Verify that a king can move diagonally with other player
+	@Test
+	public final void canMoveDiagonalWithOtherPlayerPiece() throws Throwable {
+<span class="nc" id="L71">		board[1][1] = piece;</span>
+<span class="nc" id="L72">		board[2][2] = make(Player.BLACK);</span>
+<span class="nc" id="L73">		assertTrue(&quot;Bishop Test 4&quot;,</span>
+<span class="nc" id="L74">				piece.isValidMove(new Move(1, 1, 2, 2), board));</span>
+<span class="nc" id="L75">	}</span>
+
+	// Verify that a bishop cannot move backward
+	@Test
+	public final void canMoveBackward() throws Throwable {
+<span class="nc" id="L80">		board[1][1] = piece;</span>
+<span class="nc" id="L81">		assertTrue(&quot;Bishop Test 5&quot;,</span>
+<span class="nc" id="L82">				piece.isValidMove(new Move(1, 1, 0, 0), board));</span>
+<span class="nc" id="L83">	}</span>
+
+	// Verify that a bishop cannot move off the board
+	@Test
+	public final void cannotMoveOffBoard() throws Throwable {
+<span class="nc" id="L88">		board[1][1] = piece;</span>
+<span class="nc" id="L89">		assertFalse(&quot;Bishop Test 6&quot;,</span>
+<span class="nc" id="L90">				piece.isValidMove(new Move(1, 1, -1, 1), board));</span>
+<span class="nc" id="L91">	}</span>
+
+	// Verify that a bishop cannot jump over other pieces.
+	@Test
+	public final void pathMustBeClear1() throws Throwable {
+<span class="nc" id="L96">		board[2][2] = piece;</span>
+<span class="nc" id="L97">		board[3][3] = make();</span>
+<span class="nc" id="L98">		assertFalse(&quot;Bishop Test 7&quot;,</span>
+<span class="nc" id="L99">				piece.isValidMove(new Move(2, 2, 4, 4), board));</span>
+<span class="nc" id="L100">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span>ModelTest (Mar 27, 2014 11:59:52 PM)</div></body></html>

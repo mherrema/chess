@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>Pawn.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">ModelTest (Mar 27, 2014 11:59:52 PM)</a> &gt; <a href="../../index.html" class="el_group">chess</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.html" class="el_package">gvprojects.chess.model</a> &gt; <span class="el_source">Pawn.java</span></div><h1>Pawn.java</h1><pre class="source lang-java linenums">/**
+ *  File:               Pawn.java 
+ *  Author:             mumfordr, herremam, vassalty
+ *  Date:               2009-03-02 15:30:24
+ *  Version:            1.0
+ */
+package gvprojects.chess.model;
+
+/*********************************************************************
+ * This class creates a {@code Pawn} {@code ChessPiece}.
+ * and determines if moves are valid
+ * 
+ * @author Mitch Herrema
+ * @version April 10, 2013
+ *********************************************************************/
+
+public class Pawn extends ChessPiece {
+	
+	/** starting row. */
+	private int startRow;
+	
+	/** player. */
+	private Player p;
+	
+	/******************************************************************
+	 * Pawn Constructor.
+	 * Creates a pawn
+	 *  chess piece
+	 * 
+	 * @param p Player
+	 * @param startRow int
+	 ******************************************************************/
+	public Pawn(final Player p, final int startRow) {
+<span class="fc" id="L34">		super(p, &quot;Pawn&quot;);</span>
+<span class="fc" id="L35">		this.startRow = startRow;</span>
+<span class="fc" id="L36">		this.p = p;</span>
+<span class="fc" id="L37">	}</span>
+	
+	/******************************************************************
+	 * Returns if the move is valid.
+	 * 
+	 * @param m Move
+	 * @param board IChessPiece[][]
+	 * 
+	 * @return boolean
+	 ******************************************************************/
+	
+	@Override
+	public final boolean isValidMove(final Move m, 
+			final IChessPiece[][] board) {
+		int rowChange;
+		//System.out.println(&quot;from col &quot; + m.fromColumn + 
+		//						&quot; to col &quot;+ m.toColumn);
+<span class="fc" id="L54">		int colChange = Math.abs(m.fromColumn - m.toColumn);</span>
+		
+		//if the move as a Chesspiece is invalid
+<span class="fc bfc" id="L57" title="All 2 branches covered.">		if (!super.isValidMove(m, board)) {</span>
+			//System.out.println(&quot;super&quot;);
+<span class="fc" id="L59">			return false;</span>
+		}
+		
+		//if starting from row one
+<span class="fc bfc" id="L63" title="All 2 branches covered.">		if (startRow == 1) {</span>
+<span class="fc" id="L64">			rowChange = m.toRow - m.fromRow;</span>
+<span class="fc" id="L65">		} else {</span>
+<span class="fc" id="L66">			rowChange = m.fromRow - m.toRow;</span>
+		}
+		//System.out.println(&quot;row change = &quot; + rowChange);
+		//System.out.println(&quot;col change = &quot; + colChange);
+			//if moving two rows, no columns, and moving from starting row
+<span class="pc bpc" id="L71" title="1 of 4 branches missed.">			if (rowChange == 2 &amp;&amp; m.fromRow == startRow </span>
+<span class="pc bpc" id="L72" title="2 of 4 branches missed.">					&amp;&amp; colChange == 0 &amp;&amp; board[m.toRow][m.toColumn] == null) {</span>
+<span class="fc" id="L73">				return true;</span>
+			}
+			//if moving diagonal and other player is diagonal
+<span class="pc bpc" id="L76" title="1 of 4 branches missed.">			if (rowChange == 1 &amp;&amp; colChange == 1 </span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">					&amp;&amp; board[m.toRow][m.toColumn] != null </span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">					&amp;&amp; board[m.toRow][m.toColumn].player() != p) {</span>
+<span class="nc" id="L79">				return true;</span>
+				
+			}
+			//if moving one row and no columns
+<span class="pc bpc" id="L83" title="1 of 4 branches missed.">			if (rowChange == 1 &amp;&amp; colChange == 0 </span>
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">					&amp;&amp; board[m.toRow][m.toColumn] == null) {</span>
+<span class="fc" id="L85">				return true;</span>
+			}
+<span class="fc" id="L87">		return false;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span>ModelTest (Mar 27, 2014 11:59:52 PM)</div></body></html>

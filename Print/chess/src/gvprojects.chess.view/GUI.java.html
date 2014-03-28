@@ -1,0 +1,740 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>GUI.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">ModelTest (Mar 27, 2014 11:59:52 PM)</a> &gt; <a href="../../index.html" class="el_group">chess</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.html" class="el_package">gvprojects.chess.view</a> &gt; <span class="el_source">GUI.java</span></div><h1>GUI.java</h1><pre class="source lang-java linenums">/**
+ *  File:               GUI.java 
+ *  Author:             mumfordr, herremam, vassalty
+ *  Date:               2009-03-02 15:30:24
+ *  Version:            1.0
+ */
+package gvprojects.chess.view;
+
+import gvprojects.chess.model.IChessPiece;
+import gvprojects.chess.model.Move;
+import gvprojects.chess.model.Player;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.border.TitledBorder;
+
+/**********************************************************************
+ * A class that represents the GUI portion of the game of chess.
+ * 
+ * @authors Mitch Herrema
+ * @version Winter 2013
+ **********************************************************************/
+public class GUI extends JPanel {
+
+
+	/** serialVersionUID. */
+	private static final long serialVersionUID = 1L;
+
+	/** Timer instance variable. */
+<span class="nc" id="L48">	private long startTime1 = System.currentTimeMillis();</span>
+
+	/**
+	 * Timer instance variable
+	 */
+<span class="nc" id="L53">	long startTime = System.currentTimeMillis();</span>
+
+
+	/**
+	 * GUI component instance variables
+	 */
+	private JFrame frame;
+	private JPanel panel;
+	private JPanel rightPanel;
+	private JTextPane pane;
+	private JScrollPane scroll;
+	private JMenuBar menu;
+	private JMenu file;
+	private JMenu help;
+	private JMenuItem quit;
+	private JMenuItem newGame;
+	private JMenuItem gameTime;
+	private JMenuItem version;
+	private JMenuItem rules;
+	private JMenuItem boneyard;
+
+	/**
+	 * Board instance variable
+	 */
+	private JButton board[][];
+
+	/**
+	 * Boolean instance variables
+	 */
+	boolean colorBool;
+	boolean pickedUp;
+	boolean gameComplete;
+
+	/**
+	 * Color instance variables
+	 */
+	Color tileColor;
+	Color moveColor;
+
+	/**
+	 * ButtonListener instance variable
+	 */
+	ButtonListener l;
+
+	/**
+	 * Integer instance variables
+	 */
+	int x;
+	int y;
+<span class="nc" id="L102">	final int ROWS = 8;</span>
+<span class="nc" id="L103">	final int COLS = 8;</span>
+
+	/**
+	 * String instance variables
+	 */
+	private String textString;
+	private String temp;
+
+	/**
+	 * ImageIcon instance variables
+	 */
+	ImageIcon piece;
+	ImageIcon wPawn;
+	ImageIcon bPawn;
+	ImageIcon wRook;
+	ImageIcon bRook;
+	ImageIcon wQueen;
+	ImageIcon bQueen;
+	ImageIcon wKing;
+	ImageIcon bKing;
+	ImageIcon wBishop;
+	ImageIcon bBishop;
+	ImageIcon wKnight;
+	ImageIcon bKnight;
+	ImageIcon emptyIcon;
+
+	/**
+	 * Timer instance variable
+	 */
+<span class="nc" id="L132">	public GUI() {</span>
+		/**
+		 * Initialize the game and set the player
+		 */
+		// game = new ChessModel();
+		// game.setCurrentPlayer(Player.WHITE);
+
+		/**
+		 * Initialize all piece ImageIcons
+		 */
+<span class="nc" id="L142">		wPawn = new ImageIcon(&quot;wPawn.png&quot;);</span>
+<span class="nc" id="L143">		bPawn = new ImageIcon(&quot;bPawn.png&quot;);</span>
+<span class="nc" id="L144">		wRook = new ImageIcon(&quot;wRook.png&quot;);</span>
+<span class="nc" id="L145">		bRook = new ImageIcon(&quot;bRook.png&quot;);</span>
+<span class="nc" id="L146">		wKnight = new ImageIcon(&quot;wKnight.png&quot;);</span>
+<span class="nc" id="L147">		bKnight = new ImageIcon(&quot;bKnight.png&quot;);</span>
+<span class="nc" id="L148">		wQueen = new ImageIcon(&quot;wQueen.png&quot;);</span>
+<span class="nc" id="L149">		bQueen = new ImageIcon(&quot;bQueen.png&quot;);</span>
+<span class="nc" id="L150">		wKing = new ImageIcon(&quot;wKing.png&quot;);</span>
+<span class="nc" id="L151">		bKing = new ImageIcon(&quot;bKing.png&quot;);</span>
+<span class="nc" id="L152">		wBishop = new ImageIcon(&quot;wBishop.png&quot;);</span>
+<span class="nc" id="L153">		bBishop = new ImageIcon(&quot;bBishop.png&quot;);</span>
+<span class="nc" id="L154">		emptyIcon = new ImageIcon(&quot;emptyIcon.png&quot;);</span>
+<span class="nc" id="L155">		piece = emptyIcon;</span>
+
+		/**
+		 * Initialize Strings
+		 */
+<span class="nc" id="L160">		setTextString(&quot;&quot;);</span>
+<span class="nc" id="L161">		temp = &quot;&quot;;</span>
+
+		/**
+		 * Initialize the GUI components and set defaults
+		 */
+<span class="nc" id="L166">		frame = new JFrame(&quot;Awesome Chess&quot;);</span>
+<span class="nc" id="L167">		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L168">		panel = new JPanel(new GridLayout(8, 8));</span>
+<span class="nc" id="L169">		rightPanel = new JPanel();</span>
+<span class="nc" id="L170">		pane = new JTextPane();</span>
+<span class="nc" id="L171">		scroll = new JScrollPane(pane);</span>
+<span class="nc" id="L172">		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);</span>
+<span class="nc" id="L173">		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);</span>
+
+		/**
+		 * Initialize the ints
+		 */
+<span class="nc" id="L178">		x = 0;</span>
+<span class="nc" id="L179">		y = 0;</span>
+
+		/**
+		 * Initialize the menus and add components respectively
+		 */
+		// boneyard = new JMenuItem(&quot;Boneyard&quot;);
+<span class="nc" id="L185">		menu = new JMenuBar();</span>
+<span class="nc" id="L186">		file = new JMenu(&quot;File&quot;);</span>
+<span class="nc" id="L187">		help = new JMenu(&quot;Help&quot;);</span>
+<span class="nc" id="L188">		quit = new JMenuItem(&quot;Quit&quot;);</span>
+<span class="nc" id="L189">		setNewGame(new JMenuItem(&quot;New Game&quot;));</span>
+<span class="nc" id="L190">		setVersion(new JMenuItem(&quot;Version&quot;));</span>
+<span class="nc" id="L191">		gameTime = new JMenuItem(&quot;Game Time&quot;);</span>
+<span class="nc" id="L192">		setRules(new JMenuItem(&quot;Rules&quot;));</span>
+<span class="nc" id="L193">		frame.setJMenuBar(menu);</span>
+<span class="nc" id="L194">		menu.add(file);</span>
+<span class="nc" id="L195">		menu.add(help);</span>
+<span class="nc" id="L196">		file.add(getNewGame());</span>
+		// file.add(boneyard);
+<span class="nc" id="L198">		file.add(gameTime);</span>
+<span class="nc" id="L199">		file.add(quit);</span>
+<span class="nc" id="L200">		help.add(getVersion());</span>
+<span class="nc" id="L201">		help.add(getRules());</span>
+
+		/**
+		 * Initialize the board
+		 */
+<span class="nc" id="L206">		board = new JButton[ROWS][COLS];</span>
+
+		/**
+		 * Initialize the ActionListener
+		 */
+<span class="nc" id="L211">		l = new ButtonListener();</span>
+
+		/**
+		 * Add action listeners
+		 */
+<span class="nc" id="L216">		getNewGame().addActionListener(l);</span>
+<span class="nc" id="L217">		quit.addActionListener(l);</span>
+		// boneyard.addActionListener(l);
+<span class="nc" id="L219">		gameTime.addActionListener(l);</span>
+<span class="nc" id="L220">		getVersion().addActionListener(l);</span>
+<span class="nc" id="L221">		getRules().addActionListener(l);</span>
+
+		/**
+		 * Initialize booleans
+		 */
+<span class="nc" id="L226">		colorBool = false;</span>
+<span class="nc" id="L227">		pickedUp = false;</span>
+
+		/**
+		 * Initialize custom colors
+		 */
+<span class="nc" id="L232">		tileColor = new Color(150, 150, 150);</span>
+<span class="nc" id="L233">		moveColor = new Color(77, 255, 77);</span>
+
+		/**
+		 * Set borders and layouts of the panel and pane
+		 */
+<span class="nc" id="L238">		pane.setBorder(new TitledBorder(&quot;Status&quot;));</span>
+<span class="nc" id="L239">		rightPanel.setLayout(new BoxLayout(rightPanel, 1));</span>
+
+		/**
+		 * Call three native methods that initialize the buttons in the panel,
+		 * paint the checkered board, and fill it with the individual pieces
+		 */
+<span class="nc" id="L245">		initializeButtons();</span>
+<span class="nc" id="L246">		quickPaint();</span>
+
+		/**
+		 * Set default size of panel and pane
+		 */
+<span class="nc" id="L251">		frame.setPreferredSize(new Dimension(920, 700));</span>
+<span class="nc" id="L252">		scroll.setPreferredSize(new Dimension(183, 700));</span>
+
+		/**
+		 * Set the pane uneditable
+		 */
+<span class="nc" id="L257">		pane.setEditable(false);</span>
+
+		/**
+		 * Add components to the respective places, pack, and set visibility
+		 */
+<span class="nc" id="L262">		rightPanel.add(scroll);</span>
+<span class="nc" id="L263">		frame.add(panel, BorderLayout.CENTER);</span>
+<span class="nc" id="L264">		frame.add(rightPanel, BorderLayout.EAST);</span>
+<span class="nc" id="L265">		frame.pack();</span>
+<span class="nc" id="L266">		frame.setVisible(true);</span>
+<span class="nc" id="L267">		frame.setResizable(false);</span>
+
+<span class="nc" id="L269">	}</span>
+
+	/**
+	 * Set the player turn on the status
+	 */
+	public void updateCurrentPlayer(Player p) {
+<span class="nc" id="L275">		temp = p.toString().toLowerCase();</span>
+<span class="nc" id="L276">		temp = temp.substring(0, 1).toUpperCase()</span>
+<span class="nc" id="L277">				+ temp.substring(1, temp.length()) + &quot;'s turn.\n&quot;;</span>
+<span class="nc" id="L278">		setTextString(&quot;: &quot; + temp + getTextString());</span>
+<span class="nc" id="L279">		setText();</span>
+<span class="nc" id="L280">	}</span>
+
+	/**********************************************************************
+	 * A class that represents the listeners for the board and all of the
+	 * buttons.
+	 * 
+	 * @authors Ryan Hoezee Tyler Vassallo Joe Willard Jon Wood
+	 * @version Winter 2013
+	 **********************************************************************/
+<span class="nc" id="L289">	public class ButtonListener implements ActionListener {</span>
+		public void actionPerformed(ActionEvent e) {
+			/**
+			 * If user clicks &quot;Game Time&quot; in the menu, display a dialog box
+			 * showing the current run time of the game
+			 */
+<span class="nc bnc" id="L295" title="All 2 branches missed.">			if (e.getSource() == gameTime) {</span>
+<span class="nc" id="L296">				ImageIcon tempIcon = new ImageIcon(&quot;clock.png&quot;);</span>
+<span class="nc" id="L297">				long time = (System.currentTimeMillis() - startTime1) / 1000;</span>
+<span class="nc" id="L298">				long min = time / 60;</span>
+<span class="nc" id="L299">				long sec = time % 60;</span>
+<span class="nc" id="L300">				JOptionPane.showMessageDialog(frame, &quot;Game time: &quot; + min</span>
+<span class="nc" id="L301">						+ &quot; min. &quot; + sec + &quot; sec. &quot;, &quot;Game Time&quot;,</span>
+<span class="nc" id="L302">						JOptionPane.INFORMATION_MESSAGE, tempIcon);</span>
+			}
+
+			/**
+			 * For every board space
+			 */
+			// for (int i = 0; i &lt; 8; i++) {
+			// for (int j = 0; j &lt; 8; j++) {
+			//
+			// /**
+			// * If the user clicked the board and the game is not complete
+			// */
+			// if (e.getSource() == board[i][j] &amp;&amp; !gameComplete) {
+			//
+			// /**
+			// * Initialize a temporary list of ints as well as a game board
+			// */
+			// ArrayList&lt;Integer&gt; tempList = new ArrayList&lt;Integer&gt;();
+			// IChessPiece[][] tempBoard = game.getBoard();
+			//
+			// /**
+			// * If a piece is not already picked up and the space clicked is
+			// not empty
+			// */
+			// if (pickedUp == false
+			// &amp;&amp; board[i][j].getIcon().equals(emptyIcon) == false) {
+			//
+			// /**
+			// * Simulate all possible moves for selected piece and color spaces
+			// */
+			// for (int a = 0; a &lt; 8; a++) {
+			// for (int b = 0; b &lt; 8; b++) {
+			// if (tempBoard[i][j].player() == game
+			// .currentPlayer()) {
+			// if (game.isValidMove(new Move(i, j, a,
+			// b)) == true ||
+			// game.castlingLegal(new Move(i, j, a, b))) {
+			// board[a][b]
+			// .setBackground(moveColor);
+			// board[i][j]
+			// .setBackground(moveColor);
+			// tempList.add(1);
+			// }
+			// }
+			// }
+			// }
+			//
+			// /**
+			// * If there are no moves and the same space was clicked
+			// */
+			// if (tempList.size() != 0) {
+			// pickedUp = true;
+			// x = i;
+			// y = j;
+			// }
+			//
+			// /**
+			// * Else if a piece has already been picked up
+			// */
+			// } else {
+			// if (pickedUp == true) {
+			//
+			// /**
+			// * Create a new move and player
+			// */
+			// Move m = new Move(x, y, i, j);
+			// Player p = game.currentPlayer();
+			//
+			// /**
+			// * If castling is legal, execute it
+			// */
+			// if (game.castlingLegal(m)) {
+			// game.performCastle(m);
+			// if (j - y == -2) {
+			// board[i][j].setIcon(board[x][y].getIcon());
+			// board[x][y].setIcon(emptyIcon);
+			// board[i][3].setIcon(board[x][0].getIcon());
+			// board[x][0].setIcon(emptyIcon);
+			// }
+			// else {
+			// board[i][j].setIcon(board[x][y].getIcon());
+			// board[x][y].setIcon(emptyIcon);
+			// board[i][5].setIcon(board[x][7].getIcon());
+			// board[x][7].setIcon(emptyIcon);
+			// }
+			// }
+			// /**
+			// * If isValidMove is true make the move
+			// */
+			// else if (game.isValidMove(m) == true) {
+			// game.move(new Move(x, y, i, j));
+			//
+			// /**
+			// * Set the player turn on the pane
+			// */
+			// temp = game.currentPlayer().toString()
+			// .toLowerCase();
+			// temp = temp.substring(0, 1).toUpperCase()
+			// + temp.substring(1, temp.length())
+			// + &quot;'s turn.\n&quot;;
+			// textString = &quot;: &quot; + temp + textString;
+			// pane.setText(textString);
+			// if (game.lastMoveValid()) {
+			// board[i][j].setIcon(board[x][y]
+			// .getIcon());
+			// board[x][y].setIcon(emptyIcon);
+			// }
+			// }
+			// gameStatus(p, m);
+			// pickedUp = false;
+			// }
+			// /**
+			// * Clear the status and repaint the checkered board
+			// */
+			// clearStatus();
+			// quickPaint();
+			// }
+			// }
+			// }
+			/**
+			 * Update all components
+			 */
+<span class="nc" id="L424">			SwingUtilities.updateComponentTreeUI(frame);</span>
+<span class="nc" id="L425">		}</span>
+	}
+
+	public void setVersionText(Player p) {
+		/**
+		 * If user clicks &quot;Version&quot; in the menu, display the version in the
+		 * status pane
+		 */
+
+<span class="nc" id="L434">	}</span>
+
+	/**
+	 * GameStatus calls the methods that determine, in order, whether a piece
+	 * needs to be promoted, whether the current player is in checkmate, and
+	 * whether the current player is in check.
+	 * 
+	 * @param Player
+	 * @param Move
+	 */
+	// private void gameStatus(Player p, Move m) {
+	// IChessPiece piece = null;// = game.checkPromotion(p,
+	// // m);
+	// if (piece != null) {
+	// if (p == Player.WHITE) {
+	// if (piece.type().equals(&quot;Rook&quot;))
+	// board[m.toRow][m.toColumn].setIcon(wRook);
+	// if (piece.type().equals(&quot;Knight&quot;))
+	// board[m.toRow][m.toColumn].setIcon(wKnight);
+	// if (piece.type().equals(&quot;Bishop&quot;))
+	// board[m.toRow][m.toColumn].setIcon(wBishop);
+	// if (piece.type().equals(&quot;Queen&quot;))
+	// board[m.toRow][m.toColumn].setIcon(wQueen);
+	// } else {
+	// if (piece.type().equals(&quot;Rook&quot;))
+	// board[m.toRow][m.toColumn].setIcon(bRook);
+	// if (piece.type().equals(&quot;Knight&quot;))
+	// board[m.toRow][m.toColumn].setIcon(bKnight);
+	// if (piece.type().equals(&quot;Bishop&quot;))
+	// board[m.toRow][m.toColumn].setIcon(bBishop);
+	// if (piece.type().equals(&quot;Queen&quot;))
+	// board[m.toRow][m.toColumn].setIcon(bQueen);
+	// }
+	//
+	// }
+
+
+	public void checkmate(Player p) {
+<span class="nc" id="L472">		long time = (System.currentTimeMillis() - startTime1) / 1000;</span>
+<span class="nc" id="L473">		long min = time / 60;</span>
+<span class="nc" id="L474">		long sec = time % 60;</span>
+<span class="nc" id="L475">		ImageIcon winIcon = new ImageIcon(&quot;winner.png&quot;);</span>
+
+<span class="nc bnc" id="L477" title="All 2 branches missed.">		if (p.toString().equals(&quot;WHITE&quot;)) {</span>
+<span class="nc" id="L478">			JOptionPane.showMessageDialog(frame,</span>
+<span class="nc" id="L479">					&quot;Black has been checkmated.  White wins!&quot; + &quot;\nGame time: &quot;</span>
+<span class="nc" id="L480">							+ min + &quot; min. &quot; + sec + &quot; sec.&quot;, &quot;Game Over&quot;,</span>
+<span class="nc" id="L481">					JOptionPane.INFORMATION_MESSAGE, winIcon);</span>
+<span class="nc" id="L482">			System.exit(0);</span>
+<span class="nc" id="L483">		} else {</span>
+<span class="nc" id="L484">			JOptionPane.showMessageDialog(frame,</span>
+<span class="nc" id="L485">					&quot;White has been checkmated.  Black wins!&quot; + &quot;\nGame time: &quot;</span>
+<span class="nc" id="L486">							+ min + &quot; min. &quot; + sec + &quot; sec.&quot;, &quot;Game Over&quot;,</span>
+<span class="nc" id="L487">					JOptionPane.INFORMATION_MESSAGE, winIcon);</span>
+<span class="nc" id="L488">			System.exit(0);</span>
+		}
+<span class="nc" id="L490">	}</span>
+
+	//
+	// /**
+	// * White is in check
+	// */
+	// if (game.inCheck(game.currentPlayer())) {
+	// if (game.currentPlayer() == Player.WHITE)
+	// JOptionPane
+	// .showMessageDialog(
+	// frame,
+	// &quot;White King is in check!&quot;,
+	// &quot;Check&quot;,
+	// JOptionPane.INFORMATION_MESSAGE,
+	// checkIcon);
+	//
+	// /**
+	// * Black is in check
+	// */
+	// else
+	// JOptionPane
+	// .showMessageDialog(
+	// frame,
+	// &quot;Black King is in check!&quot;,
+	// &quot;Check&quot;,
+	// JOptionPane.INFORMATION_MESSAGE,
+	// checkIcon);
+	// }
+	// }
+	// }
+
+	/**
+	 * A native method that clears the status pane
+	 */
+	// private void clearStatus() {
+	// temp = game.currentPlayer().toString().toLowerCase();
+	// temp = temp.substring(0, 1).toUpperCase()
+	// + temp.substring(1, temp.length()) + &quot;'s turn.\n&quot;;
+	// textString = &quot;: &quot; + temp;
+	// pane.setText(textString);
+	// }
+	// }
+
+	/**
+	 * A native method that resets the time of the game
+	 */
+	public void resetTime() {
+<span class="nc" id="L537">		startTime1 = System.currentTimeMillis();</span>
+<span class="nc" id="L538">	}</span>
+
+	/**
+	 * A native method that initializes the buttons on the board
+	 */
+	public void initializeButtons() {
+<span class="nc bnc" id="L544" title="All 2 branches missed.">		for (int i = 0; i &lt; ROWS; i++) {</span>
+<span class="nc bnc" id="L545" title="All 2 branches missed.">			for (int j = 0; j &lt; COLS; j++) {</span>
+<span class="nc" id="L546">				board[i][j] = new JButton();</span>
+<span class="nc" id="L547">				board[i][j].addActionListener(l);</span>
+<span class="nc" id="L548">				panel.add(board[i][j]);</span>
+			}
+		}
+<span class="nc" id="L551">	}</span>
+
+	/**
+	 * A native method that paints the checkered background
+	 */
+	public void quickPaint() {
+<span class="nc" id="L557">		Color tempColor = Color.WHITE;</span>
+<span class="nc bnc" id="L558" title="All 2 branches missed.">		for (int i = 0; i &lt; 8; i++) {</span>
+<span class="nc bnc" id="L559" title="All 2 branches missed.">			for (int j = 0; j &lt; 8; j++) {</span>
+<span class="nc" id="L560">				getBoard()[i][j].setBackground(tempColor);</span>
+<span class="nc bnc" id="L561" title="All 2 branches missed.">				if (colorBool == true) {</span>
+<span class="nc" id="L562">					colorBool = false;</span>
+<span class="nc" id="L563">					tempColor = Color.WHITE;</span>
+<span class="nc" id="L564">				} else {</span>
+<span class="nc" id="L565">					colorBool = true;</span>
+<span class="nc" id="L566">					tempColor = tileColor;</span>
+				}
+			}
+
+<span class="nc bnc" id="L570" title="All 2 branches missed.">			if (colorBool == true) {</span>
+<span class="nc" id="L571">				colorBool = false;</span>
+<span class="nc" id="L572">				tempColor = Color.WHITE;</span>
+<span class="nc" id="L573">			} else {</span>
+<span class="nc" id="L574">				colorBool = true;</span>
+<span class="nc" id="L575">				tempColor = tileColor;</span>
+			}
+		}
+<span class="nc" id="L578">	}</span>
+
+	/*********************************************************************
+	 * Adds ActionListeners to the button array
+	 * 
+	 * @param i
+	 *            row of button
+	 * @param j
+	 *            column of button
+	 * @param actionListener
+	 *            the action listener from the Present class
+	 **********************************************************************/
+	public void addButtonListener(int i, int j, ActionListener actionListener) {
+<span class="nc" id="L591">		getBoard()[i][j].addActionListener(actionListener);</span>
+<span class="nc" id="L592">	}</span>
+
+	public JButton[][] getBoard() {
+<span class="nc" id="L595">		return board;</span>
+	}
+
+	public void setButtons(JButton[][] buttons) {
+<span class="nc" id="L599">		this.board = buttons;</span>
+<span class="nc" id="L600">	}</span>
+	
+	public JButton[][] getButtons() {
+<span class="nc" id="L603">		return this.board;</span>
+	}
+
+	public static void main(String[] args) {
+<span class="nc" id="L607">		GUI g = new GUI();</span>
+<span class="nc" id="L608">	}</span>
+
+	public void printBoard(IChessPiece[][] gameBoard) {
+
+<span class="nc bnc" id="L612" title="All 2 branches missed.">		for (int i = 0; i &lt; ROWS; i++) {</span>
+<span class="nc bnc" id="L613" title="All 2 branches missed.">			for (int j = 0; j &lt; COLS; j++) {</span>
+<span class="nc bnc" id="L614" title="All 2 branches missed.">				if (gameBoard[i][j] != null) {</span>
+<span class="nc bnc" id="L615" title="All 2 branches missed.">					if (gameBoard[i][j].player() == Player.WHITE) {</span>
+<span class="nc bnc" id="L616" title="All 2 branches missed.">						if (gameBoard[i][j].type().equals(&quot;Rook&quot;)) {</span>
+<span class="nc" id="L617">							board[i][j].setIcon(wRook);</span>
+<span class="nc bnc" id="L618" title="All 2 branches missed.">						} else if (gameBoard[i][j].type().equals(&quot;Knight&quot;)) {</span>
+<span class="nc" id="L619">							board[i][j].setIcon(wKnight);</span>
+<span class="nc bnc" id="L620" title="All 2 branches missed.">						} else if (gameBoard[i][j].type().equals(&quot;Bishop&quot;)) {</span>
+<span class="nc" id="L621">							board[i][j].setIcon(wBishop);</span>
+<span class="nc bnc" id="L622" title="All 2 branches missed.">						} else if (gameBoard[i][j].type().equals(&quot;Queen&quot;)) {</span>
+<span class="nc" id="L623">							board[i][j].setIcon(wQueen);</span>
+<span class="nc bnc" id="L624" title="All 2 branches missed.">						} else if (gameBoard[i][j].type().equals(&quot;King&quot;)) {</span>
+<span class="nc" id="L625">							board[i][j].setIcon(wKing);</span>
+<span class="nc bnc" id="L626" title="All 2 branches missed.">						} else if (gameBoard[i][j].type().equals(&quot;Pawn&quot;)) {</span>
+<span class="nc" id="L627">							board[i][j].setIcon(wPawn);</span>
+						}
+<span class="nc" id="L629">					} else {</span>
+<span class="nc bnc" id="L630" title="All 2 branches missed.">						if (gameBoard[i][j].type().equals(&quot;Rook&quot;)) {</span>
+<span class="nc" id="L631">							board[i][j].setIcon(bRook);</span>
+<span class="nc bnc" id="L632" title="All 2 branches missed.">						} else if (gameBoard[i][j].type().equals(&quot;Knight&quot;)) {</span>
+<span class="nc" id="L633">							board[i][j].setIcon(bKnight);</span>
+<span class="nc bnc" id="L634" title="All 2 branches missed.">						} else if (gameBoard[i][j].type().equals(&quot;Bishop&quot;)) {</span>
+<span class="nc" id="L635">							board[i][j].setIcon(bBishop);</span>
+<span class="nc bnc" id="L636" title="All 2 branches missed.">						} else if (gameBoard[i][j].type().equals(&quot;Queen&quot;)) {</span>
+<span class="nc" id="L637">							board[i][j].setIcon(bQueen);</span>
+<span class="nc bnc" id="L638" title="All 2 branches missed.">						} else if (gameBoard[i][j].type().equals(&quot;King&quot;)) {</span>
+<span class="nc" id="L639">							board[i][j].setIcon(bKing);</span>
+<span class="nc bnc" id="L640" title="All 2 branches missed.">						} else if (gameBoard[i][j].type().equals(&quot;Pawn&quot;)) {</span>
+<span class="nc" id="L641">							board[i][j].setIcon(bPawn);</span>
+						}
+					}
+<span class="nc" id="L644">				} else {</span>
+<span class="nc" id="L645">					board[i][j].setIcon(emptyIcon);</span>
+				}
+			}
+		}
+<span class="nc" id="L649">	}</span>
+
+	public void setText() {
+<span class="nc" id="L652">		pane.setText(textString);</span>
+<span class="nc" id="L653">	}</span>
+
+	public JFrame getFrame() {
+<span class="nc" id="L656">		return frame;</span>
+	}
+
+	public JMenuItem getQuit() {
+<span class="nc" id="L660">		return quit;</span>
+	}
+
+	public JMenuItem getNewGame() {
+<span class="nc" id="L664">		return newGame;</span>
+	}
+
+	public JMenuItem getVersion() {
+<span class="nc" id="L668">		return version;</span>
+	}
+
+	public JMenuItem getRules() {
+<span class="nc" id="L672">		return rules;</span>
+	}
+
+	public void putSelfInCheck() {
+<span class="nc" id="L676">		setTextString(&quot;: You can't put\n: yourself in check!\n*************************\n&quot;</span>
+<span class="nc" id="L677">				+ getTextString());</span>
+<span class="nc" id="L678">		setText();</span>
+<span class="nc" id="L679">	}</span>
+
+	public void inCheck() {
+		// TODO Auto-generated method stub
+<span class="nc" id="L683">		setTextString(&quot;: You placed them in check!\n*************************\n&quot;</span>
+<span class="nc" id="L684">				+ getTextString());</span>
+<span class="nc" id="L685">		setText();</span>
+<span class="nc" id="L686">	}</span>
+
+	public void prompt(Player currentPlayer) {
+		// TODO Auto-generated method stub
+
+<span class="nc" id="L691">	}</span>
+
+	public void repack() {
+		// TODO Auto-generated method stub
+
+<span class="nc" id="L696">	}</span>
+
+	public void update(Move tempMove) {
+		// TODO Auto-generated method stub
+
+<span class="nc" id="L701">	}</span>
+
+	public void end() {
+		// TODO Auto-generated method stub
+
+<span class="nc" id="L706">		JOptionPane.showMessageDialog(null, &quot;Checkmate!&quot;);</span>
+
+<span class="nc" id="L708">	}</span>
+
+	public String getTextString() {
+<span class="nc" id="L711">		return textString;</span>
+	}
+
+	public void setTextString(String textString) {
+<span class="nc" id="L715">		this.textString = textString;</span>
+<span class="nc" id="L716">	}</span>
+
+	public void reset() {
+		// TODO Auto-generated method stub
+
+<span class="nc" id="L721">	}</span>
+
+	public void setNewGame(JMenuItem newGame) {
+<span class="nc" id="L724">		this.newGame = newGame;</span>
+<span class="nc" id="L725">	}</span>
+
+	public void setVersion(JMenuItem version) {
+<span class="nc" id="L728">		this.version = version;</span>
+<span class="nc" id="L729">	}</span>
+
+	public void setRules(JMenuItem rules) {
+<span class="nc" id="L732">		this.rules = rules;</span>
+<span class="nc" id="L733">	}</span>
+
+	public void gameOver(Player winner) {
+		// TODO Auto-generated method stub
+		
+<span class="nc" id="L738">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span>ModelTest (Mar 27, 2014 11:59:52 PM)</div></body></html>

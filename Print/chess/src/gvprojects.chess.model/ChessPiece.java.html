@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>ChessPiece.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">ModelTest (Mar 27, 2014 11:59:52 PM)</a> &gt; <a href="../../index.html" class="el_group">chess</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.html" class="el_package">gvprojects.chess.model</a> &gt; <span class="el_source">ChessPiece.java</span></div><h1>ChessPiece.java</h1><pre class="source lang-java linenums">/**
+ *  File:               ChessPiece.java 
+ *  Author:             mumfordr, herremam, vassalty
+ *  Date:               2009-03-02 15:30:24
+ *  Version:            1.0
+ */
+package gvprojects.chess.model;
+
+/*********************************************************************
+ * This class creates a {@code ChessPiece}. 
+ * and determines if moves are valid
+ * 
+ * 
+ * @author Mitch Herrema
+ * @version April 10, 2013
+ *********************************************************************/
+
+public class ChessPiece implements IChessPiece {
+
+	/*****************************************************************
+	 * Initialize variable.
+	 * 
+	 * @param name String
+	 ****************************************************************/
+	private String name;
+	/*****************************************************************
+	 * Initialize variable.
+	 * 
+	 * @param color Player
+	 ****************************************************************/
+	private Player color;
+
+	/******************************************************************
+	 * ChessPiece Constructor creates a chess piece.
+	 * 
+	 * @param color - Player
+	 * 
+	 * @param name - String
+	 * 
+	 ******************************************************************/
+<span class="fc" id="L41">	public ChessPiece(final Player color, final String name) {</span>
+<span class="fc" id="L42">		this.color = color;</span>
+<span class="fc" id="L43">		this.name = name;</span>
+<span class="fc" id="L44">	}</span>
+
+	/******************************************************************
+	 * Returns if the move is valid.
+	 * 
+	 * @param position - Move
+	 *            
+	 * @param  board - IChessPiece [][]
+	 * 
+	 * @return boolean
+	 ******************************************************************/
+	public boolean isValidMove(final Move position, 
+			final IChessPiece[][] board) {
+<span class="fc" id="L57">		int fromRow = position.fromRow;</span>
+<span class="fc" id="L58">		int fromColumn = position.fromColumn;</span>
+<span class="fc" id="L59">		int toRow = position.toRow;</span>
+<span class="fc" id="L60">		int toColumn = position.toColumn;</span>
+<span class="fc" id="L61">		int max = board[0].length - 1;</span>
+<span class="pc bpc" id="L62" title="4 of 8 branches missed.">		if (fromRow &gt; max || toRow &gt; max || fromColumn &gt; max || toColumn &gt; max</span>
+<span class="pc bpc" id="L63" title="4 of 8 branches missed.">				|| fromRow &lt; 0 || toRow &lt; 0 || fromColumn &lt; 0 || toColumn &lt; 0) {</span>
+<span class="nc" id="L64">			return false;</span>
+		}
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">		if (board[fromRow][fromColumn] == null) {</span>
+<span class="nc" id="L67">			throw new IllegalArgumentException(&quot;null from&quot;);</span>
+		}
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">		if (board[fromRow][fromColumn] != this) {</span>
+<span class="nc" id="L70">			throw new IllegalArgumentException(&quot;wrong object&quot;);</span>
+		}
+<span class="fc bfc" id="L72" title="All 4 branches covered.">		if (fromRow == toRow &amp;&amp; fromColumn == toColumn) {</span>
+<span class="fc" id="L73">			return false;</span>
+		}
+<span class="fc bfc" id="L75" title="All 2 branches covered.">		if (board[toRow][toColumn] != null) {</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">			if (board[toRow][toColumn].player() == color) {</span>
+<span class="fc" id="L77">				return false;</span>
+			}
+		}
+
+<span class="fc" id="L81">		return true;</span>
+	}
+
+	/******************************************************************
+	 * Returns the name of the piece.
+	 * 
+	 * @return String name
+	 ******************************************************************/
+	@Override
+	public final String type() {
+<span class="nc" id="L91">		return name;</span>
+	}
+
+	/******************************************************************
+	 * Returns the player that owns the piece.
+	 * 
+	 * @return Player color
+	 ******************************************************************/
+	@Override
+	public final Player player() {
+<span class="fc" id="L101">		return color;</span>
+	}
+
+//	@Override
+//	public String type() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span>ModelTest (Mar 27, 2014 11:59:52 PM)</div></body></html>

@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>Model.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="right"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">ModelTest (Mar 27, 2014 11:59:52 PM)</a> &gt; <a href="../../index.html" class="el_group">chess</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.html" class="el_package">gvprojects.chess.model</a> &gt; <span class="el_source">Model.java</span></div><h1>Model.java</h1><pre class="source lang-java linenums">/**
+ *  File:               Model.java 
+ *  Author:             mumfordr, herremam, vassalty
+ *  Date:               2009-03-02 15:30:24
+ *  Version:            1.0
+ */
+package gvprojects.chess.model;
+
+/*********************************************************************
+ * This class creates a Chess game engine, altering and keeping track of each.
+ * move of the game
+ * 
+ * @author Mitch Herrema
+ * @version March 21, 2013
+ *********************************************************************/
+public class Model implements IChessModel {
+
+	/** the game board. */
+	private IChessPiece[][] board;
+
+	/** white king location. */
+	private int[] whiteKing;
+
+	/** black king location. */
+	private int[] blackKing;
+
+	/** keeps track of who's turn. */
+	private boolean whiteTurn;
+
+	/** game board size. */
+<span class="fc" id="L31">	private int boardsize = 8;</span>
+
+	/** temporary move. */
+	private Move tempMove;
+
+	/** Saves the board. */
+	private IChessPiece[][] saveFirstBoard;
+	
+	/** Saves the first player. */
+	private boolean saveFirstPlayer;
+	/** Winner variable. */
+	private Player winner;
+
+	/** Variable for check in self. */
+<span class="fc" id="L45">	private boolean putSelfInCheck = false;</span>
+	
+	/** Variable if other player is in check. */
+<span class="fc" id="L48">	private boolean otherPlayerCheck = false;</span>
+
+	/******************************************************************
+	 * Model Constructor Creates game board and places all pieces, marking king.
+	 * locations and setting it to white's turn
+	 * 
+	 ******************************************************************/
+<span class="fc" id="L55">	public Model() {</span>
+<span class="fc" id="L56">		whiteTurn = true;</span>
+<span class="fc" id="L57">		whiteKing = new int[2];</span>
+<span class="fc" id="L58">		blackKing = new int[2];</span>
+<span class="fc" id="L59">		setBoard(new IChessPiece[boardsize][boardsize]);</span>
+		// creates black pieces
+<span class="fc" id="L61">		final int rook = 7; //ROOK</span>
+<span class="fc" id="L62">		final int knight = 6;</span>
+<span class="fc" id="L63">		final int bishop = 5;</span>
+<span class="fc" id="L64">		final int king = 4;</span>
+<span class="fc" id="L65">		final int queen = 3;</span>
+<span class="fc" id="L66">		getBoard()[0][0] = new Rook(Player.BLACK);</span>
+<span class="fc" id="L67">		getBoard()[0][rook] = new Rook(Player.BLACK);</span>
+<span class="fc" id="L68">		getBoard()[0][1] = new Knight(Player.BLACK);</span>
+<span class="fc" id="L69">		getBoard()[0][knight] = new Knight(Player.BLACK);</span>
+<span class="fc" id="L70">		getBoard()[0][2] = new Bishop(Player.BLACK);</span>
+<span class="fc" id="L71">		getBoard()[0][bishop] = new Bishop(Player.BLACK);</span>
+<span class="fc" id="L72">		getBoard()[0][king] = new King(Player.BLACK);</span>
+<span class="fc" id="L73">		blackKing[0] = 0;</span>
+<span class="fc" id="L74">		blackKing[1] = king;</span>
+<span class="fc" id="L75">		getBoard()[0][queen] = new Queen(Player.BLACK);</span>
+		// creates the pawns in their row
+<span class="fc bfc" id="L77" title="All 2 branches covered.">		for (int i = 0; i &lt; boardsize; i++) {</span>
+<span class="fc" id="L78">			getBoard()[1][i] = new Pawn(Player.BLACK, 1);</span>
+		}
+<span class="fc" id="L80">		final int row = 7;</span>
+		// creates white pieces
+<span class="fc" id="L82">		getBoard()[row][0] = new Rook(Player.WHITE);</span>
+<span class="fc" id="L83">		getBoard()[row][rook] = new Rook(Player.WHITE);</span>
+<span class="fc" id="L84">		getBoard()[row][1] = new Knight(Player.WHITE);</span>
+<span class="fc" id="L85">		getBoard()[row][knight] = new Knight(Player.WHITE);</span>
+<span class="fc" id="L86">		getBoard()[row][2] = new Bishop(Player.WHITE);</span>
+<span class="fc" id="L87">		getBoard()[row][bishop] = new Bishop(Player.WHITE);</span>
+<span class="fc" id="L88">		getBoard()[row][king] = new King(Player.WHITE);</span>
+<span class="fc" id="L89">		whiteKing[0] = row;</span>
+<span class="fc" id="L90">		whiteKing[1] = king;</span>
+<span class="fc" id="L91">		getBoard()[row][queen] = new Queen(Player.WHITE);</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">		for (int i = 0; i &lt; boardsize; i++) {</span>
+<span class="fc" id="L93">			getBoard()[row - 1][i] = new Pawn(Player.WHITE, knight);</span>
+		}
+<span class="fc" id="L95">		saveFirstBoard = new IChessPiece[boardsize][boardsize];</span>
+<span class="fc" id="L96">	}</span>
+
+	/******************************************************************
+	 * Returns current player.
+	 * 
+	 * @return Player
+	 ******************************************************************/
+	public final Player currentPlayer() {
+<span class="fc bfc" id="L104" title="All 2 branches covered.">		if (whiteTurn) {</span>
+<span class="fc" id="L105">			return Player.WHITE;</span>
+		} else {
+<span class="fc" id="L107">			return Player.BLACK;</span>
+		}
+	}
+
+	/******************************************************************
+	 * Returns if the player given is in check.
+	 * 
+	 * @param p - Player
+	 * @return boolean if in check
+	 ******************************************************************/
+	public final boolean inCheck(final Player p) {
+		// runs through every row
+<span class="fc bfc" id="L119" title="All 2 branches covered.">				for (int i = 0; i &lt; boardsize; i++) {</span>
+					// runs through every column
+<span class="fc bfc" id="L121" title="All 2 branches covered.">					for (int j = 0; j &lt; boardsize; j++) {</span>
+						// if the player given is white
+<span class="fc bfc" id="L123" title="All 2 branches covered.">						if (p == Player.WHITE) {</span>
+<span class="fc" id="L124">							tempMove = new Move(i, j, whiteKing[0], </span>
+<span class="fc" id="L125">									whiteKing[1]); </span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">						} else if (p == Player.BLACK) {</span>
+<span class="fc" id="L127">							tempMove = new Move(i, j, blackKing[0], </span>
+<span class="fc" id="L128">									blackKing[1]);</span>
+						}
+						// if the move above is valid, player is in check
+<span class="fc bfc" id="L131" title="All 2 branches covered.">						if (isValidCheck(tempMove)) {</span>
+<span class="fc" id="L132">							return true;</span>
+						}
+					}
+				}
+<span class="fc" id="L136">				return false;</span>
+	}
+
+	/******************************************************************
+	 * Unimplemented checkmate.
+	 * 
+	 * @return boolean
+	 ******************************************************************/
+	public final boolean isComplete() {
+<span class="fc" id="L145">		System.out.println(&quot;checked complete&quot;);</span>
+		// Player p = Player.WHITE;
+<span class="fc" id="L147">		Move checkMateMove = null;</span>
+<span class="fc" id="L148">		saveFirstState();</span>
+		//View v = new View();
+		//v.printBoard(saveFirstBoard);
+		// for(int k=0; k&lt;2; k++){
+<span class="pc bpc" id="L152" title="1 of 2 branches missed.">		for (int i = 0; i &lt; numRows(); i++) {</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">			for (int j = 0; j &lt; numColumns(); j++) {</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">				if (pieceAt(i, j) != null) {</span>
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">					if (pieceAt(i, j).player() == currentPlayer()) {</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">						for (int l = 0; l &lt; numRows(); l++) {</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">							for (int n = 0; n &lt; numColumns(); n++) {</span>
+<span class="fc" id="L158">								checkMateMove = new Move(i, j, l, n);</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">								if (isValidMove(checkMateMove)) {</span>
+									// saveState();
+<span class="fc" id="L161">									move(checkMateMove);</span>
+<span class="pc bpc" id="L162" title="1 of 2 branches missed.">									if (!inCheck(currentPlayer())) {</span>
+<span class="fc" id="L163">										loadFirstState();</span>
+										//v.printBoard(saveFirstBoard);
+<span class="fc" id="L165">										return false;</span>
+									} else {
+<span class="nc" id="L167">										loadFirstState();</span>
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		// p = Player.BLACK;
+		// }
+<span class="nc bnc" id="L178" title="All 2 branches missed.">		if (inCheck(Player.WHITE)) {</span>
+<span class="nc" id="L179">			winner = Player.BLACK;</span>
+<span class="nc" id="L180">		} else {</span>
+<span class="nc" id="L181">			winner = Player.WHITE;</span>
+		}
+		//loadFirstState();
+<span class="nc" id="L184">		return true;</span>
+	}
+
+	/******************************************************************
+	 * Determines if the given move is valid on this board. Each piece has their
+	 * own isValidMove, but that is specific to which direction/distance they
+	 * are able to move
+	 * 
+	 * @param m Move
+	 * 
+	 * @return boolean if valid
+	 ******************************************************************/
+	public final boolean isValidMove(final Move m) {
+		// if the location holds no piece
+<span class="pc bpc" id="L198" title="1 of 2 branches missed.">		if (getBoard()[m.fromRow][m.fromColumn] == null) {</span>
+<span class="nc" id="L199">			return false;</span>
+		}
+		// if trying to move the wrong player's piece
+<span class="fc bfc" id="L202" title="All 2 branches covered.">		if (getBoard()[m.fromRow][m.fromColumn].player() != currentPlayer()) {</span>
+<span class="fc" id="L203">			return false;</span>
+		}
+		// if the piece can't move that direction/distance
+<span class="fc bfc" id="L206" title="All 2 branches covered.">		if (!getBoard()[m.fromRow][m.fromColumn].isValidMove(m, getBoard())) {</span>
+<span class="fc" id="L207">			return false;</span>
+		}
+<span class="fc" id="L209">		return true;</span>
+	}
+
+	/******************************************************************
+	 * Method specific to checking if the current move will put the player.
+	 * moving in check
+	 * 
+	 * @param m Move
+	 * 
+	 * @return boolean if valid
+	 ******************************************************************/
+	public final boolean isValidCheck(final Move m) {
+		// if the location is null
+<span class="fc bfc" id="L222" title="All 2 branches covered.">		if (getBoard()[m.fromRow][m.fromColumn] == null) {</span>
+<span class="fc" id="L223">			return false;</span>
+		}
+		// if the piece can't move that direction/distance
+<span class="fc bfc" id="L226" title="All 2 branches covered.">		if (!getBoard()[m.fromRow][m.fromColumn].isValidMove(m, getBoard())) {</span>
+<span class="fc" id="L227">			return false;</span>
+		}
+<span class="fc" id="L229">		return true;</span>
+	}
+
+	/******************************************************************
+	 * Moves the piece.
+	 * 
+	 * @param m Move
+	 ******************************************************************/
+	public final void move(final Move m) {
+		//IChessPiece[][] tempboard = null;
+<span class="fc" id="L239">		saveFirstState();</span>
+		// if valid move
+<span class="fc bfc" id="L241" title="All 2 branches covered.">		if (isValidMove(m)) {</span>
+			// if moving the correct player's piece
+<span class="fc bfc" id="L243" title="All 2 branches covered.">			if ((whiteTurn &amp;&amp; getBoard()[m.fromRow][m.fromColumn].player()</span>
+<span class="pc bpc" id="L244" title="1 of 2 branches missed.">					== Player.WHITE)</span>
+<span class="pc bpc" id="L245" title="1 of 2 branches missed.">					|| (!whiteTurn &amp;&amp; getBoard()[m.fromRow][m.fromColumn]</span>
+<span class="pc bpc" id="L246" title="1 of 2 branches missed.">							.player() == Player.BLACK)) {</span>
+				//tempboard = getBoard();
+<span class="fc" id="L248">				getBoard()[m.toRow][m.toColumn] = </span>
+<span class="fc" id="L249">						getBoard()[m.fromRow][m.fromColumn];</span>
+<span class="fc" id="L250">				getBoard()[m.fromRow][m.fromColumn] = null;</span>
+				// if moving the white king
+<span class="fc bfc" id="L252" title="All 4 branches covered.">				if (m.fromRow == whiteKing[0] &amp;&amp; m.fromColumn == whiteKing[1]) {</span>
+<span class="fc" id="L253">					whiteKing[0] = m.toRow;</span>
+<span class="fc" id="L254">					whiteKing[1] = m.toColumn;</span>
+				}
+				// if moving the black king
+<span class="fc bfc" id="L257" title="All 4 branches covered.">				if (m.fromRow == blackKing[0] &amp;&amp; m.fromColumn == blackKing[1]) {</span>
+<span class="fc" id="L258">					blackKing[0] = m.toRow;</span>
+<span class="fc" id="L259">					blackKing[1] = m.toColumn;</span>
+				}
+			}
+			// if the move puts themselves in check
+<span class="fc bfc" id="L263" title="All 2 branches covered.">			if (inCheck(currentPlayer())) {</span>
+<span class="fc" id="L264">				cancelMove(m);</span>
+<span class="fc" id="L265">				setPutSelfInCheck(true); </span>
+<span class="fc bfc" id="L266" title="All 2 branches covered.">			} else if (inCheck(otherPlayer(currentPlayer()))) {</span>
+<span class="fc" id="L267">				setOtherPlayerCheck(true);</span>
+<span class="fc" id="L268">			} else {</span>
+<span class="fc" id="L269">				switchTurns();</span>
+				// System.out.println(&quot;switched&quot;);
+			}
+		}
+		//View v = new View();
+		//v.printBoard(saveFirstBoard)
+<span class="fc" id="L275">	}</span>
+
+	/******************************************************************
+	 * Cancels the move (if putting self into check.
+	 * 
+	 * @param m Move
+	 ******************************************************************/
+	public final void cancelMove(final Move m) {
+		//board[m.fromRow][m.fromColumn] = board[m.toRow][m.toColumn];
+<span class="fc" id="L284">		loadFirstState();</span>
+		// if moving the white king
+<span class="pc bpc" id="L286" title="1 of 4 branches missed.">		if (m.toRow == whiteKing[0] &amp;&amp; m.toColumn == whiteKing[1]) {</span>
+<span class="fc" id="L287">			whiteKing[0] = m.fromRow;</span>
+<span class="fc" id="L288">			whiteKing[1] = m.fromColumn;</span>
+		}
+		// if moving the black king
+<span class="pc bpc" id="L291" title="1 of 4 branches missed.">		if (m.toRow == blackKing[0] &amp;&amp; m.toColumn == blackKing[1]) {</span>
+<span class="fc" id="L292">			blackKing[0] = m.fromRow;</span>
+<span class="fc" id="L293">			blackKing[1] = m.fromColumn;</span>
+		}
+		//board[m.toRow][m.toColumn] = null;
+<span class="fc" id="L296">	}</span>
+
+	/******************************************************************
+	 * Switches turns after a move.
+	 ******************************************************************/
+	public final void switchTurns() {
+		// if it's white's turn
+<span class="fc bfc" id="L303" title="All 2 branches covered.">		if (whiteTurn) {</span>
+<span class="fc" id="L304">			whiteTurn = false;</span>
+<span class="fc" id="L305">		} else {</span>
+<span class="fc" id="L306">			whiteTurn = true;</span>
+		}
+<span class="fc" id="L308">	}</span>
+
+	/******************************************************************
+	 * Returns the other player.
+	 * 
+	 * @param p Player
+	 *
+	 * @return other Player
+	 ******************************************************************/
+	public final Player otherPlayer(final Player p) {
+		// if p is white
+<span class="fc bfc" id="L319" title="All 2 branches covered.">		if (p.equals(Player.WHITE)) {</span>
+<span class="fc" id="L320">			return Player.BLACK;</span>
+		} else {
+<span class="fc" id="L322">			return Player.WHITE;</span>
+		}
+	}
+
+	/******************************************************************
+	 * Returns number of columns.
+	 * 
+	 * @param none
+	 * @return int columns
+	 ******************************************************************/
+	public final int numColumns() {
+<span class="fc" id="L333">		return boardsize;</span>
+	}
+
+	/******************************************************************
+	 * Returns the number of rows.
+	 * 
+	 * @param none
+	 * @return int rows
+	 ******************************************************************/
+	public final int numRows() {
+<span class="fc" id="L343">		return boardsize;</span>
+	}
+
+	/******************************************************************
+	 * Returns the piece at the given row and col.
+	 * 
+	 * @param row int
+	 * @param col int
+	 * @return IChessPiece
+	 ******************************************************************/
+	public final IChessPiece pieceAt(final int row, final int col) {
+<span class="fc" id="L354">		return getBoard()[row][col];</span>
+	}
+
+	/******************************************************************
+	 * Returns the game board.
+	 * 
+	 * @param none
+	 * @return IChessPiece[][] board
+	 ******************************************************************/
+	public final IChessPiece[][] getBoard() {
+<span class="fc" id="L364">		return board;</span>
+	}
+
+	/******************************************************************
+	 * Sets the board.
+	 * 
+	 * @param board IChessPiece [][]
+	 ******************************************************************/
+	public final void setBoard(final IChessPiece[][] board) {
+<span class="fc" id="L373">		this.board = board;</span>
+<span class="fc" id="L374">	}</span>
+
+	/******************************************************************
+	 * Checks to see if you put yourself in check.
+	 * 
+	 * @return boolean
+	 ******************************************************************/
+	public final boolean isPutSelfInCheck() {
+<span class="fc" id="L382">		return putSelfInCheck;</span>
+	}
+
+	/******************************************************************
+	 * Checks to see if you put yourself in check tbe sets the variable.
+	 * 
+	 * @param putSelfInCheck boolean
+	 ******************************************************************/
+	public final void setPutSelfInCheck(final boolean putSelfInCheck) {
+<span class="fc" id="L391">		this.putSelfInCheck = putSelfInCheck;</span>
+<span class="fc" id="L392">	}</span>
+
+	/******************************************************************
+	 * Checks to see if the other player is in check.
+	 * 
+	 * @return boolean
+	 ******************************************************************/
+	public final boolean isOtherPlayerCheck() {
+<span class="nc" id="L400">		return otherPlayerCheck;</span>
+	}
+
+	/******************************************************************
+	 * Checks to see if the other payer is in check then sets the variable.
+	 * 
+	 * @param potherPlayerCheck boolean
+	 ******************************************************************/
+	public final void setOtherPlayerCheck(final boolean potherPlayerCheck) {
+<span class="fc" id="L409">		this.otherPlayerCheck = potherPlayerCheck;</span>
+<span class="fc" id="L410">	}</span>
+
+//	private void saveState() {
+//		saveBoard = board;
+//		savePlayer = whiteTurn;
+//	}
+//
+//	private void loadState() {
+//		board = saveBoard;
+//		whiteTurn = savePlayer;
+//	}
+
+	/** Saves board state. */
+	private void saveFirstState() {
+<span class="fc bfc" id="L424" title="All 2 branches covered.">		for (int i = 0; i &lt; board.length; i++) {</span>
+<span class="fc bfc" id="L425" title="All 2 branches covered.">			for (int j = 0; j &lt; board.length; j++) {</span>
+<span class="fc" id="L426">				saveFirstBoard[i][j] = board[i][j];</span>
+			}
+		}
+<span class="fc" id="L429">		saveFirstPlayer = whiteTurn;</span>
+<span class="fc" id="L430">	}</span>
+	
+	/** Loads board state. */
+	private void loadFirstState() {
+<span class="fc bfc" id="L434" title="All 2 branches covered.">		for (int i = 0; i &lt; board.length; i++) {</span>
+<span class="fc bfc" id="L435" title="All 2 branches covered.">			for (int j = 0; j &lt; board.length; j++) {</span>
+<span class="fc" id="L436">				board[i][j] = saveFirstBoard[i][j];</span>
+			}
+		}
+<span class="fc" id="L439">		whiteTurn = saveFirstPlayer;</span>
+<span class="fc" id="L440">	}</span>
+
+	/** returns winning player.
+	 * 
+	 * @return winner Player 
+	 */
+	public final Player getWinner() {
+<span class="fc" id="L447">		return winner;</span>
+	}
+
+	/******************************************************************
+	 * sets Winner.
+	 * 
+	 *@param pwinner Player  
+	 ******************************************************************/
+	public final void setWinner(final Player pwinner) {
+<span class="nc" id="L456">		this.winner = pwinner;</span>
+<span class="nc" id="L457">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.3.201306030806</span>ModelTest (Mar 27, 2014 11:59:52 PM)</div></body></html>
