@@ -54,7 +54,7 @@ public class Presenter {
 			if(isFrom() && hasPiece(buttonRow, buttonCol)){
 				setFromRow(buttonRow);
 				setFromCol(buttonCol);
-				g.getBoard()[buttonRow][buttonCol].setBackground(Color.green);
+				g.getBoard()[buttonRow][buttonCol].setBackground(Color.blue);
 				g.getBoard()[buttonRow][buttonCol].setOpaque(true);
 				//System.out.println(getFromRow()+ " + "+ getFromCol());
 				//g.getBoard()[buttonRow][buttonCol].setBackground(Color.BLUE);
@@ -71,9 +71,8 @@ public class Presenter {
 				Move tempMove = new Move(fromRow, fromCol, toRow, toCol);
 				m.move(tempMove);
 				//System.out.println("self check: " + m.isPutSelfInCheck());
-				
-				g.getBoard()[tempMove.fromRow][tempMove.fromColumn].setBackground(Color.LIGHT_GRAY);
-				g.getBoard()[tempMove.fromRow][tempMove.fromColumn].setOpaque(false);
+				 
+				//g.getBoard()[tempMove.fromRow][tempMove.fromColumn].setOpaque(false);
 				g.printBoard(m.getBoard());
 				if(m.isPutSelfInCheck()){
 					g.putSelfInCheck();
@@ -300,7 +299,7 @@ public class Presenter {
 		for (int j = 0; j < 8; j++) {
 			for (int i = 0; i < 8; i++) {
 				if (m.pieceAt(row, col).isValidMove(new Move(row, col, j, i), m.getBoard()) == true) {
-					g.getBoard()[j][i].setBackground(Color.red);
+					g.getBoard()[j][i].setBackground(Color.blue);
 				}
 			}
 		}
@@ -309,18 +308,20 @@ public class Presenter {
 	public void repaint() {
 		for (int j = 0; j < 8; j++) {
 			for (int i = 0; i < 8; i++) {
-				if (g.getBoard()[j][i].getBackground() == Color.red) {
+				if (g.getBoard()[j][i].getBackground() == Color.blue) {
 					if (j % 2 == 1) {
-						if (i % 2 == 1) {
-							g.getBoard()[j][i].setBackground(Color.white);
-						} else {
+						if (i % 2 == 0) {
 							g.getBoard()[j][i].setBackground(Color.gray);
+						} else {
+							g.getBoard()[j][i].setBackground(Color.white);
 						}
 					} else {
-						if (i % 2 == 1) {
-							g.getBoard()[j][i].setBackground(Color.gray);
-						} else {
-							g.getBoard()[j][i].setBackground(Color.white);	
+						if (j % 2 == 0) {
+							if (i % 2 == 1) { 
+								g.getBoard()[j][i].setBackground(Color.gray);
+							} else {
+								g.getBoard()[j][i].setBackground(Color.white);
+							}
 						}
 					}
 				}
