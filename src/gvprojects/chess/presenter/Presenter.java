@@ -9,6 +9,7 @@ package gvprojects.chess.presenter;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -53,14 +54,17 @@ public class Presenter {
 			if(isFrom() && hasPiece(buttonRow, buttonCol)){
 				setFromRow(buttonRow);
 				setFromCol(buttonCol);
-				g.getBoard()[buttonRow][buttonCol].setBackground(Color.blue);
+				g.getBoard()[buttonRow][buttonCol].setBackground(Color.green);
 				g.getBoard()[buttonRow][buttonCol].setOpaque(true);
 				//System.out.println(getFromRow()+ " + "+ getFromCol());
 				//g.getBoard()[buttonRow][buttonCol].setBackground(Color.BLUE);
 				from = false;
+				
+				getMoves(buttonRow, buttonCol);
+				
 			}
 			else{
-
+				repaint();
 				setToRow(buttonRow);
 				setToCol(buttonCol);
 				//System.out.println(getToRow()+ " + "+ getToCol());
@@ -105,7 +109,6 @@ public class Presenter {
 			//				window.won(false);
 			//			}
 		}
-
 	}
 
 	public Presenter() {
@@ -289,6 +292,40 @@ public class Presenter {
 
 	public void setToCol(int c){
 		toCol = c;
+	}
+	
+	public void getMoves(int row, int col) {
+		ArrayList list = new ArrayList();
+		
+		for (int j = 0; j < 8; j++) {
+			for (int i = 0; i < 8; i++) {
+				if (m.pieceAt(row, col).isValidMove(new Move(row, col, j, i), m.getBoard()) == true) {
+					g.getBoard()[j][i].setBackground(Color.red);
+				}
+			}
+		}
+	}
+	
+	public void repaint() {
+		for (int j = 0; j < 8; j++) {
+			for (int i = 0; i < 8; i++) {
+				if (g.getBoard()[j][i].getBackground() == Color.red) {
+					if (j % 2 == 1) {
+						if (i % 2 == 1) {
+							g.getBoard()[j][i].setBackground(Color.white);
+						} else {
+							g.getBoard()[j][i].setBackground(Color.gray);
+						}
+					} else {
+						if (i % 2 == 1) {
+							g.getBoard()[j][i].setBackground(Color.gray);
+						} else {
+							g.getBoard()[j][i].setBackground(Color.white);	
+						}
+					}
+				}
+			}
+		}
 	}
 }
 
