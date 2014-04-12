@@ -7,6 +7,10 @@
 package gvprojects.chess.presenter;
 
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ import javax.swing.JOptionPane;
 import gvprojects.chess.model.IChessPiece;
 import gvprojects.chess.model.Model;
 import gvprojects.chess.model.Move;
+import gvprojects.chess.model.Player;
 import gvprojects.chess.view.GUI;
 
 public class Presenter {
@@ -61,10 +66,12 @@ public class Presenter {
 				from = false;
 				
 				getMoves(buttonRow, buttonCol);
+				cursor(buttonRow, buttonCol);
 				
 			}
 			else{
 				repaint();
+				g.getFrame().setCursor(Cursor.getDefaultCursor());
 				setToRow(buttonRow);
 				setToCol(buttonCol);
 				//System.out.println(getToRow()+ " + "+ getToCol());
@@ -327,6 +334,64 @@ public class Presenter {
 				}
 			}
 		}
+	}
+	
+	public void cursor(int r, int c) {
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		
+		  Image image = image = toolkit.getImage("emptyIcon.png");
+		  
+		  if (m.pieceAt(r, c).toString().contains("Bishop") == true) {
+			  if (m.pieceAt(r, c).player() == Player.WHITE) {
+				  image = toolkit.getImage("wBishop.png");
+			  } else {
+				  image = toolkit.getImage("bBishop.png");
+			  }
+		  }
+		  
+		  if (m.pieceAt(r, c).toString().contains("Knight") == true) {
+			  if (m.pieceAt(r, c).player() == Player.WHITE) {
+				  image = toolkit.getImage("wKnight.png");
+			  } else {
+				  image = toolkit.getImage("bKnight.png");
+			  }
+		  }
+		  
+		  if (m.pieceAt(r, c).toString().contains("Pawn") == true) {
+			  if (m.pieceAt(r, c).player() == Player.WHITE) {
+				  image = toolkit.getImage("wPawn.png");
+			  } else {
+				  image = toolkit.getImage("bPawn.png");
+			  }
+		  }
+		  
+		  if (m.pieceAt(r, c).toString().contains("Rook") == true) {
+			  if (m.pieceAt(r, c).player() == Player.WHITE) {
+				  image = toolkit.getImage("wRook.png");
+			  } else {
+				  image = toolkit.getImage("bRook.png");
+			  }
+		  }
+		  
+		  if (m.pieceAt(r, c).toString().contains("King") == true) {
+			  if (m.pieceAt(r, c).player() == Player.WHITE) {
+				  image = toolkit.getImage("wKing.png");
+			  } else {
+				  image = toolkit.getImage("bKing.png");
+			  }
+		  }
+		  
+		  if (m.pieceAt(r, c).toString().contains("Queen") == true) {
+			  if (m.pieceAt(r, c).player() == Player.WHITE) {
+				  image = toolkit.getImage("wQueen.png");
+			  } else {
+				  image = toolkit.getImage("bQueen.png");
+			  }
+		  }
+		  
+		  Cursor curs = toolkit.createCustomCursor(image, new Point(g.getFrame().getX(),
+		     g.getFrame().getY()), "img");
+		  g.getFrame().setCursor(curs);
 	}
 }
 
