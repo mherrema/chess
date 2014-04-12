@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import gvprojects.chess.model.IChessPiece;
@@ -336,7 +338,7 @@ public class Presenter {
 		}
 	}
 	
-	public void cursor(int r, int c) {
+	public void cursor(int r, int c) {		
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		
 		  Image image = image = toolkit.getImage("emptyIcon.png");
@@ -389,8 +391,10 @@ public class Presenter {
 			  }
 		  }
 		  
-		  Cursor curs = toolkit.createCustomCursor(image, new Point(g.getFrame().getX(),
-		     g.getFrame().getY()), "img");
+		  Cursor curs = toolkit.createCustomCursor(image, new Point(1, 1), "cursur");
+		  Image img = toolkit.getImage("emptyIcon.png");
+		  ImageIcon empty = new ImageIcon(img);
+		  g.getBoard()[r][c].setIcon(empty);
 		  g.getFrame().setCursor(curs);
 	}
 }
