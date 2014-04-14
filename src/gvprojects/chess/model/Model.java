@@ -37,7 +37,7 @@ public class Model implements IChessModel {
 
 	/** Saves the board. */
 	private IChessPiece[][] saveFirstBoard;
-	
+
 	/** Saves the first player. */
 	private boolean saveFirstPlayer;
 	/** Winner variable. */
@@ -45,11 +45,15 @@ public class Model implements IChessModel {
 
 	/** Variable for check in self. */
 	private boolean putSelfInCheck = false;
-	
+
 	/** Variable if other player is in check. */
 	private boolean otherPlayerCheck = false;
+
+	private boolean[][] validMoves;
+
+	private ArrayList<IChessPiece> boneyard;
 	
-	boolean[][] validMoves;
+	private boolean addedToBoneyard = false;
 
 	/******************************************************************
 	 * Model Constructor Creates game board and places all pieces, marking king.
@@ -62,7 +66,7 @@ public class Model implements IChessModel {
 		blackKing = new int[2];
 		setBoard(new IChessPiece[boardsize][boardsize]);
 		// creates black pieces
-		final int rook = 7; //ROOK
+		final int rook = 7; // ROOK
 		final int knight = 6;
 		final int bishop = 5;
 		final int king = 4;
@@ -97,6 +101,7 @@ public class Model implements IChessModel {
 			getBoard()[row - 1][i] = new Pawn(Player.WHITE, knight);
 		}
 		saveFirstBoard = new IChessPiece[boardsize][boardsize];
+		boneyard = new ArrayList<IChessPiece>();
 	}
 
 	/******************************************************************
@@ -115,29 +120,28 @@ public class Model implements IChessModel {
 	/******************************************************************
 	 * Returns if the player given is in check.
 	 * 
-	 * @param p - Player
+	 * @param p
+	 *            - Player
 	 * @return boolean if in check
 	 ******************************************************************/
 	public final boolean inCheck(final Player p) {
 		// runs through every row
-				for (int i = 0; i < boardsize; i++) {
-					// runs through every column
-					for (int j = 0; j < boardsize; j++) {
-						// if the player given is white
-						if (p == Player.WHITE) {
-							tempMove = new Move(i, j, whiteKing[0], 
-									whiteKing[1]); 
-						} else if (p == Player.BLACK) {
-							tempMove = new Move(i, j, blackKing[0], 
-									blackKing[1]);
-						}
-						// if the move above is valid, player is in check
-						if (isValidCheck(tempMove)) {
-							return true;
-						}
-					}
+		for (int i = 0; i < boardsize; i++) {
+			// runs through every column
+			for (int j = 0; j < boardsize; j++) {
+				// if the player given is white
+				if (p == Player.WHITE) {
+					tempMove = new Move(i, j, whiteKing[0], whiteKing[1]);
+				} else if (p == Player.BLACK) {
+					tempMove = new Move(i, j, blackKing[0], blackKing[1]);
 				}
-				return false;
+				// if the move above is valid, player is in check
+				if (isValidCheck(tempMove)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/******************************************************************
@@ -150,8 +154,8 @@ public class Model implements IChessModel {
 		// Player p = Player.WHITE;
 		Move checkMateMove = null;
 		saveFirstState();
-		//View v = new View();
-		//v.printBoard(saveFirstBoard);
+		// View v = new View();
+		// v.printBoard(saveFirstBoard);
 		// for(int k=0; k<2; k++){
 		for (int i = 0; i < numRows(); i++) {
 			for (int j = 0; j < numColumns(); j++) {
@@ -165,7 +169,7 @@ public class Model implements IChessModel {
 									move(checkMateMove);
 									if (!inCheck(currentPlayer())) {
 										loadFirstState();
-										//v.printBoard(saveFirstBoard);
+										// v.printBoard(saveFirstBoard);
 										return false;
 									} else {
 										loadFirstState();
@@ -185,7 +189,7 @@ public class Model implements IChessModel {
 		} else {
 			winner = Player.WHITE;
 		}
-		//loadFirstState();
+		// loadFirstState();
 		return true;
 	}
 
@@ -194,7 +198,8 @@ public class Model implements IChessModel {
 	 * own isValidMove, but that is specific to which direction/distance they
 	 * are able to move
 	 * 
-	 * @param m Move
+	 * @param m
+	 *            Move
 	 * 
 	 * @return boolean if valid
 	 ******************************************************************/
@@ -218,7 +223,8 @@ public class Model implements IChessModel {
 	 * Method specific to checking if the current move will put the player.
 	 * moving in check
 	 * 
-	 * @param m Move
+	 * @param m
+	 *            Move
 	 * 
 	 * @return boolean if valid
 	 ******************************************************************/
@@ -237,21 +243,31 @@ public class Model implements IChessModel {
 	/******************************************************************
 	 * Moves the piece.
 	 * 
-	 * @param m Move
+	 * @param m
+	 *            Move
 	 ******************************************************************/
 	public final void move(final Move m) {
-		//IChessPiece[][] tempboard = null;
+		// IChessPiece[][] tempboard = null;
 		saveFirstState();
 		// if valid move
 		if (isValidMove(m)) {
+			
 			// if moving the correct player's piece
-			if ((whiteTurn && getBoard()[m.fromRow][m.fromColumn].player()
-					== Player.WHITE)
+			if ((whiteTurn && getBoard()[m.fromRow][m.fromColumn].player() == Player.WHITE)
 					|| (!whiteTurn && getBoard()[m.fromRow][m.fromColumn]
 							.player() == Player.BLACK)) {
-				//tempboard = getBoard();
-				getBoard()[m.toRow][m.toColumn] = 
-						getBoard()[m.fromRow][m.fromColumn];
+				// Tries to add the piece at the "to" position to the boneyard,
+				// which is assumed to be one of the opponent's pieces,
+				// and catches the NullPointerException if the "to" position is
+				// empty.
+				try {
+					if(board[m.toRow][m.toColumn]!=null){
+						boneyard.add(board[m.toRow][m.toColumn]);
+						addedToBoneyard = true;
+					}
+				} catch (Exception e) {}
+				// tempboard = getBoard();
+				getBoard()[m.toRow][m.toColumn] = getBoard()[m.fromRow][m.fromColumn];
 				getBoard()[m.fromRow][m.fromColumn] = null;
 				// if moving the white king
 				if (m.fromRow == whiteKing[0] && m.fromColumn == whiteKing[1]) {
@@ -267,25 +283,31 @@ public class Model implements IChessModel {
 			// if the move puts themselves in check
 			if (inCheck(currentPlayer())) {
 				cancelMove(m);
-				setPutSelfInCheck(true); 
+				if(addedToBoneyard){
+					boneyard.remove(boneyard.size()-1);
+				}
+				setPutSelfInCheck(true);
 			} else if (inCheck(otherPlayer(currentPlayer()))) {
 				setOtherPlayerCheck(true);
 			} else {
 				switchTurns();
 				// System.out.println("switched");
 			}
+			addedToBoneyard = false;
+
 		}
-		//View v = new View();
-		//v.printBoard(saveFirstBoard)
+		// View v = new View();
+		// v.printBoard(saveFirstBoard)
 	}
 
 	/******************************************************************
 	 * Cancels the move (if putting self into check.
 	 * 
-	 * @param m Move
+	 * @param m
+	 *            Move
 	 ******************************************************************/
 	public final void cancelMove(final Move m) {
-		//board[m.fromRow][m.fromColumn] = board[m.toRow][m.toColumn];
+		// board[m.fromRow][m.fromColumn] = board[m.toRow][m.toColumn];
 		loadFirstState();
 		// if moving the white king
 		if (m.toRow == whiteKing[0] && m.toColumn == whiteKing[1]) {
@@ -297,7 +319,7 @@ public class Model implements IChessModel {
 			blackKing[0] = m.fromRow;
 			blackKing[1] = m.fromColumn;
 		}
-		//board[m.toRow][m.toColumn] = null;
+		// board[m.toRow][m.toColumn] = null;
 	}
 
 	/******************************************************************
@@ -315,8 +337,9 @@ public class Model implements IChessModel {
 	/******************************************************************
 	 * Returns the other player.
 	 * 
-	 * @param p Player
-	 *
+	 * @param p
+	 *            Player
+	 * 
 	 * @return other Player
 	 ******************************************************************/
 	public final Player otherPlayer(final Player p) {
@@ -351,8 +374,10 @@ public class Model implements IChessModel {
 	/******************************************************************
 	 * Returns the piece at the given row and col.
 	 * 
-	 * @param row int
-	 * @param col int
+	 * @param row
+	 *            int
+	 * @param col
+	 *            int
 	 * @return IChessPiece
 	 ******************************************************************/
 	public final IChessPiece pieceAt(final int row, final int col) {
@@ -372,7 +397,8 @@ public class Model implements IChessModel {
 	/******************************************************************
 	 * Sets the board.
 	 * 
-	 * @param board IChessPiece [][]
+	 * @param board
+	 *            IChessPiece [][]
 	 ******************************************************************/
 	public final void setBoard(final IChessPiece[][] board) {
 		this.board = board;
@@ -390,7 +416,8 @@ public class Model implements IChessModel {
 	/******************************************************************
 	 * Checks to see if you put yourself in check tbe sets the variable.
 	 * 
-	 * @param putSelfInCheck boolean
+	 * @param putSelfInCheck
+	 *            boolean
 	 ******************************************************************/
 	public final void setPutSelfInCheck(final boolean putSelfInCheck) {
 		this.putSelfInCheck = putSelfInCheck;
@@ -408,21 +435,22 @@ public class Model implements IChessModel {
 	/******************************************************************
 	 * Checks to see if the other payer is in check then sets the variable.
 	 * 
-	 * @param potherPlayerCheck boolean
+	 * @param potherPlayerCheck
+	 *            boolean
 	 ******************************************************************/
 	public final void setOtherPlayerCheck(final boolean potherPlayerCheck) {
 		this.otherPlayerCheck = potherPlayerCheck;
 	}
 
-//	private void saveState() {
-//		saveBoard = board;
-//		savePlayer = whiteTurn;
-//	}
-//
-//	private void loadState() {
-//		board = saveBoard;
-//		whiteTurn = savePlayer;
-//	}
+	// private void saveState() {
+	// saveBoard = board;
+	// savePlayer = whiteTurn;
+	// }
+	//
+	// private void loadState() {
+	// board = saveBoard;
+	// whiteTurn = savePlayer;
+	// }
 
 	/** Saves board state. */
 	private void saveFirstState() {
@@ -433,7 +461,7 @@ public class Model implements IChessModel {
 		}
 		saveFirstPlayer = whiteTurn;
 	}
-	
+
 	/** Loads board state. */
 	private void loadFirstState() {
 		for (int i = 0; i < board.length; i++) {
@@ -445,9 +473,10 @@ public class Model implements IChessModel {
 		System.out.println("loaded first state");
 	}
 
-	/** returns winning player.
+	/**
+	 * returns winning player.
 	 * 
-	 * @return winner Player 
+	 * @return winner Player
 	 */
 	public final Player getWinner() {
 		return winner;
@@ -456,21 +485,36 @@ public class Model implements IChessModel {
 	/******************************************************************
 	 * sets Winner.
 	 * 
-	 *@param pwinner Player  
+	 * @param pwinner
+	 *            Player
 	 ******************************************************************/
 	public final void setWinner(final Player pwinner) {
 		this.winner = pwinner;
 	}
-	
+
 	public boolean[][] getMoves(int row, int col) {
 		validMoves = new boolean[8][8];
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				if (pieceAt(row, col).isValidMove(new Move(row, col, i, j), getBoard()) && pieceAt(row,col).player()==currentPlayer()) {
-					validMoves[i][j]=true;
+				if (pieceAt(row, col).isValidMove(new Move(row, col, i, j),
+						getBoard())
+						&& pieceAt(row, col).player() == currentPlayer()) {
+					validMoves[i][j] = true;
 				}
 			}
 		}
 		return validMoves;
 	}
+
+	/**********************************************************************
+	 * Method that returns the ArrayList containing all the captured pieces in
+	 * the game.
+	 * 
+	 * @param none
+	 * @return ArrayList<IChessPiece> the ArrayList of captured pieces
+	 **********************************************************************/
+	public ArrayList<IChessPiece> getBoneyard() {
+		return boneyard;
+	}
+
 }

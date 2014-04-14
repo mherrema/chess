@@ -220,28 +220,34 @@ public class Presenter {
 				g.setText();
 			}
 		});
+		
+		g.getBoneyard().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			ImageIcon tempIcon = new ImageIcon("skull.png");
+			String fin = "";
+			if (m.getBoneyard().size() == 0) {
+				fin = "Empty";
+			}
+			else{
+			for (int i = 0; i < m.getBoneyard().size(); i++) {
+				if (i == (m.getBoneyard().size() % 3)) {
+					fin = fin + "\n";
+				}
+				if (i == (m.getBoneyard().size() - 1)) {
+					fin = fin + m.getBoneyard().get(i).player() + " " + m.getBoneyard().get(i).type();
+				} else {
+					fin = fin + m.getBoneyard().get(i).player() + " " + m.getBoneyard().get(i).type() + ", ";
+				}
+			}
+			
+		}
+			JOptionPane.showMessageDialog(g.getFrame(), fin, "Boneyard",
+					JOptionPane.INFORMATION_MESSAGE, tempIcon);
+			}
+		});
 	}
 
-	/******************************************************************
-	 * Updates the gameboard
-	 * 
-	 ******************************************************************/
-//	public final void update() {
-//		g.printBoard(m.getBoard());
-//		// if they put themselves in check
-//		if (m.isPutSelfInCheck()) {
-//			g.putSelfInCheck();
-//			m.setPutSelfInCheck(false);
-//		}
-//		// if they put the other player in check
-//		if (m.isOtherPlayerCheck()) {
-//			g.inCheck();
-//			m.setOtherPlayerCheck(false);
-//		}
-//		g.prompt(m.currentPlayer());
-//
-//	}
-
+	
 	public static void main(String[] args) {
 		Presenter p = new Presenter();
 		p.g.printBoard(p.m.getBoard());

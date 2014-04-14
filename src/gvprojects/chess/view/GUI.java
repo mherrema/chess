@@ -68,7 +68,7 @@ public class GUI extends JPanel {
 	private JMenuItem gameTime;
 	private JMenuItem version;
 	private JMenuItem rules;
-	//private JMenuItem boneyard;
+	private JMenuItem boneyard;
 
 	/**
 	 * Board instance variable
@@ -180,7 +180,7 @@ public class GUI extends JPanel {
 		/**
 		 * Initialize the menus and add components respectively
 		 */
-		// boneyard = new JMenuItem("Boneyard");
+		setBoneyard(new JMenuItem("Boneyard"));
 		menu = new JMenuBar();
 		file = new JMenu("File");
 		help = new JMenu("Help");
@@ -193,7 +193,7 @@ public class GUI extends JPanel {
 		menu.add(file);
 		menu.add(help);
 		file.add(getNewGame());
-		// file.add(boneyard);
+		file.add(getBoneyard());
 		file.add(gameTime);
 		file.add(quit);
 		help.add(getVersion());
@@ -214,7 +214,7 @@ public class GUI extends JPanel {
 		 */
 		getNewGame().addActionListener(l);
 		quit.addActionListener(l);
-		// boneyard.addActionListener(l);
+		getBoneyard().addActionListener(l);
 		gameTime.addActionListener(l);
 		getVersion().addActionListener(l);
 		getRules().addActionListener(l);
@@ -302,122 +302,6 @@ public class GUI extends JPanel {
 			}
 
 			/**
-			 * For every board space
-			 */
-			// for (int i = 0; i < 8; i++) {
-			// for (int j = 0; j < 8; j++) {
-			//
-			// /**
-			// * If the user clicked the board and the game is not complete
-			// */
-			// if (e.getSource() == board[i][j] && !gameComplete) {
-			//
-			// /**
-			// * Initialize a temporary list of ints as well as a game board
-			// */
-			// ArrayList<Integer> tempList = new ArrayList<Integer>();
-			// IChessPiece[][] tempBoard = game.getBoard();
-			//
-			// /**
-			// * If a piece is not already picked up and the space clicked is
-			// not empty
-			// */
-			// if (pickedUp == false
-			// && board[i][j].getIcon().equals(emptyIcon) == false) {
-			//
-			// /**
-			// * Simulate all possible moves for selected piece and color spaces
-			// */
-			// for (int a = 0; a < 8; a++) {
-			// for (int b = 0; b < 8; b++) {
-			// if (tempBoard[i][j].player() == game
-			// .currentPlayer()) {
-			// if (game.isValidMove(new Move(i, j, a,
-			// b)) == true ||
-			// game.castlingLegal(new Move(i, j, a, b))) {
-			// board[a][b]
-			// .setBackground(moveColor);
-			// board[i][j]
-			// .setBackground(moveColor);
-			// tempList.add(1);
-			// }
-			// }
-			// }
-			// }
-			//
-			// /**
-			// * If there are no moves and the same space was clicked
-			// */
-			// if (tempList.size() != 0) {
-			// pickedUp = true;
-			// x = i;
-			// y = j;
-			// }
-			//
-			// /**
-			// * Else if a piece has already been picked up
-			// */
-			// } else {
-			// if (pickedUp == true) {
-			//
-			// /**
-			// * Create a new move and player
-			// */
-			// Move m = new Move(x, y, i, j);
-			// Player p = game.currentPlayer();
-			//
-			// /**
-			// * If castling is legal, execute it
-			// */
-			// if (game.castlingLegal(m)) {
-			// game.performCastle(m);
-			// if (j - y == -2) {
-			// board[i][j].setIcon(board[x][y].getIcon());
-			// board[x][y].setIcon(emptyIcon);
-			// board[i][3].setIcon(board[x][0].getIcon());
-			// board[x][0].setIcon(emptyIcon);
-			// }
-			// else {
-			// board[i][j].setIcon(board[x][y].getIcon());
-			// board[x][y].setIcon(emptyIcon);
-			// board[i][5].setIcon(board[x][7].getIcon());
-			// board[x][7].setIcon(emptyIcon);
-			// }
-			// }
-			// /**
-			// * If isValidMove is true make the move
-			// */
-			// else if (game.isValidMove(m) == true) {
-			// game.move(new Move(x, y, i, j));
-			//
-			// /**
-			// * Set the player turn on the pane
-			// */
-			// temp = game.currentPlayer().toString()
-			// .toLowerCase();
-			// temp = temp.substring(0, 1).toUpperCase()
-			// + temp.substring(1, temp.length())
-			// + "'s turn.\n";
-			// textString = ": " + temp + textString;
-			// pane.setText(textString);
-			// if (game.lastMoveValid()) {
-			// board[i][j].setIcon(board[x][y]
-			// .getIcon());
-			// board[x][y].setIcon(emptyIcon);
-			// }
-			// }
-			// gameStatus(p, m);
-			// pickedUp = false;
-			// }
-			// /**
-			// * Clear the status and repaint the checkered board
-			// */
-			// clearStatus();
-			// quickPaint();
-			// }
-			// }
-			// }
-			/**
 			 * Update all components
 			 */
 			SwingUtilities.updateComponentTreeUI(frame);
@@ -432,41 +316,6 @@ public class GUI extends JPanel {
 		
 
 	}
-
-	/**
-	 * GameStatus calls the methods that determine, in order, whether a piece
-	 * needs to be promoted, whether the current player is in checkmate, and
-	 * whether the current player is in check.
-	 * 
-	 * @param Player
-	 * @param Move
-	 */
-	// private void gameStatus(Player p, Move m) {
-	// IChessPiece piece = null;// = game.checkPromotion(p,
-	// // m);
-	// if (piece != null) {
-	// if (p == Player.WHITE) {
-	// if (piece.type().equals("Rook"))
-	// board[m.toRow][m.toColumn].setIcon(wRook);
-	// if (piece.type().equals("Knight"))
-	// board[m.toRow][m.toColumn].setIcon(wKnight);
-	// if (piece.type().equals("Bishop"))
-	// board[m.toRow][m.toColumn].setIcon(wBishop);
-	// if (piece.type().equals("Queen"))
-	// board[m.toRow][m.toColumn].setIcon(wQueen);
-	// } else {
-	// if (piece.type().equals("Rook"))
-	// board[m.toRow][m.toColumn].setIcon(bRook);
-	// if (piece.type().equals("Knight"))
-	// board[m.toRow][m.toColumn].setIcon(bKnight);
-	// if (piece.type().equals("Bishop"))
-	// board[m.toRow][m.toColumn].setIcon(bBishop);
-	// if (piece.type().equals("Queen"))
-	// board[m.toRow][m.toColumn].setIcon(bQueen);
-	// }
-	//
-	// }
-
 
 	public void checkmate(Player p) {
 		long time = (System.currentTimeMillis() - startTime1) / 1000;
@@ -487,34 +336,7 @@ public class GUI extends JPanel {
 		}
 	}
 
-	//
-	// /**
-	// * White is in check
-	// */
-	// if (game.inCheck(game.currentPlayer())) {
-	// if (game.currentPlayer() == Player.WHITE)
-	// JOptionPane
-	// .showMessageDialog(
-	// frame,
-	// "White King is in check!",
-	// "Check",
-	// JOptionPane.INFORMATION_MESSAGE,
-	// checkIcon);
-	//
-	// /**
-	// * Black is in check
-	// */
-	// else
-	// JOptionPane
-	// .showMessageDialog(
-	// frame,
-	// "Black King is in check!",
-	// "Check",
-	// JOptionPane.INFORMATION_MESSAGE,
-	// checkIcon);
-	// }
-	// }
-	// }
+	
 
 	/**
 	 * A native method that clears the status pane
@@ -759,5 +581,13 @@ public class GUI extends JPanel {
 
 	public void printMove(int row, int col) {
 		board[row][col].setBackground(Color.blue);
+	}
+
+	public JMenuItem getBoneyard() {
+		return boneyard;
+	}
+
+	public void setBoneyard(JMenuItem boneyard) {
+		this.boneyard = boneyard;
 	}
 }
