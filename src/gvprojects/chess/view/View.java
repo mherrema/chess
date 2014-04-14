@@ -5,7 +5,7 @@ import gvprojects.chess.model.Player;
 import java.io.PrintStream;
 
 /*********************************************************************
- * This class visualizes the chess game
+ * This class visualizes the chess game.
  * 
  * @author Mitch Herrema
  * @version March 21, 2013
@@ -13,11 +13,13 @@ import java.io.PrintStream;
 
 
 public class View {
-	// opens a PrintStream
+	/** opens a PrintStream. */
 	private PrintStream out = System.out;
+	/** Constant number variables. */
+	private final int eight = 8;
 
 	/******************************************************************
-	 * View constructor
+	 * View constructor.
 	 * 
 	 * @param none
 	 ******************************************************************/
@@ -26,24 +28,23 @@ public class View {
 	}
 
 	/******************************************************************
-	 * Prints the board
+	 * Prints the board.
 	 * 
-	 * @param IChessPiece
-	 *            [][] board
+	 * @param board IChessPiece[][]
 	 ******************************************************************/
-	public final void printBoard(IChessPiece[][] board) {
+	public final void printBoard(final IChessPiece[][] board) {
 		out.println("\n      A    B    C    D    E    F    G    H  ");
 		out.println("   *****************************************");
 		// runs down rows
-		for (int i = 8; i > 0; i--) {
+		for (int i = eight; i > 0; i--) {
 			out.print(i + "  *");
 			// runs over columns
-			for (int c = 0; c < 8; c++) {
+			for (int c = 0; c < eight; c++) {
 				// prints empty
-				if (board[Math.abs(i - 8)][c] == null) {
+				if (board[Math.abs(i - eight)][c] == null) {
 					out.print("    *");
 				} else {
-					out.print(" " + pieceToString(board[Math.abs(i - 8)][c])
+					out.print(" " + pieceToString(board[Math.abs(i - eight)][c])
 							+ " *");
 					
 				}
@@ -55,10 +56,9 @@ public class View {
 	}
 
 	/******************************************************************
-	 * Returns the shorthand string of the piece
+	 * Returns the shorthand string of the piece.
 	 * 
-	 * @param IChessPiece
-	 *            p
+	 * @param p IChessPiece
 	 * @return String name
 	 ******************************************************************/
 	public final String pieceToString(final IChessPiece p) {
@@ -69,17 +69,16 @@ public class View {
 	}
 
 	/******************************************************************
-	 * Prompts for input
+	 * Prompts for input.
 	 * 
-	 * @param Player
-	 *            p
+	 * @param p Player
 	 ******************************************************************/
 	public final void prompt(final Player p) {
 		out.print(p.name() + ", please enter a move: ");
 	}
 
 	/******************************************************************
-	 * Displays if put self in check
+	 * Displays if put self in check.
 	 * 
 	 ******************************************************************/
 	public final void putSelfInCheck() {
@@ -87,7 +86,7 @@ public class View {
 	}
 
 	/******************************************************************
-	 * Displays if player has been placed in check
+	 * Displays if player has been placed in check.
 	 * 
 	 ******************************************************************/
 	public final void inCheck() {
@@ -95,7 +94,7 @@ public class View {
 	}
 
 	/******************************************************************
-	 * Displays if invalid input
+	 * Displays if invalid input.
 	 * 
 	 ******************************************************************/
 	public final void invalidInput() {

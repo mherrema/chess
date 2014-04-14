@@ -7,9 +7,7 @@
 package gvprojects.chess.view;
 
 import gvprojects.chess.model.IChessPiece;
-import gvprojects.chess.model.Move;
 import gvprojects.chess.model.Player;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -28,17 +26,35 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 /**********************************************************************
  * A class that represents the GUI portion of the game of chess.
  * 
- * @authors Mitch Herrema
+ * author Mitch Herrema
  * @version Winter 2013
  **********************************************************************/
 public class GUI extends JPanel {
 
+	/** number variable. */
+	private final int eight = 8;
+	/** number variable. */
+	private final int onefifty = 150;
+	/** number variable. */
+	private final int seventyseven = 77;
+	/** number variable. */
+	private final int twofiftyfive = 255;
+	/** number variable. */
+	private final int ninetwenty = 920;
+	/** number variable. */
+	private final int sevenhundred = 700;
+	/** number variable. */
+	private final int oneeightythree = 183;
+	/** number variable. */
+	private final int onethousand = 1000;
+	/** number variable. */
+	private final int sixty = 60;
+	
 
 	/** serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -46,87 +62,90 @@ public class GUI extends JPanel {
 	/** Timer instance variable. */
 	private long startTime1 = System.currentTimeMillis();
 
-	/**
-	 * Timer instance variable
-	 */
-	long startTime = System.currentTimeMillis();
-
-
-	/**
-	 * GUI component instance variables
-	 */
+	/** GUI component instance variables. */
 	private JFrame frame;
+	/** GUI component instance variables. */
 	private JPanel panel;
+	/** GUI component instance variables. */
 	private JPanel rightPanel;
+	/** GUI component instance variables. */
 	private JTextPane pane;
+	/** GUI component instance variables. */
 	private JScrollPane scroll;
+	/** GUI component instance variables. */
 	private JMenuBar menu;
+	/** GUI component instance variables. */
 	private JMenu file;
+	/** GUI component instance variables. */
 	private JMenu help;
+	/** GUI component instance variables. */
 	private JMenuItem quit;
+	/** GUI component instance variables. */
 	private JMenuItem newGame;
+	/** GUI component instance variables. */
 	private JMenuItem gameTime;
+	/** GUI component instance variables. */
 	private JMenuItem version;
+	/** GUI component instance variables. */
 	private JMenuItem rules;
+	/** GUI component instance variables. */
 	private JMenuItem boneyard;
 
 	/**
-	 * Board instance variable
+	 * Board instance variable.
 	 */
-	private JButton board[][];
+	private JButton[][] board;
 
+	/** Boolean instance variables. */
+	private boolean colorBool;
+	
+	/** Color instance variables. */
+	private Color tileColor;
+	
 	/**
-	 * Boolean instance variables
+	 * ButtonListener instance variable.
 	 */
-	boolean colorBool;
-	boolean pickedUp;
-	boolean gameComplete;
+	private ButtonListener l;
 
-	/**
-	 * Color instance variables
-	 */
-	Color tileColor;
-	Color moveColor;
+	/** Integer instance variables. */
+	private final int rows = 8;
+	/** Integer instance variables. */
+	private final int cols = 8;
 
-	/**
-	 * ButtonListener instance variable
-	 */
-	ButtonListener l;
-
-	/**
-	 * Integer instance variables
-	 */
-	int x;
-	int y;
-	final int ROWS = 8;
-	final int COLS = 8;
-
-	/**
-	 * String instance variables
-	 */
+	/** String instance variables. */
 	private String textString;
+	/** String instance variables. */
 	private String temp;
 
-	/**
-	 * ImageIcon instance variables
-	 */
-	ImageIcon piece;
-	ImageIcon wPawn;
-	ImageIcon bPawn;
-	ImageIcon wRook;
-	ImageIcon bRook;
-	ImageIcon wQueen;
-	ImageIcon bQueen;
-	ImageIcon wKing;
-	ImageIcon bKing;
-	ImageIcon wBishop;
-	ImageIcon bBishop;
-	ImageIcon wKnight;
-	ImageIcon bKnight;
-	ImageIcon emptyIcon;
+	/** ImageIcon instance variables. */
+	private ImageIcon wPawn;
+	/** ImageIcon instance variables. */
+	private ImageIcon bPawn;
+	/** ImageIcon instance variables. */
+	private ImageIcon wRook;
+	/** ImageIcon instance variables. */
+	private ImageIcon bRook;
+	/** ImageIcon instance variables. */
+	private ImageIcon wQueen;
+	/** ImageIcon instance variables. */
+	private ImageIcon bQueen;
+	/** ImageIcon instance variables. */
+	private ImageIcon wKing;
+	/** ImageIcon instance variables. */
+	private ImageIcon bKing;
+	/** ImageIcon instance variables. */
+	private ImageIcon wBishop;
+	/** ImageIcon instance variables. */
+	private ImageIcon bBishop;
+	/** ImageIcon instance variables. */
+	private ImageIcon wKnight;
+	/** ImageIcon instance variables. */
+	private ImageIcon bKnight;
+	/** ImageIcon instance variables. */
+	private ImageIcon emptyIcon;
 
 	/**
-	 * Timer instance variable
+	 * Timer instance variable.
 	 */
 	public GUI() {
 		/**
@@ -145,8 +164,6 @@ public class GUI extends JPanel {
 		wBishop = new ImageIcon("wBishop.png");
 		bBishop = new ImageIcon("bBishop.png");
 		emptyIcon = new ImageIcon("emptyIcon.png");
-		piece = emptyIcon;
-
 		/**
 		 * Initialize Strings
 		 */
@@ -158,18 +175,14 @@ public class GUI extends JPanel {
 		 */
 		frame = new JFrame("Awesome Chess");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		panel = new JPanel(new GridLayout(8, 8));
+		panel = new JPanel(new GridLayout(eight, eight));
 		rightPanel = new JPanel();
 		pane = new JTextPane();
 		scroll = new JScrollPane(pane);
-		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
-		/**
-		 * Initialize the ints
-		 */
-		x = 0;
-		y = 0;
+		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants
+				.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants
+				.VERTICAL_SCROLLBAR_ALWAYS);
 
 		/**
 		 * Initialize the menus and add components respectively
@@ -196,7 +209,7 @@ public class GUI extends JPanel {
 		/**
 		 * Initialize the board
 		 */
-		board = new JButton[ROWS][COLS];
+		board = new JButton[rows][cols];
 
 		/**
 		 * Initialize the ActionListener
@@ -217,13 +230,11 @@ public class GUI extends JPanel {
 		 * Initialize booleans
 		 */
 		colorBool = false;
-		pickedUp = false;
-
 		/**
 		 * Initialize custom colors
 		 */
-		tileColor = new Color(150, 150, 150);
-		moveColor = new Color(77, 255, 77);
+		tileColor = new Color(onefifty, onefifty, onefifty);
+		new Color(seventyseven, twofiftyfive, seventyseven);
 
 		/**
 		 * Set borders and layouts of the panel and pane
@@ -241,8 +252,8 @@ public class GUI extends JPanel {
 		/**
 		 * Set default size of panel and pane
 		 */
-		frame.setPreferredSize(new Dimension(920, 700));
-		scroll.setPreferredSize(new Dimension(183, 700));
+		frame.setPreferredSize(new Dimension(ninetwenty, sevenhundred));
+		scroll.setPreferredSize(new Dimension(oneeightythree, sevenhundred));
 
 		/**
 		 * Set the pane uneditable
@@ -262,9 +273,11 @@ public class GUI extends JPanel {
 	}
 
 	/**
-	 * Set the player turn on the status
+	 * Set the player turn on the status.
+	 * 
+	 * @param p Player
 	 */
-	public void updateCurrentPlayer(Player p) {
+	public final void updateCurrentPlayer(final Player p) {
 		temp = p.toString().toLowerCase();
 		temp = temp.substring(0, 1).toUpperCase()
 				+ temp.substring(1, temp.length()) + "'s turn.\n";
@@ -280,16 +293,22 @@ public class GUI extends JPanel {
 	 * @version Winter 2013
 	 **********************************************************************/
 	public class ButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+		/**
+		 * Creates the actionPerformed method.
+		 * 
+		 * @param e ActionEvent
+		 */
+		public final void actionPerformed(final ActionEvent e) {
 			/**
 			 * If user clicks "Game Time" in the menu, display a dialog box
 			 * showing the current run time of the game
 			 */
 			if (e.getSource() == gameTime) {
 				ImageIcon tempIcon = new ImageIcon("clock.png");
-				long time = (System.currentTimeMillis() - startTime1) / 1000;
-				long min = time / 60;
-				long sec = time % 60;
+				long time = (System.currentTimeMillis() - startTime1) 
+						/ onethousand;
+				long min = time / sixty;
+				long sec = time % sixty;
 				JOptionPane.showMessageDialog(frame, "Game time: " + min
 						+ " min. " + sec + " sec. ", "Game Time",
 						JOptionPane.INFORMATION_MESSAGE, tempIcon);
@@ -301,20 +320,15 @@ public class GUI extends JPanel {
 			//SwingUtilities.updateComponentTreeUI(frame);
 		}
 	}
-
+	
 	/**
-	 * If user clicks "Version" in the menu, display the version in the
-	 * status pane
+	 * This class checks to see if a player is in checkmate.
+	 * @param p Player
 	 */
-	public void setVersionText(Player p) {
-		
-
-	}
-
-	public void checkmate(Player p) {
-		long time = (System.currentTimeMillis() - startTime1) / 1000;
-		long min = time / 60;
-		long sec = time % 60;
+	 public final void checkmate(final Player p) {
+		long time = (System.currentTimeMillis() - startTime1) / onethousand;
+		long min = time / sixty;
+		long sec = time % sixty;
 		ImageIcon winIcon = new ImageIcon("winner.png");
 
 		if (p.toString().equals("WHITE")) {
@@ -332,18 +346,18 @@ public class GUI extends JPanel {
 	}
 
 	/**
-	 * A native method that resets the time of the game
+	 * A native method that resets the time of the game.
 	 */
-	public void resetTime() {
+	public final void resetTime() {
 		startTime1 = System.currentTimeMillis();
 	}
 
 	/**
-	 * A native method that initializes the buttons on the board
+	 * A native method that initializes the buttons on the board.
 	 */
-	public void initializeButtons() {
-		for (int i = 0; i < ROWS; i++) {
-			for (int j = 0; j < COLS; j++) {
+	public final void initializeButtons() {
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
 				board[i][j] = new JButton();
 				board[i][j].addActionListener(l);
 				panel.add(board[i][j]);
@@ -352,14 +366,14 @@ public class GUI extends JPanel {
 	}
 
 	/**
-	 * A native method that paints the checkered background
+	 * A native method that paints the checkered background.
 	 */
-	public void quickPaint() {
+	public final void quickPaint() {
 		Color tempColor = Color.WHITE;
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
+		for (int i = 0; i < eight; i++) {
+			for (int j = 0; j < eight; j++) {
 				getBoard()[i][j].setBackground(tempColor);
-				if (colorBool == true) {
+				if (colorBool) {
 					colorBool = false;
 					tempColor = Color.WHITE;
 				} else {
@@ -368,7 +382,7 @@ public class GUI extends JPanel {
 				}
 			}
 
-			if (colorBool == true) {
+			if (colorBool) {
 				colorBool = false;
 				tempColor = Color.WHITE;
 			} else {
@@ -379,7 +393,7 @@ public class GUI extends JPanel {
 	}
 
 	/*********************************************************************
-	 * Adds ActionListeners to the button array
+	 * Adds ActionListeners to the button array.
 	 * 
 	 * @param i
 	 *            row of button
@@ -388,26 +402,43 @@ public class GUI extends JPanel {
 	 * @param actionListener
 	 *            the action listener from the Present class
 	 **********************************************************************/
-	public void addButtonListener(int i, int j, ActionListener actionListener) {
+	public final void addButtonListener(final int i, final int j, 
+			final ActionListener actionListener) {
 		getBoard()[i][j].addActionListener(actionListener);
 	}
 
-	public JButton[][] getBoard() {
+	/**
+	 * returns the board.
+	 * @return board JButton[][]
+	 */
+	public final JButton[][] getBoard() {
 		return board;
 	}
 
-	public void setButtons(JButton[][] buttons) {
+	/**
+	 * sets the buttons on the board.
+	 * @param buttons JButton[][]
+	 */
+	public final void setButtons(final JButton[][] buttons) {
 		this.board = buttons;
 	}
 	
-	public JButton[][] getButtons() {
+	/**
+	 * returns the buttons for the board.
+	 * @return board JButton[][]
+	 */
+	public final JButton[][] getButtons() {
 		return this.board;
 	}
 
-	public void printBoard(IChessPiece[][] gameBoard) {
+	/**
+	 * prints the board.
+	 * @param gameBoard IChessPiece[][]
+	 */
+	public final void printBoard(final IChessPiece[][] gameBoard) {
 
-		for (int i = 0; i < ROWS; i++) {
-			for (int j = 0; j < COLS; j++) {
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
 				if (gameBoard[i][j] != null) {
 					if (gameBoard[i][j].player() == Player.WHITE) {
 						if (gameBoard[i][j].type().equals("Rook")) {
@@ -443,8 +474,8 @@ public class GUI extends JPanel {
 				}
 			}
 		}
-		for (int j = 0; j < 8; j++) {
-			for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < eight; j++) {
+			for (int i = 0; i < eight; i++) {
 				board[i][j].setOpaque(true);
 				if (board[j][i].getBackground() == Color.blue) {
 					if (j % 2 == 1) {
@@ -467,72 +498,134 @@ public class GUI extends JPanel {
 		}
 	}
 
-	public void setText() {
+	/**
+	 * Sets the text string.
+	 */
+	public final void setText() {
 		pane.setText(textString);
 	}
 
-	public JFrame getFrame() {
+	/**
+	 * returns the frame.
+	 * @return frame JFrame
+	 */
+	public final JFrame getFrame() {
 		return frame;
 	}
 
-	public JMenuItem getQuit() {
+	/**
+	 * Returns the quit button.
+	 * @return quit JMenuItem
+	 */
+	public final JMenuItem getQuit() {
 		return quit;
 	}
 
-	public JMenuItem getNewGame() {
+	/**
+	 * returns a new game.
+	 * @return newGame JMenuItem
+	 */
+	public final JMenuItem getNewGame() {
 		return newGame;
 	}
 
-	public JMenuItem getVersion() {
+	/**
+	 * gets the version number.
+	 * @return version JMenuItem
+	 */
+	public final JMenuItem getVersion() {
 		return version;
 	}
 
-	public JMenuItem getRules() {
+	/**
+	 * returns the rules.
+	 * @return rules JMenuItem
+	 */
+	public final JMenuItem getRules() {
 		return rules;
 	}
 
-	public void putSelfInCheck() {
-		setTextString(": You can't put\n: yourself in check!\n*************************\n"
+	/**
+	 * Prints text if you put yourself in check.
+	 */
+	public final void putSelfInCheck() {
+		setTextString(": You can't put\n: yourself in check!\n****"
+				+ "*********************\n"
 				+ getTextString());
 		setText();
 	}
 
-	public void inCheck() {
+	/**
+	 * Sets text if someone is in check.
+	 */
+	public final void inCheck() {
 		setTextString(": You placed them in check!\n*************************\n"
 				+ getTextString());
 		setText();
 	}
 
-	public String getTextString() {
+	/**
+	 * returns the text string to be printed.
+	 * @return textString String
+	 */
+	public final String getTextString() {
 		return textString;
 	}
 
-	public void setTextString(String textString) {
-		this.textString = textString;
+	/**
+	 * Sets the textString.
+	 * @param atextString String
+	 */
+	public final void setTextString(final String atextString) {
+		this.textString = atextString;
 	}
 
-	
-	public void setNewGame(JMenuItem newGame) {
-		this.newGame = newGame;
+	/**
+	 * Sets the new game.
+	 * @param anewGame JMenuItem
+	 */
+	public final void setNewGame(final JMenuItem anewGame) {
+		this.newGame = anewGame;
 	}
 
-	public void setVersion(JMenuItem version) {
-		this.version = version;
+	/**
+	 * Allows for the set of the new version.
+	 * @param aversion JMenuItem
+	 */
+	public final void setVersion(final JMenuItem aversion) {
+		this.version = aversion;
 	}
 
-	public void setRules(JMenuItem rules) {
-		this.rules = rules;
+	/**
+	 * Allows to set the rules.
+	 * @param arules JMenuItem
+	 */
+	public final void setRules(final JMenuItem arules) {
+		this.rules = arules;
 	}
 
-	public void printMove(int row, int col) {
+	/**
+	 * Prints out the move that took place.
+	 * @param row int
+	 * @param col int
+	 */
+	public final void printMove(final int row, final int col) {
 		board[row][col].setBackground(Color.blue);
 	}
 
-	public JMenuItem getBoneyard() {
+	/**
+	 * returns the boneyard items.
+	 * @return boneyard JMenuItem
+	 */
+	public final JMenuItem getBoneyard() {
 		return boneyard;
 	}
 
-	public void setBoneyard(JMenuItem boneyard) {
-		this.boneyard = boneyard;
+	/**
+	 * sets the boneyard if it is changed.
+	 * @param aboneyard JMenuItem
+	 */
+	public final void setBoneyard(final JMenuItem aboneyard) {
+		this.boneyard = aboneyard;
 	}
 }

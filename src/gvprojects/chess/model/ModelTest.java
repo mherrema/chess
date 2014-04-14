@@ -101,7 +101,7 @@ public class ModelTest {
 		m.move(move3);
 		m.move(move4);
 		m.isComplete();
-		assertFalse(m.getWinner()==Player.BLACK);
+		assertFalse(m.getWinner() == Player.BLACK);
 		//assertTrue(m.getWinner() == Player.BLACK);
 		//assertTrue("Model Test 3", m.isComplete());
 		//assertTrue("Model Test 4", m.currentPlayer() == Player.BLACK);

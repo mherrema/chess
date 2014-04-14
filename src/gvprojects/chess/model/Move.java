@@ -12,27 +12,59 @@ package gvprojects.chess.model;
 public class Move {
 	
 	/** Initialize the fromRow. */
-	public int fromRow;
+	private int fromRow;
 	/** Initialize the fromColumn. */
-	public int fromColumn;
+	private int fromColumn;
 	/** Initialize the toRow. */
-	protected int toRow;
+	private int toRow;
 	/** Initialize the toColumn. */
-	protected int toColumn;
+	private int toColumn;
+	
+	/** returns the fromRow variable.
+	 * 
+	 * @return fromRow
+	 */
+	public final int getfromRow() {
+		return fromRow;
+	}
+	
+	/** returns the fromColumn variable.
+	 * 
+	 * @return fromColumn
+	 */
+	public final int fromColumn() {
+		return fromColumn;
+	}
+	
+	/** returns the toRow variable.
+	 * 
+	 * @return toRow
+	 */
+	public final int toRow() {
+		return toRow;
+	}
+	
+	/** returns the toColumn variable.
+	 * 
+	 * @return toColumn
+	 */
+	public final int toColumn() {
+		return toColumn;
+	}
 
 	/******************************************************************
 	 * The logic for moving a chess piece.
 	 * 
-	 * @param fromRow final int
-	 * @param fromColumn final int
-	 * @param toRow final int
-	 * @param toColumn final int
+	 * @param afromRow final int
+	 * @param afromColumn final int
+	 * @param atoRow final int
+	 * @param atoColumn final int
 	 ******************************************************************/
-	public Move(final int fromRow, final int fromColumn, 
-			final int toRow, final int toColumn) {
-		this.fromRow = fromRow;
-		this.fromColumn = fromColumn;
-		this.toRow = toRow;
-		this.toColumn = toColumn;
+	public Move(final int afromRow, final int afromColumn, 
+			final int atoRow, final int atoColumn) {
+		this.fromRow = afromRow;
+		this.fromColumn = afromColumn;
+		this.toRow = atoRow;
+		this.toColumn = atoColumn;
 	}
 }

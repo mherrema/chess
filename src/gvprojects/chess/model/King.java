@@ -40,8 +40,8 @@ public class King extends ChessPiece {
 			return false;
 		}
 		//if moving greater than one space
-		if (Math.abs(m.toRow - m.fromRow) > 1 
-				|| Math.abs(m.toColumn - m.fromColumn) > 1) {
+		if (Math.abs(m.toRow() - m.getfromRow()) > 1 
+				|| Math.abs(m.toColumn() - m.fromColumn()) > 1) {
 			return false;
 		}
 		return true;

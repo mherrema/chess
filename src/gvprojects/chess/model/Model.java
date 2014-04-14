@@ -30,7 +30,7 @@ public class Model implements IChessModel {
 	private boolean whiteTurn;
 
 	/** game board size. */
-	private int boardsize = 8;
+	private final int boardsize = 8;
 
 	/** temporary move. */
 	private Move tempMove;
@@ -49,10 +49,13 @@ public class Model implements IChessModel {
 	/** Variable if other player is in check. */
 	private boolean otherPlayerCheck = false;
 
+	/** Variable is valid move is initialized. */
 	private boolean[][] validMoves;
 
+	/** Variable for the boneyeard is created. */
 	private ArrayList<IChessPiece> boneyard;
 	
+	/** Variable for added to the boneyard is created. */
 	private boolean addedToBoneyard = false;
 
 	/******************************************************************
@@ -64,7 +67,7 @@ public class Model implements IChessModel {
 		whiteTurn = true;
 		whiteKing = new int[2];
 		blackKing = new int[2];
-		setBoard(new IChessPiece[boardsize][boardsize]);
+		setBoard(new IChessPiece[getBoardsize()][getBoardsize()]);
 		// creates black pieces
 		final int rook = 7; // ROOK
 		final int knight = 6;
@@ -82,7 +85,7 @@ public class Model implements IChessModel {
 		blackKing[1] = king;
 		getBoard()[0][queen] = new Queen(Player.BLACK);
 		// creates the pawns in their row
-		for (int i = 0; i < boardsize; i++) {
+		for (int i = 0; i < getBoardsize(); i++) {
 			getBoard()[1][i] = new Pawn(Player.BLACK, 1);
 		}
 		final int row = 7;
@@ -97,10 +100,10 @@ public class Model implements IChessModel {
 		whiteKing[0] = row;
 		whiteKing[1] = king;
 		getBoard()[row][queen] = new Queen(Player.WHITE);
-		for (int i = 0; i < boardsize; i++) {
+		for (int i = 0; i < getBoardsize(); i++) {
 			getBoard()[row - 1][i] = new Pawn(Player.WHITE, knight);
 		}
-		saveFirstBoard = new IChessPiece[boardsize][boardsize];
+		saveFirstBoard = new IChessPiece[getBoardsize()][getBoardsize()];
 		boneyard = new ArrayList<IChessPiece>();
 	}
 
@@ -126,9 +129,9 @@ public class Model implements IChessModel {
 	 ******************************************************************/
 	public final boolean inCheck(final Player p) {
 		// runs through every row
-		for (int i = 0; i < boardsize; i++) {
+		for (int i = 0; i < getBoardsize(); i++) {
 			// runs through every column
-			for (int j = 0; j < boardsize; j++) {
+			for (int j = 0; j < getBoardsize(); j++) {
 				// if the player given is white
 				if (p == Player.WHITE) {
 					tempMove = new Move(i, j, whiteKing[0], whiteKing[1]);
@@ -194,15 +197,17 @@ public class Model implements IChessModel {
 	 ******************************************************************/
 	public final boolean isValidMove(final Move m) {
 		// if the location holds no piece
-		if (getBoard()[m.fromRow][m.fromColumn] == null) {
+		if (getBoard()[m.getfromRow()][m.fromColumn()] == null) {
 			return false;
 		}
 		// if trying to move the wrong player's piece
-		if (getBoard()[m.fromRow][m.fromColumn].player() != currentPlayer()) {
+		if (getBoard()[m.getfromRow()][m.fromColumn()].player() 
+				!= currentPlayer()) {
 			return false;
 		}
 		// if the piece can't move that direction/distance
-		if (!getBoard()[m.fromRow][m.fromColumn].isValidMove(m, getBoard())) {
+		if (!getBoard()[m.getfromRow()][m.fromColumn()]
+				.isValidMove(m, getBoard())) {
 			return false;
 		}
 		return true;
@@ -219,11 +224,12 @@ public class Model implements IChessModel {
 	 ******************************************************************/
 	public final boolean isValidCheck(final Move m) {
 		// if the location is null
-		if (getBoard()[m.fromRow][m.fromColumn] == null) {
+		if (getBoard()[m.getfromRow()][m.fromColumn()] == null) {
 			return false;
 		}
 		// if the piece can't move that direction/distance
-		if (!getBoard()[m.fromRow][m.fromColumn].isValidMove(m, getBoard())) {
+		if (!getBoard()[m.getfromRow()][m.fromColumn()]
+				.isValidMove(m, getBoard())) {
 			return false;
 		}
 		return true;
@@ -241,37 +247,41 @@ public class Model implements IChessModel {
 		if (isValidMove(m)) {
 			
 			// if moving the correct player's piece
-			if ((whiteTurn && getBoard()[m.fromRow][m.fromColumn].player() == Player.WHITE)
-					|| (!whiteTurn && getBoard()[m.fromRow][m.fromColumn]
+			if ((whiteTurn && getBoard()[m.getfromRow()]
+					[m.fromColumn()].player() 
+					== Player.WHITE)
+					|| (!whiteTurn && getBoard()[m.getfromRow()][m.fromColumn()]
 							.player() == Player.BLACK)) {
 				// Tries to add the piece at the "to" position to the boneyard,
 				// which is assumed to be one of the opponent's pieces,
 				// and catches the NullPointerException if the "to" position is
 				// empty.
-				try {
-					if(board[m.toRow][m.toColumn]!=null){
-						boneyard.add(board[m.toRow][m.toColumn]);
-						addedToBoneyard = true;
-					}
-				} catch (Exception e) {}
-				getBoard()[m.toRow][m.toColumn] = getBoard()[m.fromRow][m.fromColumn];
-				getBoard()[m.fromRow][m.fromColumn] = null;
+				if (board[m.toRow()][m.toColumn()] != null) {
+					boneyard.add(board[m.toRow()][m.toColumn()]);
+					addedToBoneyard = true;
+				}
+
+				getBoard()[m.toRow()][m.toColumn()] = 
+						getBoard()[m.getfromRow()][m.fromColumn()];
+				getBoard()[m.getfromRow()][m.fromColumn()] = null;
 				// if moving the white king
-				if (m.fromRow == whiteKing[0] && m.fromColumn == whiteKing[1]) {
-					whiteKing[0] = m.toRow;
-					whiteKing[1] = m.toColumn;
+				if (m.getfromRow() == whiteKing[0] && m.fromColumn() 
+						== whiteKing[1]) {
+					whiteKing[0] = m.toRow();
+					whiteKing[1] = m.toColumn();
 				}
 				// if moving the black king
-				if (m.fromRow == blackKing[0] && m.fromColumn == blackKing[1]) {
-					blackKing[0] = m.toRow;
-					blackKing[1] = m.toColumn;
+				if (m.getfromRow() == blackKing[0] && m.fromColumn() 
+						== blackKing[1]) {
+					blackKing[0] = m.toRow();
+					blackKing[1] = m.toColumn();
 				}
 			}
 			// if the move puts themselves in check
 			if (inCheck(currentPlayer())) {
 				cancelMove(m);
-				if(addedToBoneyard){
-					boneyard.remove(boneyard.size()-1);
+				if (addedToBoneyard) {
+					boneyard.remove(boneyard.size() - 1);
 				}
 				setPutSelfInCheck(true);
 			} else if (inCheck(otherPlayer(currentPlayer()))) {
@@ -293,14 +303,14 @@ public class Model implements IChessModel {
 	public final void cancelMove(final Move m) {
 		loadFirstState();
 		// if moving the white king
-		if (m.toRow == whiteKing[0] && m.toColumn == whiteKing[1]) {
-			whiteKing[0] = m.fromRow;
-			whiteKing[1] = m.fromColumn;
+		if (m.toRow() == whiteKing[0] && m.toColumn() == whiteKing[1]) {
+			whiteKing[0] = m.getfromRow();
+			whiteKing[1] = m.fromColumn();
 		}
 		// if moving the black king
-		if (m.toRow == blackKing[0] && m.toColumn == blackKing[1]) {
-			blackKing[0] = m.fromRow;
-			blackKing[1] = m.fromColumn;
+		if (m.toRow() == blackKing[0] && m.toColumn() == blackKing[1]) {
+			blackKing[0] = m.getfromRow();
+			blackKing[1] = m.fromColumn();
 		}
 	}
 
@@ -340,7 +350,7 @@ public class Model implements IChessModel {
 	 * @return int columns
 	 ******************************************************************/
 	public final int numColumns() {
-		return boardsize;
+		return getBoardsize();
 	}
 
 	/******************************************************************
@@ -350,7 +360,7 @@ public class Model implements IChessModel {
 	 * @return int rows
 	 ******************************************************************/
 	public final int numRows() {
-		return boardsize;
+		return getBoardsize();
 	}
 
 	/******************************************************************
@@ -379,11 +389,11 @@ public class Model implements IChessModel {
 	/******************************************************************
 	 * Sets the board.
 	 * 
-	 * @param board
+	 * @param aboard
 	 *            IChessPiece [][]
 	 ******************************************************************/
-	public final void setBoard(final IChessPiece[][] board) {
-		this.board = board;
+	public final void setBoard(final IChessPiece[][] aboard) {
+		this.board = aboard;
 	}
 
 	/******************************************************************
@@ -398,11 +408,11 @@ public class Model implements IChessModel {
 	/******************************************************************
 	 * Checks to see if you put yourself in check tbe sets the variable.
 	 * 
-	 * @param putSelfInCheck
+	 * @param aputSelfInCheck
 	 *            boolean
 	 ******************************************************************/
-	public final void setPutSelfInCheck(final boolean putSelfInCheck) {
-		this.putSelfInCheck = putSelfInCheck;
+	public final void setPutSelfInCheck(final boolean aputSelfInCheck) {
+		this.putSelfInCheck = aputSelfInCheck;
 	}
 
 	/******************************************************************
@@ -463,10 +473,17 @@ public class Model implements IChessModel {
 		this.winner = pwinner;
 	}
 
-	public boolean[][] getMoves(int row, int col) {
-		validMoves = new boolean[8][8];
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
+	/**
+	 * Creates a method which will get the available moves.
+	 * 
+	 * @param row 
+	 * @param col 
+	 * @return boolean expression
+	 */
+	public final boolean[][] getMoves(final int row, final int col) {
+		validMoves = new boolean[getBoardsize()][getBoardsize()];
+		for (int i = 0; i < getBoardsize(); i++) {
+			for (int j = 0; j < getBoardsize(); j++) {
 				if (pieceAt(row, col).isValidMove(new Move(row, col, i, j),
 						getBoard())
 						&& pieceAt(row, col).player() == currentPlayer()) {
@@ -484,8 +501,17 @@ public class Model implements IChessModel {
 	 * @param none
 	 * @return ArrayList<IChessPiece> the ArrayList of captured pieces
 	 **********************************************************************/
-	public ArrayList<IChessPiece> getBoneyard() {
+	public final ArrayList<IChessPiece> getBoneyard() {
 		return boneyard;
+	}
+
+	/**
+	 * returns the boardsize.
+	 * 
+	 * @return BOARDSIZE int
+	 */
+	public final int getBoardsize() {
+		return boardsize;
 	}
 
 }

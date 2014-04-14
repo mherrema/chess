@@ -33,14 +33,14 @@ public class ChessPiece implements IChessPiece {
 	/******************************************************************
 	 * ChessPiece Constructor creates a chess piece.
 	 * 
-	 * @param color - Player
+	 * @param acolor - Player
 	 * 
-	 * @param name - String
+	 * @param aname - String
 	 * 
 	 ******************************************************************/
-	public ChessPiece(final Player color, final String name) {
-		this.color = color;
-		this.name = name;
+	public ChessPiece(final Player acolor, final String aname) {
+		this.color = acolor;
+		this.name = aname;
 	}
 
 	/******************************************************************
@@ -53,11 +53,11 @@ public class ChessPiece implements IChessPiece {
 	 * @return boolean
 	 ******************************************************************/
 	public boolean isValidMove(final Move position, 
-			final IChessPiece[][] board) {
-		int fromRow = position.fromRow;
-		int fromColumn = position.fromColumn;
-		int toRow = position.toRow;
-		int toColumn = position.toColumn;
+		final IChessPiece[][] board) {
+		int fromRow = position.getfromRow();
+		int fromColumn = position.fromColumn();
+		int toRow = position.toRow();
+		int toColumn = position.toColumn();
 		int max = board[0].length - 1;
 		if (fromRow > max || toRow > max || fromColumn > max || toColumn > max
 				|| fromRow < 0 || toRow < 0 || fromColumn < 0 || toColumn < 0) {
@@ -100,11 +100,4 @@ public class ChessPiece implements IChessPiece {
 	public final Player player() {
 		return color;
 	}
-
-//	@Override
-//	public String type() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
 }

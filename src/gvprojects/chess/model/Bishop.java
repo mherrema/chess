@@ -38,8 +38,8 @@ public class Bishop extends ChessPiece {
 	 ******************************************************************/
 	public final boolean isValidMove(final Move m, 
 			final IChessPiece[][] board) {
-		int rowChange = Math.abs(m.fromRow - m.toRow);
-		int colChange = Math.abs(m.fromColumn - m.toColumn);
+		int rowChange = Math.abs(m.getfromRow() - m.toRow());
+		int colChange = Math.abs(m.fromColumn() - m.toColumn());
 		int startRow;
 
 		// if the move as a Chesspiece is invalid
@@ -53,12 +53,12 @@ public class Bishop extends ChessPiece {
 		}
 
 		// if moving to the down
-		if (m.toRow > m.fromRow) {
-			startRow = m.fromRow + 1;
+		if (m.toRow() > m.getfromRow()) {
+			startRow = m.getfromRow() + 1;
 			// if moving right
-			if (m.toColumn > m.fromColumn) {
+			if (m.toColumn() > m.fromColumn()) {
 				// checks spaces between
-				for (int i = m.fromColumn + 1; i < m.toColumn; i++) {
+				for (int i = m.fromColumn() + 1; i < m.toColumn(); i++) {
 					// checks if empty
 					if (board[startRow][i] != null) {
 						return false;
@@ -68,9 +68,9 @@ public class Bishop extends ChessPiece {
 			}
 
 			// if moving left
-			if (m.fromColumn > m.toColumn) {
+			if (m.fromColumn() > m.toColumn()) {
 				// checks spaces between
-				for (int i = m.fromColumn - 1; i > m.toColumn; i--) {
+				for (int i = m.fromColumn() - 1; i > m.toColumn(); i--) {
 					// checks if empty
 					if (board[startRow][i] != null) {
 						return false;
@@ -81,12 +81,12 @@ public class Bishop extends ChessPiece {
 		}
 
 		// if moving up
-		if (m.toRow < m.fromRow) {
-			startRow = m.fromRow - 1;
+		if (m.toRow() < m.getfromRow()) {
+			startRow = m.getfromRow() - 1;
 			// if moving right
-			if (m.toColumn > m.fromColumn) {
+			if (m.toColumn() > m.fromColumn()) {
 				// checks spaces between
-				for (int i = m.fromColumn + 1; i < m.toColumn; i++) {
+				for (int i = m.fromColumn() + 1; i < m.toColumn(); i++) {
 					// checks if empty
 					if (board[startRow][i] != null) {
 						return false;
@@ -95,9 +95,9 @@ public class Bishop extends ChessPiece {
 				}
 			}
 			// if moving left
-			if (m.fromColumn > m.toColumn) {
+			if (m.fromColumn() > m.toColumn()) {
 				// checks spaces between
-				for (int i = m.fromColumn - 1; i > m.toColumn; i--) {
+				for (int i = m.fromColumn() - 1; i > m.toColumn(); i--) {
 					// checks if empty
 					if (board[startRow][i] != null) {
 						return false;

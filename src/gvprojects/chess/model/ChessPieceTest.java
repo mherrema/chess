@@ -26,7 +26,7 @@ public class ChessPieceTest {
    protected IChessPiece piece;
 
    @Before
-public final void makeBoard() {
+   public final void makeBoard() {
       // Don't put any pieces on the board.
       board = new IChessPiece[BOARD_SIZE][BOARD_SIZE];
       piece = make();
@@ -39,7 +39,7 @@ public final void makeBoard() {
    //
    
    // Kings, Bishops, Pawns, etc.
-   protected IChessPiece make(Player p) {
+   protected IChessPiece make(final Player p) {
       return new ChessPiece(p, "George");
    }
 
@@ -54,7 +54,7 @@ public final void makeBoard() {
    // ChessPiece class,
    // we make a "dummy" move of moving the piece up one row.
    
-   protected Move getValidMove(int row, int col) {
+   protected Move getValidMove(final int row, final int col) {
       return new Move(row, col, row + 1, col);
    }
 
@@ -100,16 +100,16 @@ public final void complainsIfStartingAndEndingLocationsAreIdentical()
    @Test
 public final void complainsIfTargetOccupiedBySamePlayer() throws Throwable {
       Move move = getValidMove(2, 4);
-      board[move.toRow][move.toColumn] = make();
-      board[move.fromRow][move.fromColumn] = piece;
+      board[move.toRow()][move.toColumn()] = make();
+      board[move.getfromRow()][move.fromColumn()] = piece;
       assertFalse("ChessPiece Test 3", piece.isValidMove(move, board));
    }
 
    @Test
 public final void canCapture() throws Throwable {
       Move move = getValidMove(2, 4);
-      board[move.toRow][move.toColumn] = make(piece.player().next());
-      board[move.fromRow][move.fromColumn] = piece;
+      board[move.toRow()][move.toColumn()] = make(piece.player().next());
+      board[move.getfromRow()][move.fromColumn()] = piece;
       assertTrue("ChessPiece Test 4", piece.isValidMove(move, board));
    }
 }

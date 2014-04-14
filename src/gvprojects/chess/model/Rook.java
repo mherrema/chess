@@ -41,26 +41,26 @@ public class Rook extends ChessPiece {
 			return false;
 		}
 		//if moving diagonal
-		if (m.fromRow != m.toRow && m.fromColumn != m.toColumn) {
+		if (m.getfromRow() != m.toRow() && m.fromColumn() != m.toColumn()) {
 			return false;
 		}
 		//if moving rows
-		if (m.fromRow != m.toRow && m.fromColumn == m.toColumn) {
+		if (m.getfromRow() != m.toRow() && m.fromColumn() == m.toColumn()) {
 			//if moving down
-			if (m.toRow > m.fromRow) {
+			if (m.toRow() > m.getfromRow()) {
 				//checks spaces between
-				for (int i = (m.fromRow + 1); i < m.toRow; i++) {
+				for (int i = (m.getfromRow() + 1); i < m.toRow(); i++) {
 					//checks if empty
-					if (board[i][m.toColumn] != null) {
+					if (board[i][m.toColumn()] != null) {
 						return false;
 					}
 				}
 				return true;
 			} else {
 				//checks spaces between
-				for (int i = m.toRow + 1; i < m.fromRow; i++) {
+				for (int i = m.toRow() + 1; i < m.getfromRow(); i++) {
 					//checks if empty
-					if (board[i][m.fromColumn] != null) {
+					if (board[i][m.fromColumn()] != null) {
 						return false;
 					}
 				}
@@ -69,22 +69,22 @@ public class Rook extends ChessPiece {
 		}
 
 		//if moving columns
-		if (m.fromRow == m.toRow && m.fromColumn != m.toColumn) {
+		if (m.getfromRow() == m.toRow() && m.fromColumn() != m.toColumn()) {
 			//if moving right
-			if (m.toColumn > m.fromColumn) {
+			if (m.toColumn() > m.fromColumn()) {
 				//checks spaces between
-				for (int i = m.fromColumn + 1; i < m.toColumn; i++) {
+				for (int i = m.fromColumn() + 1; i < m.toColumn(); i++) {
 					//checks if empty
-					if (board[m.fromRow][i] != null) {
+					if (board[m.getfromRow()][i] != null) {
 						return false;
 					}
 				}
 				return true;
 			} else {
 				//checks spaces between
-				for (int i = m.toColumn + 1; i < m.fromColumn; i++) {
+				for (int i = m.toColumn() + 1; i < m.fromColumn(); i++) {
 					//checks if empty
-					if (board[m.fromRow][i] != null) {
+					if (board[m.getfromRow()][i] != null) {
 						return false;
 					}
 				}

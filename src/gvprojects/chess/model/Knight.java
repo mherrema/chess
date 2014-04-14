@@ -40,10 +40,11 @@ public class Knight extends ChessPiece {
 			return false;
 		}
 		//if moving one row and two columns or one column and two rows
-		if ((Math.abs(m.toRow - m.fromRow) == 1 && Math.abs(m.toColumn
-				- m.fromColumn) == 2)
-				|| ((Math.abs(m.toRow - m.fromRow) == 2 && Math.abs(m.toColumn
-						- m.fromColumn) == 1))) {
+		if ((Math.abs(m.toRow() - m.getfromRow()) == 1 && Math.abs(m.toColumn()
+				- m.fromColumn()) == 2)
+				|| ((Math.abs(m.toRow() - m.getfromRow()) == 2 
+				&& Math.abs(m.toColumn()
+						- m.fromColumn()) == 1))) {
 			return true;
 		}
 		return false;

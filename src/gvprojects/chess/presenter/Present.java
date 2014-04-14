@@ -6,28 +6,34 @@ import gvprojects.chess.view.View;
 import java.util.Scanner;
 
 /*********************************************************************
- * This class presents a chess game, calling appropriate methods when necessary
+ * This class presents a chess game, calling appropriate methods when necessary.
  * 
  * @author Mitch Herrema
  * @version March 21, 2013
  *********************************************************************/
 
 public class Present {
+	/** final variables for numbers. */
+	private final int three = 3;
+	/** final variables for numbers. */
+	private final int four = 4;
+	/** final variables for numbers. */
+	private final int five = 5;
 
-	/** input */
+	/** input. */
 	private String moveString;
 
-	/** model */
+	/** model. */
 	private Model m;
 
-	/** view */
+	/** view. */
 	private View v;
 
-	/** scanner for input */
+	/** scanner for input. */
 	private Scanner in;
 
 	/******************************************************************
-	 * Presenter Constructor
+	 * Presenter Constructor.
 	 * 
 	 ******************************************************************/
 	public Present() {
@@ -38,7 +44,7 @@ public class Present {
 	}
 
 	/******************************************************************
-	 * Updates the gameboard
+	 * Updates the gameboard.
 	 * 
 	 ******************************************************************/
 	public final void update() {
@@ -69,9 +75,9 @@ public class Present {
 		int fromCol = moveString.substring(0, 1)
 				.toUpperCase().charAt(0) - 'A';
 		int toRow = Math.abs(Integer.
-				parseInt(moveString.substring(4, 5)) 
+				parseInt(moveString.substring(four, five)) 
 				- m.getBoard().length);
-		int toCol = moveString.substring(3, 4)
+		int toCol = moveString.substring(three, four)
 				.toUpperCase().charAt(0) - 'A';
 		Move move = new Move(fromRow, fromCol, toRow, toCol);
 
@@ -80,8 +86,9 @@ public class Present {
 	}
 
 	/** 
-	 * Determines whether or not it is valid input
+	 * Determines whether or not it is valid input.
 	 * 
+	 * @param s String
 	 * @return boolean
 	 */
 	public final boolean isValidInput(final String s) {
@@ -95,11 +102,11 @@ public class Present {
 		String[] numbers = new String[] { "1", "2", "3", "4", "5", "6", "7",
 				"8" };
 		// if length is too short
-		if (s.length() < 5) {
+		if (s.length() < five) {
 			return false;
 		}
 		// if length too long
-		if (s.length() > 5) {
+		if (s.length() > five) {
 			return false;
 		}
 		// runs through all letters/numbers in arrays
@@ -109,7 +116,7 @@ public class Present {
 				fromRow = true;
 			}
 			// if fourth character is valid
-			if (s.substring(3, 4).toLowerCase().equals(letters[i])) {
+			if (s.substring(three, four).toLowerCase().equals(letters[i])) {
 				toRow = true;
 			}
 			// if second character is valid
@@ -117,12 +124,12 @@ public class Present {
 				fromCol = true;
 			}
 			// if fifth character is valid
-			if (s.substring(4, 5).equals(numbers[i])) {
+			if (s.substring(four, five).equals(numbers[i])) {
 				toCol = true;
 			}
 		}
 		// if middle character is space
-		if (s.substring(2, 3).equals(" ")) {
+		if (s.substring(2, three).equals(" ")) {
 			space = true;
 		}
 		// if string meets all criteria
@@ -133,11 +140,11 @@ public class Present {
 	}
 
 	/*****************************************************
-	 * Main method
+	 * Main method.
 	 * 
-	 * @param args
+	 * @param args String[]
 	 ****************************************************/
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		Present p = new Present();
 		p.update();
 	}
