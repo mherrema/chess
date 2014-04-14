@@ -644,6 +644,28 @@ public class GUI extends JPanel {
 				}
 			}
 		}
+		for (int j = 0; j < 8; j++) {
+			for (int i = 0; i < 8; i++) {
+				board[i][j].setOpaque(true);
+				if (board[j][i].getBackground() == Color.blue) {
+					if (j % 2 == 1) {
+						if (i % 2 == 0) {
+							board[j][i].setBackground(Color.gray);
+						} else {
+							board[j][i].setBackground(Color.white);
+						}
+					} else {
+						if (j % 2 == 0) {
+							if (i % 2 == 1) { 
+								board[j][i].setBackground(Color.gray);
+							} else {
+								board[j][i].setBackground(Color.white);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void setText() {
@@ -733,5 +755,9 @@ public class GUI extends JPanel {
 	public void gameOver(Player winner) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void printMove(int row, int col) {
+		board[row][col].setBackground(Color.blue);
 	}
 }

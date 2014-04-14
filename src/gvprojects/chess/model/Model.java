@@ -6,6 +6,8 @@
  */
 package gvprojects.chess.model;
 
+import java.util.ArrayList;
+
 /*********************************************************************
  * This class creates a Chess game engine, altering and keeping track of each.
  * move of the game
@@ -46,6 +48,8 @@ public class Model implements IChessModel {
 	
 	/** Variable if other player is in check. */
 	private boolean otherPlayerCheck = false;
+	
+	boolean[][] validMoves;
 
 	/******************************************************************
 	 * Model Constructor Creates game board and places all pieces, marking king.
@@ -456,5 +460,17 @@ public class Model implements IChessModel {
 	 ******************************************************************/
 	public final void setWinner(final Player pwinner) {
 		this.winner = pwinner;
+	}
+	
+	public boolean[][] getMoves(int row, int col) {
+		validMoves = new boolean[8][8];
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (pieceAt(row, col).isValidMove(new Move(row, col, i, j), getBoard()) && pieceAt(row,col).player()==currentPlayer()) {
+					validMoves[i][j]=true;
+				}
+			}
+		}
+		return validMoves;
 	}
 }

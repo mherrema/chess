@@ -62,7 +62,6 @@ public class Presenter {
 				setFromRow(buttonRow);
 				setFromCol(buttonCol);
 				g.getBoard()[buttonRow][buttonCol].setBackground(Color.blue);
-				g.getBoard()[buttonRow][buttonCol].setOpaque(true);
 				//System.out.println(getFromRow()+ " + "+ getFromCol());
 				//g.getBoard()[buttonRow][buttonCol].setBackground(Color.BLUE);
 				from = false;
@@ -72,7 +71,6 @@ public class Presenter {
 				
 			}
 			else{
-				repaint();
 				g.getFrame().setCursor(Cursor.getDefaultCursor());
 				setToRow(buttonRow);
 				setToCol(buttonCol);
@@ -303,39 +301,15 @@ public class Presenter {
 	}
 	
 	public void getMoves(int row, int col) {
-		ArrayList list = new ArrayList();
+		boolean[][] tmpMoves = m.getMoves(row, col);
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if(tmpMoves[i][j]){
+					g.printMove(i,j);
+				}
+			}
+		}
 		
-		for (int j = 0; j < 8; j++) {
-			for (int i = 0; i < 8; i++) {
-				if (m.pieceAt(row, col).isValidMove(new Move(row, col, j, i), m.getBoard()) == true) {
-					g.getBoard()[j][i].setBackground(Color.blue);
-				}
-			}
-		}
-	}
-	
-	public void repaint() {
-		for (int j = 0; j < 8; j++) {
-			for (int i = 0; i < 8; i++) {
-				if (g.getBoard()[j][i].getBackground() == Color.blue) {
-					if (j % 2 == 1) {
-						if (i % 2 == 0) {
-							g.getBoard()[j][i].setBackground(Color.gray);
-						} else {
-							g.getBoard()[j][i].setBackground(Color.white);
-						}
-					} else {
-						if (j % 2 == 0) {
-							if (i % 2 == 1) { 
-								g.getBoard()[j][i].setBackground(Color.gray);
-							} else {
-								g.getBoard()[j][i].setBackground(Color.white);
-							}
-						}
-					}
-				}
-			}
-		}
 	}
 	
 	public void cursor(int r, int c) {		
@@ -391,7 +365,7 @@ public class Presenter {
 			  }
 		  }
 		  
-		  Cursor curs = toolkit.createCustomCursor(image, new Point(1, 1), "cursur");
+		  Cursor curs = toolkit.createCustomCursor(image, new Point(50, 50), "cursur");
 		  Image img = toolkit.getImage("emptyIcon.png");
 		  ImageIcon empty = new ImageIcon(img);
 		  g.getBoard()[r][c].setIcon(empty);
