@@ -31,10 +31,10 @@ public class KnightTest extends ChessPieceTest {
 	protected final Move getValidMove(final int row, final int col) {
 		int newRow = row + 2;
 		int newCol = col + 1;
-		if (newRow >= board.length) {
+		if (newRow >= getBoard().length) {
 			newRow = row - 3;
 		}
-		if (newCol >= board.length) {
+		if (newCol >= getBoard().length) {
 			newCol = col - 1;
 		}
 		return new Move(row, col, newRow, newCol);
@@ -43,72 +43,72 @@ public class KnightTest extends ChessPieceTest {
 	// Verify that a knight cannot move across a row
 	@Test
 	public final void cannotMoveInRow() throws Exception {
-		board[1][1] = piece;
+		getBoard()[1][1] = getPiece();
 		assertFalse("Knight Test 1",
-				piece.isValidMove(new Move(1, 1, 1, 6), board));
+				getPiece().isValidMove(new Move(1, 1, 1, 6), getBoard()));
 	}
 
 	// Verify that a knight cannot move up a column
 	@Test
 	public final void cannotMoveInColumn() throws Throwable {
-		board[1][1] = piece;
+		getBoard()[1][1] = getPiece();
 		assertFalse("Knight Test 2",
-				piece.isValidMove(new Move(1, 1, 6, 1), board));
+				getPiece().isValidMove(new Move(1, 1, 6, 1), getBoard()));
 	}
 
 	// Verify that a knight cannot move diagonally
 	@Test
 	public final void cannotMoveDiagonal() throws Throwable {
-		board[1][1] = piece;
+		getBoard()[1][1] = getPiece();
 		assertFalse("Knight Test 3",
-				piece.isValidMove(new Move(1, 1, 4, 4), board));
+				getPiece().isValidMove(new Move(1, 1, 4, 4), getBoard()));
 	}
 
 	// Verify that a knight cannot move backward
 	@Test
 	public final void canMoveBackward() throws Throwable {
-		board[1][1] = piece;
+		getBoard()[1][1] = getPiece();
 		assertFalse("Knight Test 5",
-				piece.isValidMove(new Move(1, 1, 0, 0), board));
+				getPiece().isValidMove(new Move(1, 1, 0, 0), getBoard()));
 	}
 
 	// Verify that a knight cannot move off the board
 	@Test
 	public final void cannotMoveOffBoard() throws Throwable {
-		board[1][1] = piece;
+		getBoard()[1][1] = getPiece();
 		assertFalse("Knight Test 6",
-				piece.isValidMove(new Move(1, 1, -2, 0), board));
+				getPiece().isValidMove(new Move(1, 1, -2, 0), getBoard()));
 	}
 
 	// Verify that a knight can move correctly.
 	@Test
 	public final void firstCorrect() throws Throwable {
-		board[2][2] = piece;
+		getBoard()[2][2] = getPiece();
 		assertTrue("Knight Test 7",
-				piece.isValidMove(new Move(2, 2, 3, 4), board));
+				getPiece().isValidMove(new Move(2, 2, 3, 4), getBoard()));
 	}
 
 	// Verify that a king can move correctly the other way.
 	@Test
 	public final void secondCorrect() throws Throwable {
-		board[2][2] = piece;
+		getBoard()[2][2] = getPiece();
 		assertTrue("Knight Test 8",
-				piece.isValidMove(new Move(2, 2, 4, 3), board));
+				getPiece().isValidMove(new Move(2, 2, 4, 3), getBoard()));
 	}
 
 	// Verify that a knight can move the third way.
 	@Test
 	public final void thirdCorrect() throws Throwable {
-		board[2][2] = piece;
+		getBoard()[2][2] = getPiece();
 		assertTrue("Knight Test 9",
-				piece.isValidMove(new Move(2, 2, 0, 1), board));
+				getPiece().isValidMove(new Move(2, 2, 0, 1), getBoard()));
 	}
 	
 	// Verify that a knight can move the third way.
 		@Test
 		public final void fourthCorrect() throws Throwable {
-			board[2][2] = piece;
+			getBoard()[2][2] = getPiece();
 			assertTrue("Knight Test 10",
-					piece.isValidMove(new Move(2, 2, 4, 1), board));
+					getPiece().isValidMove(new Move(2, 2, 4, 1), getBoard()));
 		}
 }

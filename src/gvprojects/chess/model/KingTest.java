@@ -31,10 +31,10 @@ public class KingTest extends ChessPieceTest {
 	protected final Move getValidMove(final int row, final int col) {
 		int newRow = row + 1;
 		int newCol = col + 1;
-		if (newRow >= board.length) {
+		if (newRow >= getBoard().length) {
 			newRow = row - 1;
 		}
-		if (newCol >= board.length) {
+		if (newCol >= getBoard().length) {
 			newCol = col - 1;
 		}
 		return new Move(row, col, newRow, newCol);
@@ -43,74 +43,75 @@ public class KingTest extends ChessPieceTest {
 	// Verify that a king cannot move across a row
 	@Test
 	public final void cannotMoveInRow() throws Exception {
-		board[1][1] = piece;
+		getBoard()[1][1] = getPiece();
 		assertFalse("King Test 1",
-				piece.isValidMove(new Move(1, 1, 1, 6), board));
+				getPiece().isValidMove(new Move(1, 1, 1, 6), getBoard()));
 	}
 
 	// Verify that a king cannot move up a column
 	@Test
 	public final void cannotMoveInColumn() throws Throwable {
-		board[1][1] = piece;
+		getBoard()[1][1] = getPiece();
 		assertFalse("King Test 2",
-				piece.isValidMove(new Move(1, 1, 6, 1), board));
+				getPiece().isValidMove(new Move(1, 1, 6, 1), getBoard()));
 	}
 
 	// Verify that a king cannot move diagonally
 	@Test
 	public final void cannotMoveDiagonalUnlessOtherPlayerPiece() 
 			throws Throwable {
-		board[1][1] = piece;
+		getBoard()[1][1] = getPiece();
 		assertFalse("King Test 3",
-				piece.isValidMove(new Move(1, 1, 4, 4), board));
+				getPiece().isValidMove(new Move(1, 1, 4, 4), getBoard()));
 	}
 
 	// Verify that a king cannot move diagonally unless other player
 	@Test
 	public final void canMoveDiagonalWithOtherPlayerPiece() throws Throwable {
-		board[1][1] = piece;
-		board[2][2] = make(Player.BLACK);
+		getBoard()[1][1] = getPiece();
+		getBoard()[2][2] = make(Player.BLACK);
 		assertTrue("King Test 4",
-				piece.isValidMove(new Move(1, 1, 2, 2), board));
+				getPiece().isValidMove(new Move(1, 1, 2, 2), getBoard()));
 	}
 
 	// Verify that a king can move backward
 	@Test
 	public final void canMoveBackward() throws Throwable {
-		board[1][1] = piece;
+		getBoard()[1][1] = getPiece();
 		assertTrue("King Test 5",
-				piece.isValidMove(new Move(1, 1, 0, 0), board));
+				getPiece().isValidMove(new Move(1, 1, 0, 0), getBoard()));
 	}
 
 	// Verify that a king cannot move off the board
 	@Test
 	public final void cannotMoveOffBoard() throws Throwable {
-		board[1][1] = piece;
+		getBoard()[1][1] = getPiece();
 		assertFalse("King Test 6",
-				piece.isValidMove(new Move(1, 1, -1, 1), board));
+				getPiece().isValidMove(new Move(1, 1, -1, 1), getBoard()));
 	}
 
 	// Verify that a king can move one row.
 	@Test
 	public final void oneRow() throws Throwable {
-		board[2][2] = piece;
+		getBoard()[2][2] = getPiece();
 		assertTrue("King Test 7",
-				piece.isValidMove(new Move(2, 2, 3, 2), board));
+				getPiece().isValidMove(new Move(2, 2, 3, 2), getBoard()));
 	}
 
 	// Verify that a king can move one column.
 	@Test
 	public final void oneCol() throws Throwable {
-		board[2][2] = piece;
+		getBoard()[2][2] = getPiece();
 		assertTrue("King Test 8",
-				piece.isValidMove(new Move(2, 2, 2, 3), board));
+				getPiece().isValidMove(new Move(2, 2, 2, 3), getBoard()));
 	}
 	
 	// Verify that a king can move one space diagonal.
 			@Test
 			public final void oneDiagonal() throws Throwable {
-				board[2][2] = piece;
+				getBoard()[2][2] = getPiece();
 				assertTrue("King Test 9",
-						piece.isValidMove(new Move(2, 2, 3, 3), board));
+						getPiece().isValidMove(new Move(2, 2, 3, 3), 
+								getBoard()));
 			}
 }

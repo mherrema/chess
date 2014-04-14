@@ -22,8 +22,20 @@ public class ChessPieceTest {
    // The @Before method below creates these objects for every test.
    // Doing so saves us the trouble of having to explicitly create 
    // them in (almost) every test.
-   protected IChessPiece[][] board;
-   protected IChessPiece piece;
+   private IChessPiece[][] board;
+   private IChessPiece piece;
+   
+   /**
+    * returns the board.
+    * @return board IChessPiece[]
+    */
+   public final IChessPiece[][] getBoard() {
+	   return board;
+   }
+   
+   public final IChessPiece getPiece() {
+	   return piece;
+   }
 
    @Before
    public final void makeBoard() {

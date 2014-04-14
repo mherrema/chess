@@ -30,51 +30,53 @@ protected final IChessPiece make(final Player p) {
    // each chess piece.  This method generates a 
    // move that is valid from the given row and column
    @Override
-protected final Move getValidMove(final int row, final int col) {
-      int newRow = row + 1;
-      if (newRow >= board.length) {
-         newRow = row - 1;
-      }
-      return new Move(row, col, newRow, col);
+   protected final Move getValidMove(final int row, final int col) {
+       int newRow = row + 1;
+       if (newRow >= getBoard().length) {
+          newRow = row - 1;
+       }
+       return new Move(row, col, newRow, col);
    }
 
    // Verify that a rook can move across a row
    @Test
-public final void canMoveInRow() throws Exception {
-      board[1][1] = piece;
-      assertTrue("Rook Test 1", piece.isValidMove(new Move(1, 1, 1, 6), board));
+   public final void canMoveInRow() throws Exception {
+	   getBoard()[1][1] = getPiece();
+       assertTrue("Rook Test 1", getPiece().isValidMove(new Move(1, 1, 1, 6), 
+    		   getBoard()));
    }
 
    // Verify that a rook can move up and down a column
    @Test
-public final void canMoveInColumn() throws Throwable {
-      board[1][1] = piece;
-      assertTrue("Rook Test 2", piece.isValidMove(new Move(1, 1, 6, 1), board));
+   public final void canMoveInColumn() throws Throwable {
+	   getBoard()[1][1] = getPiece();
+       assertTrue("Rook Test 2", getPiece().isValidMove(new Move(1, 1, 6, 1), 
+    		   getBoard()));
    }
 
    // Verify that a rook cannot move diagonally
    @Test
-public final void cannotMoveDiagonal() throws Throwable {
-      board[1][1] = piece;
-      assertFalse("Rook Test 3", piece.isValidMove(
-    		  new Move(1, 1, 3, 3), board));
+   public final void cannotMoveDiagonal() throws Throwable {
+	   getBoard()[1][1] = getPiece();
+       assertFalse("Rook Test 3", getPiece().isValidMove(
+    		  new Move(1, 1, 3, 3), getBoard()));
    }
    
-// Verify that a rook cannot move off the board
+   // Verify that a rook cannot move off the board
    @Test
-public final void cannotMoveOffBoard() throws Throwable {
-      board[1][1] = piece;
-      assertFalse("Rook Test 3", piece.isValidMove(
-    		  new Move(1, 1, 9, 1), board));
+   public final void cannotMoveOffBoard() throws Throwable {
+	   getBoard()[1][1] = getPiece();
+       assertFalse("Rook Test 3", getPiece().isValidMove(
+    		  new Move(1, 1, 9, 1), getBoard()));
    }
 
    // Verify that a rook cannot jump over other pieces.
    @Test
-public final void rowMustBeClear1() throws Throwable {
-      board[2][2] = piece;
-      board[3][2] = make();
-      assertFalse("Rook Test 4", piece.isValidMove(
-    		  new Move(2, 2, 4, 2), board));
+   public final void rowMustBeClear1() throws Throwable {
+	   getBoard()[2][2] = getPiece();
+	   getBoard()[3][2] = make();
+       assertFalse("Rook Test 4", getPiece().isValidMove(
+    		  new Move(2, 2, 4, 2), getBoard()));
    }
 
 }
