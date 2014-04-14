@@ -130,12 +130,6 @@ public class GUI extends JPanel {
 	 */
 	public GUI() {
 		/**
-		 * Initialize the game and set the player
-		 */
-		// game = new ChessModel();
-		// game.setCurrentPlayer(Player.WHITE);
-
-		/**
 		 * Initialize all piece ImageIcons
 		 */
 		wPawn = new ImageIcon("wPawn.png");
@@ -304,7 +298,7 @@ public class GUI extends JPanel {
 			/**
 			 * Update all components
 			 */
-			SwingUtilities.updateComponentTreeUI(frame);
+			//SwingUtilities.updateComponentTreeUI(frame);
 		}
 	}
 
@@ -334,21 +328,8 @@ public class GUI extends JPanel {
 							+ min + " min. " + sec + " sec.", "Game Over",
 					JOptionPane.INFORMATION_MESSAGE, winIcon);
 		}
+		System.exit(0);
 	}
-
-	
-
-	/**
-	 * A native method that clears the status pane
-	 */
-	// private void clearStatus() {
-	// temp = game.currentPlayer().toString().toLowerCase();
-	// temp = temp.substring(0, 1).toUpperCase()
-	// + temp.substring(1, temp.length()) + "'s turn.\n";
-	// textString = ": " + temp;
-	// pane.setText(textString);
-	// }
-	// }
 
 	/**
 	 * A native method that resets the time of the game
@@ -422,10 +403,6 @@ public class GUI extends JPanel {
 	public JButton[][] getButtons() {
 		return this.board;
 	}
-
-//	public static void main(String[] args) {
-//		GUI g = new GUI();
-//	}
 
 	public void printBoard(IChessPiece[][] gameBoard) {
 
@@ -521,32 +498,9 @@ public class GUI extends JPanel {
 	}
 
 	public void inCheck() {
-		// TODO Auto-generated method stub
 		setTextString(": You placed them in check!\n*************************\n"
 				+ getTextString());
 		setText();
-	}
-
-	public void prompt(Player currentPlayer) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void repack() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void update(Move tempMove) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void end() {
-		// TODO Auto-generated method stub
-
-		JOptionPane.showMessageDialog(null, "Checkmate!");
-
 	}
 
 	public String getTextString() {
@@ -557,11 +511,7 @@ public class GUI extends JPanel {
 		this.textString = textString;
 	}
 
-	public void reset() {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	public void setNewGame(JMenuItem newGame) {
 		this.newGame = newGame;
 	}
@@ -572,11 +522,6 @@ public class GUI extends JPanel {
 
 	public void setRules(JMenuItem rules) {
 		this.rules = rules;
-	}
-
-	public void gameOver(Player winner) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void printMove(int row, int col) {

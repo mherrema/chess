@@ -62,8 +62,6 @@ public class Presenter {
 				setFromRow(buttonRow);
 				setFromCol(buttonCol);
 				g.getBoard()[buttonRow][buttonCol].setBackground(Color.blue);
-				//System.out.println(getFromRow()+ " + "+ getFromCol());
-				//g.getBoard()[buttonRow][buttonCol].setBackground(Color.BLUE);
 				from = false;
 				
 				getMoves(buttonRow, buttonCol);
@@ -74,12 +72,8 @@ public class Presenter {
 				g.getFrame().setCursor(Cursor.getDefaultCursor());
 				setToRow(buttonRow);
 				setToCol(buttonCol);
-				//System.out.println(getToRow()+ " + "+ getToCol());
 				Move tempMove = new Move(fromRow, fromCol, toRow, toCol);
 				m.move(tempMove);
-				//System.out.println("self check: " + m.isPutSelfInCheck());
-				 
-				//g.getBoard()[tempMove.fromRow][tempMove.fromColumn].setOpaque(false);
 				g.printBoard(m.getBoard());
 				if(m.isPutSelfInCheck()){
 					g.putSelfInCheck();
@@ -94,26 +88,10 @@ public class Presenter {
 				if(m.isComplete()){
 					g.checkmate(m.getWinner());
 				}
-				//g.printBoard(m.getBoard());
 				}
 				g.updateCurrentPlayer(m.currentPlayer());
 				from = true;
 			}
-
-			//			if (m.isComplete()) {
-			//				g.end();
-			//			}
-
-			
-			//			// pops up window if white won
-			//			if (engine.status() == GameStatus.X_WON) {
-			//				window.won(true);
-			//			}
-			//
-			//			// pops up window if black won
-			//			if (engine.status() == GameStatus.O_WON) {
-			//				window.won(false);
-			//			}
 		}
 	}
 
@@ -321,7 +299,7 @@ public class Presenter {
 	public void cursor(int r, int c) {		
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		
-		  Image image = image = toolkit.getImage("emptyIcon.png");
+		  Image image = toolkit.getImage("emptyIcon.png");
 		  
 		  if (m.pieceAt(r, c).toString().contains("Bishop") == true) {
 			  if (m.pieceAt(r, c).player() == Player.WHITE) {
@@ -371,7 +349,7 @@ public class Presenter {
 			  }
 		  }
 		  
-		  Cursor curs = toolkit.createCustomCursor(image, new Point(50, 50), "cursur");
+		  Cursor curs = toolkit.createCustomCursor(image, new Point(50, 50), "cursor");
 		  Image img = toolkit.getImage("emptyIcon.png");
 		  ImageIcon empty = new ImageIcon(img);
 		  g.getBoard()[r][c].setIcon(empty);

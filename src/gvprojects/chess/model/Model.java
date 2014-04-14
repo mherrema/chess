@@ -150,13 +150,8 @@ public class Model implements IChessModel {
 	 * @return boolean
 	 ******************************************************************/
 	public final boolean isComplete() {
-		System.out.println("checked complete");
-		// Player p = Player.WHITE;
 		Move checkMateMove = null;
 		saveFirstState();
-		// View v = new View();
-		// v.printBoard(saveFirstBoard);
-		// for(int k=0; k<2; k++){
 		for (int i = 0; i < numRows(); i++) {
 			for (int j = 0; j < numColumns(); j++) {
 				if (pieceAt(i, j) != null) {
@@ -165,11 +160,9 @@ public class Model implements IChessModel {
 							for (int n = 0; n < numColumns(); n++) {
 								checkMateMove = new Move(i, j, l, n);
 								if (isValidMove(checkMateMove)) {
-									// saveState();
 									move(checkMateMove);
 									if (!inCheck(currentPlayer())) {
 										loadFirstState();
-										// v.printBoard(saveFirstBoard);
 										return false;
 									} else {
 										loadFirstState();
@@ -181,15 +174,11 @@ public class Model implements IChessModel {
 				}
 			}
 		}
-		// p = Player.BLACK;
-		// }
-		System.out.println("checkmate");
 		if (inCheck(Player.WHITE)) {
 			winner = Player.BLACK;
 		} else {
 			winner = Player.WHITE;
 		}
-		// loadFirstState();
 		return true;
 	}
 
@@ -247,7 +236,6 @@ public class Model implements IChessModel {
 	 *            Move
 	 ******************************************************************/
 	public final void move(final Move m) {
-		// IChessPiece[][] tempboard = null;
 		saveFirstState();
 		// if valid move
 		if (isValidMove(m)) {
@@ -266,7 +254,6 @@ public class Model implements IChessModel {
 						addedToBoneyard = true;
 					}
 				} catch (Exception e) {}
-				// tempboard = getBoard();
 				getBoard()[m.toRow][m.toColumn] = getBoard()[m.fromRow][m.fromColumn];
 				getBoard()[m.fromRow][m.fromColumn] = null;
 				// if moving the white king
@@ -291,13 +278,10 @@ public class Model implements IChessModel {
 				setOtherPlayerCheck(true);
 			} else {
 				switchTurns();
-				// System.out.println("switched");
 			}
 			addedToBoneyard = false;
 
 		}
-		// View v = new View();
-		// v.printBoard(saveFirstBoard)
 	}
 
 	/******************************************************************
@@ -307,7 +291,6 @@ public class Model implements IChessModel {
 	 *            Move
 	 ******************************************************************/
 	public final void cancelMove(final Move m) {
-		// board[m.fromRow][m.fromColumn] = board[m.toRow][m.toColumn];
 		loadFirstState();
 		// if moving the white king
 		if (m.toRow == whiteKing[0] && m.toColumn == whiteKing[1]) {
@@ -319,7 +302,6 @@ public class Model implements IChessModel {
 			blackKing[0] = m.fromRow;
 			blackKing[1] = m.fromColumn;
 		}
-		// board[m.toRow][m.toColumn] = null;
 	}
 
 	/******************************************************************
@@ -442,16 +424,6 @@ public class Model implements IChessModel {
 		this.otherPlayerCheck = potherPlayerCheck;
 	}
 
-	// private void saveState() {
-	// saveBoard = board;
-	// savePlayer = whiteTurn;
-	// }
-	//
-	// private void loadState() {
-	// board = saveBoard;
-	// whiteTurn = savePlayer;
-	// }
-
 	/** Saves board state. */
 	private void saveFirstState() {
 		for (int i = 0; i < board.length; i++) {
@@ -470,7 +442,6 @@ public class Model implements IChessModel {
 			}
 		}
 		whiteTurn = saveFirstPlayer;
-		System.out.println("loaded first state");
 	}
 
 	/**
