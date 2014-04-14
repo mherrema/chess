@@ -16,7 +16,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -69,7 +68,7 @@ public class GUI extends JPanel {
 	private JMenuItem gameTime;
 	private JMenuItem version;
 	private JMenuItem rules;
-	private JMenuItem boneyard;
+	//private JMenuItem boneyard;
 
 	/**
 	 * Board instance variable
@@ -425,11 +424,12 @@ public class GUI extends JPanel {
 		}
 	}
 
+	/**
+	 * If user clicks "Version" in the menu, display the version in the
+	 * status pane
+	 */
 	public void setVersionText(Player p) {
-		/**
-		 * If user clicks "Version" in the menu, display the version in the
-		 * status pane
-		 */
+		
 
 	}
 
@@ -601,9 +601,9 @@ public class GUI extends JPanel {
 		return this.board;
 	}
 
-	public static void main(String[] args) {
-		GUI g = new GUI();
-	}
+//	public static void main(String[] args) {
+//		GUI g = new GUI();
+//	}
 
 	public void printBoard(IChessPiece[][] gameBoard) {
 
